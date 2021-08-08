@@ -1,0 +1,27 @@
+{
+  "name": "boulder-live",
+  "version": "1.0.0",
+  "description": "An app that allows participants to enter their own score and live display",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Supasiti/boulder-live.git"
+  },
+  "author": "Thara Supasiti",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Supasiti/boulder-live/issues"
+  },
+  "homepage": "https://github.com/Supasiti/boulder-live#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12"
+  }
+}
