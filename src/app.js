@@ -16,7 +16,7 @@ app.use(express.static('public'));
 
 // GET Route for Default ----- PUT THIS LAST!
 app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, '/public/index.html'))
+  res.sendFile(path.join(__dirname, '/public/login.html'))
 );
 
 module.exports = app;

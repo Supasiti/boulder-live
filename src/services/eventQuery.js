@@ -4,7 +4,8 @@
 const uuidv4 = require('uuid').v4();
 const { getObjectsFromDb } = require('../models/dbUtils');
 
-const dbFilePath = './src/models/event.json';
+const eventDbFilePath = './src/models/event.json';
+const organisrEventDbFilePath = './src/models/organiser_event.json';
 
 // create new Note
 const eventFactory = ({title, start, end, location}) => {
@@ -20,6 +21,11 @@ const eventFactory = ({title, start, end, location}) => {
 // get all events
 const getAllEvents = () => {
   return getObjectsFromDb(dbFilePath);
+}
+
+// get event filtered by organisers
+const getAllEventsByOrganiser = (organiser) => {
+  
 }
 
 
