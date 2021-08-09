@@ -60,7 +60,6 @@ const deleteObjectFromDb = (id, dbFilePath) => {
 
 
 
-
 module.exports = {
   getObjectsFromDb,
   appendObjectToDb,
