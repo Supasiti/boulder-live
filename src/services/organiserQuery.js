@@ -35,8 +35,7 @@ const getOrganiserByEmail = (email, organisers) => {
 
 // return organiser's id if password is correct
 const validatePassword = (entered, organiser) => {
-  console.log(organiser)
-  if (organiser !== undefined) {
+  if (organiser) {
     return entered === organiser.password? organiser.id : undefined;
   }
   return undefined;

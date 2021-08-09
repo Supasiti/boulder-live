@@ -1,34 +1,22 @@
 // interact with event database with functionalities:
 // - create
 // - read
-const uuidv4 = require('uuid').v4();
-const { getObjectsFromDb } = require('../models/dbUtils');
+const { appendObjectToDb } = require('../models/dbUtils');
+const event = require('./event');
+const { saveOrganiserEvent } = require('./organiserEvent');
 
 const eventDbFilePath = './src/models/event.json';
-const organisrEventDbFilePath = './src/models/organiser_event.json';
 
-// create new Note
-const eventFactory = ({title, start, end, location}) => {
-  return {
-    title: title,
-    start: start,
-    end: end,
-    location: location,
-    id: uuidv4(),
-  };
+// ------------------------------------
+//  SAVE
+const saveEvent = ({organiserId, title, start, end, location}) => {
+  const newEvent = event.create({title, start, end, location});
+  // saveOrganiserEvent({organiserId, eventId: newEvent.id}); 
+  return appendObjectToDb(newEvent, eventDbFilePath);
 };
 
-// get all events
-const getAllEvents = () => {
-  return getObjectsFromDb(dbFilePath);
-}
-
-// get event filtered by organisers
-const getAllEventsByOrganiser = (organiser) => {
-  
-}
 
 
 module.exports = {
-  getAllEvents
+  saveEvent
 }
