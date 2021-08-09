@@ -33,7 +33,6 @@ const handleGetRequest = (req, res) => {
 // POST
 
 const validatePostRequest = (req, res) => {
-  console.log(req.body.username);
   if (!req.body.username || !req.body.email || !req.body.password) {
     const response = getFailResponse('The body of POST request must contain username, email and password')
     res.json(response);
@@ -47,10 +46,15 @@ const validatePostRequest = (req, res) => {
 const handlePostRequest = (req, res) => {
 
   if (validatePostRequest(req, res)) {
-    
-    const newOrganiser = organiserQuery.saveOrganiser(req.body)
-    const response = getSuccessResponse(newOrganiser) 
-    res.sendFile(path.join(__dirname, '../public/login.html'))
+    organiserQuery.saveOrganiser(req.body)
+      .then((newOrgainser) => {
+        if (newOrgainser){
+          res.sendFile(path.join(__dirname, '../public/login.html'))
+        } else {
+          const response = getFailResponse(`An account with email ${req.body.email} already exists`)
+          res.json(response);
+        }
+      })
   }
 }
 

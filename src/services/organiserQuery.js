@@ -2,10 +2,9 @@
 // - create
 // - read
 const uuidv4 = require('uuid').v4;
-const { 
-  getObjectsFromDb,
-  appendObjectToDb 
-} = require('../models/dbUtils');
+const { getObjectsFromDb } = require('../models/dbUtils');
+const { writeToFile } = require('../models/fsUtils');
+const { appendOrUpdate } = require('./arrayUtils');
 
 const organiserDbFilePath = './src/models/organiser.json';
 
@@ -19,11 +18,25 @@ const organiserFactory = ({username, email, password}) => {
   };
 };
 
+// save organiser if new
+// return 
+const saveOrganiserIfNew = (newOrganiser, current) => {
+  const emails = current.map((organiser) => organiser.email);
+  console.log(emails);
+  if (emails.includes(newOrganiser.email)) return undefined;
+
+  const newOrganisers = appendOrUpdate(newOrganiser, current);
+  writeToFile(organiserDbFilePath, newOrganisers)
+  return newOrganiser;
+}
+
+
 // save organiser
 const saveOrganiser = ({username, email, password}) => {
   const newOrganiser = organiserFactory({username, email, password});
-  appendObjectToDb(newOrganiser, organiserDbFilePath)
-  return newOrganiser;
+  return getObjectsFromDb(organiserDbFilePath)
+    .then((current) => saveOrganiserIfNew(newOrganiser, current))
+    .catch(console.error)
 };
 
 // get an organiser by email or return undefined
