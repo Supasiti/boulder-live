@@ -21,7 +21,7 @@ const organiserFactory = ({username, email, password}) => {
 
 // save organiser
 const saveOrganiser = ({username, email, password}) => {
-  const newOrganiser = organiserFactory(username, email, password);
+  const newOrganiser = organiserFactory({username, email, password});
   appendObjectToDb(newOrganiser, organiserDbFilePath)
   return newOrganiser;
 };

@@ -47,6 +47,7 @@ const validatePostRequest = (req, res) => {
 const handlePostRequest = (req, res) => {
 
   if (validatePostRequest(req, res)) {
+    
     const newOrganiser = organiserQuery.saveOrganiser(req.body)
     const response = getSuccessResponse(newOrganiser) 
     res.sendFile(path.join(__dirname, '../public/login.html'))

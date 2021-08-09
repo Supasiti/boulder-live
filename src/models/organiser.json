@@ -1,8 +1,9 @@
 [
+
   {
-    "id": "88ddf6b4-ccbf-4f09-a766-b757c22b83e3"
-  },
-  {
-    "id": "dcb102d5-d1f2-4a7e-acca-549b319faddc"
+    "username": "bob",
+    "email": "bob@yourUncle.com",
+    "password": "yourUncle",
+    "id": "3d75f056-7cb6-4f76-b21d-56eb8bb50f98"
   }
 ]
