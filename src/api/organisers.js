@@ -41,22 +41,24 @@ const validatePostRequest = (req, res) => {
   return true;
 };
 
+const respondToPostRequest = (newOrganiser, req, res) => {
+  console.log(newOrganiser);
+  if (newOrganiser){ // if it checks out then send back to log in page
+    res.sendFile(path.join(__dirname, '../public/login.html'))
+  } else {
+    const response = getFailResponse(`An account with email ${req.body.email} already exists`)
+    res.json(response);
+  }
+}
 
 // creating an organiser account
 const handlePostRequest = (req, res) => {
 
   if (validatePostRequest(req, res)) {
     organiserQuery.saveOrganiser(req.body)
-      .then((newOrgainser) => {
-        if (newOrgainser){
-          res.sendFile(path.join(__dirname, '../public/login.html'))
-        } else {
-          const response = getFailResponse(`An account with email ${req.body.email} already exists`)
-          res.json(response);
-        }
-      })
-  }
-}
+      .then((newOrganiser) => respondToPostRequest(newOrganiser, req, res));
+  };
+};
 
 
 // requests

@@ -19,17 +19,15 @@ const organiserFactory = ({username, email, password}) => {
 };
 
 // save organiser if new
-// return 
+// return undefined if operation fails or new organiser object
 const saveOrganiserIfNew = (newOrganiser, current) => {
   const emails = current.map((organiser) => organiser.email);
-  console.log(emails);
   if (emails.includes(newOrganiser.email)) return undefined;
 
   const newOrganisers = appendOrUpdate(newOrganiser, current);
   writeToFile(organiserDbFilePath, newOrganisers)
   return newOrganiser;
 }
-
 
 // save organiser
 const saveOrganiser = ({username, email, password}) => {
