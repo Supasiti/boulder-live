@@ -54,11 +54,13 @@ const authenticateOrganiser = (email, password) => {
 
 // return an organiser without password 
 const getOrganiserById = (id) => {
-  return organisers.find((organiser) => organiser.email === email)
+  return getObjectsFromDb(organiserDbFilePath)
+    .then((organisers) => organisers.find((organiser) => organiser.id === id))
 }
 
 
 module.exports = {
   saveOrganiser,
-  authenticateOrganiser
+  authenticateOrganiser,
+  getOrganiserById
 }
