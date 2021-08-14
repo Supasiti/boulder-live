@@ -1,4 +1,8 @@
-const Category = require('./models/CategoryDb')
+const Score = require('./models/ScoreDb')
+const ProblemAssignment = require('./models/ProblemAssignmentDb')
+const Organiser = require('./models/OrganiserDb');
+require('./models/CategoryPoolDb');
+
 //  Entry point for the app
 
 const express = require('express');

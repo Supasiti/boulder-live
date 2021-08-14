@@ -20,4 +20,4 @@ Competitor.belongsToMany(Category, {through: 'category_pool'});
 Category.belongsToMany(Competitor, {through: 'category_pool'});
 
 
-module.exports = OrganiserDb;
+module.exports = CategoryPoolDb;
