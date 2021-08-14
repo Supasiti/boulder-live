@@ -1,10 +1,7 @@
 // interact with event database with functionalities:
-// - create
 // - read
-const { getObjectsFromDb } = require('../models/dbUtils');
-const { writeToFile } = require('../models/fsUtils');
-const { appendOrUpdate } = require('../utils/arrayUtils');
-const organiser = require('./organiser');
+
+const organiser = require('./user');
 
 const organiserDbFilePath = './src/models/organiser.json';
 
