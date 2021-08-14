@@ -12,6 +12,7 @@ class BaseEntity {
     return this.model.drop(options)
   }
 
+
   // -------------
   // Create
   create (values, options){
@@ -50,6 +51,7 @@ class BaseEntity {
   remove (options) {
     return this.model.destroy(options);
   };
+
 }
 
 module.exports = BaseEntity;

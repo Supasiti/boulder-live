@@ -1,6 +1,6 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
-const EventDb = require('./event').getModel();
+const Event = require('./event').getModel();
 const BaseEntity = require('./BaseEntity');
 
 class CategoryDb extends Model {}
@@ -48,9 +48,10 @@ category.init = () => {
     }
   );
 
-  EventDb.hasMany(CategoryDb);
-  CategoryDb.belongsTo(EventDb);
+  Event.hasMany(CategoryDb);
+  CategoryDb.belongsTo(Event);
 }
+
 
 category.init();
 
