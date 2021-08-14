@@ -25,11 +25,9 @@ category.init = () => {
       },
       start: {
         type: DataTypes.DATE,
-        allowNull: false,
       },
       end: {
         type: DataTypes.DATE,
-        allowNull: false,
         validate: {
           isAfterStartDateTime(value) {
             if (value <= this.start) {

@@ -1,0 +1,42 @@
+[
+  {
+    "userId": 2,
+    "eventId": 1,
+    "number": 1
+  },
+  {
+    "userId": 3,
+    "eventId": 1,
+    "number": 2
+  },
+  {
+    "userId": 4,
+    "eventId": 1,
+    "number": 3
+  },
+  {
+    "userId": 5,
+    "eventId": 1,
+    "number": 4
+  },
+  {
+    "userId": 5,
+    "eventId": 2,
+    "number": 1
+  },
+  {
+    "userId": 6,
+    "eventId": 2,
+    "number": 2
+  },
+  {
+    "userId": 7,
+    "eventId": 2,
+    "number": 3
+  },
+  {
+    "userId": 8,
+    "eventId": 2,
+    "number": 4
+  }
+]
