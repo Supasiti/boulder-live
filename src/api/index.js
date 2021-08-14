@@ -5,6 +5,6 @@ const userRoutes = require('./userRoutes');
 
 // app.use('/events', events);
 app.use('/users', userRoutes);
-// app.use('/login', login);
+app.use('/login', login);
 
 module.exports = app;

@@ -1,7 +1,5 @@
 const express = require('express');
-const path = require('path');
-const query = require('../services/organiserQuery');
-const { getFailResponse } = require('./responseUtils');
+const authenticateUser = require('../services/authenticateUser');
 
 const router = express.Router();
 
@@ -10,29 +8,21 @@ const router = express.Router();
 // POST
 const validatePostRequest = (req, res) => {
   if (!req.body.email || !req.body.password) {
-    const response = getFailResponse('The body of POST request must contain email and password')
-    res.json(response);
+    res.status(400).json('The body of POST request must contain email and password');
     return false;
   }
   return true;
 };
 
-const respondToPostRequest = (id, res) => {
-  if (id){ // if it checks out then send back to log in page
-    res.sendFile(path.join(__dirname, '../public/dashboard.html'))
-  } else {
-    const response = getFailResponse(`Either email or password are incorrect.`)
-    res.json(response);
-  }
-}
-
 // will return a list of all events 
-const handleAuthenticationRequest = (req, res) => {
-
+const handleAuthenticationRequest = async (req, res) => {
   if (validatePostRequest(req, res)) {
-    query.authenticateOrganiser(req.body.email, req.body.password)
-      .then((id) => respondToPostRequest(id, res))
-      .catch(console.error);
+    try {
+      const response = await authenticateUser(req.body);
+      res.status(response.status).json(response.body);
+    } catch (err){
+      res.status(500).json(err)
+    }
   }
 }
 
