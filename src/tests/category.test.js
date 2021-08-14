@@ -1,12 +1,12 @@
 const sequelize = require('../configs/sequelizeConnection');
-const Category = require('../models/CategoryDb')
+require('../services/initTables');
+const category = require('../models/category')
 
-
-describe('../src/models/CategoryDb', () => {
+describe('../src/models/category', () => {
 
   // need to set up model each time
   beforeAll(async () => {
-    await sequelize.sync({ force: false })
+    await sequelize.sync({ force: true })
   })
 
   it('should throw when the end date time is before the start date',  () => {
@@ -17,7 +17,7 @@ describe('../src/models/CategoryDb', () => {
       end: new Date(2021, 7, 17, 3, 0, 0)
     }
 
-      const result = Category.create(input);
+      const result = category.create(input);
       expect(result).rejects.toThrow();
   })
 
@@ -27,14 +27,14 @@ describe('../src/models/CategoryDb', () => {
       start: new Date(2021, 7, 17, 3, 0, 0),
       end: new Date(2021, 7, 17, 3, 24, 0)
     }
-    const result = await Category.create(input).catch(console.error);
+    const result = await category.create(input).catch(console.error);
     expect(result.name).toEqual('Boulder Cup');
   })
 
 
   // need to tear model connection each time
   afterAll(async () => {
-    await Category.destroy({
+    await category.remove({
       where : { 
         name : 'Boulder Cup'
       }

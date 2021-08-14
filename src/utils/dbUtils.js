@@ -3,7 +3,7 @@
 //  - append
 //  - delete 
 const { readFromFile, writeToFile} = require('./fsUtils');
-const { appendOrUpdate, concatOrUpdate } = require('../services/arrayUtils')
+const { appendOrUpdate, concatOrUpdate } = require('./arrayUtils')
  
 // --------------------------------
 //   READ

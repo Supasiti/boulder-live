@@ -7,6 +7,3 @@ const create = ({eventId, organiserId}) => {
 };
 
 
-module.exports = {
-  create
-}

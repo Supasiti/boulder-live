@@ -1,12 +1,12 @@
 const sequelize = require('../configs/sequelizeConnection');
-const User = require('../models/UserDb')
+require('../services/initTables')
+const user = require('../models/user');
 
-
-describe('../src/models/UserDb', () => {
+describe('../src/models/user', () => {
 
   // need to set up model each time
   beforeAll(async () => {
-    await sequelize.sync({force: false })
+    await sequelize.sync({force: true })
   })
 
   it('should throw when missing a paramater', () => {
@@ -14,7 +14,7 @@ describe('../src/models/UserDb', () => {
       username: 'Bob',
       email: 'bob@email.com'
     }
-    const result = User.create(input);
+    const result = user.create(input);
     expect(result).rejects.toThrow();
   })
 
@@ -25,14 +25,14 @@ describe('../src/models/UserDb', () => {
       password: 'asdfjlasdf;asdf'
     }
 
-    const result = await User.create(input).catch(console.error);
+    const result = await user.create(input).catch(console.error);
     expect(result.username).toEqual('Bob');
   })
 
 
   // need to tear model connection each time
   afterAll(async () => {
-    await User.destroy({where: {username:'bob'}});
+    await user.remove({where: {username:'bob@email.com'}});
     await sequelize.close()
   })
 })

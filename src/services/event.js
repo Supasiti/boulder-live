@@ -11,6 +11,3 @@ const create = ({title, start, end,location}) => {
   };
 };
 
-module.exports = {
-  create
-};

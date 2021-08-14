@@ -1,6 +1,6 @@
 const { appendTo,
   appendOrUpdate,
-  concatOrUpdate } = require('../services/arrayUtils');
+  concatOrUpdate } = require('../utils/arrayUtils');
 
 const arrayOld = [
   {
@@ -13,7 +13,7 @@ const arrayOld = [
   }
 ]
 
-describe('services/arrayUtils', () => {
+describe('utils/arrayUtils', () => {
 
   // append an item to array
   describe('appendTo', () =>{

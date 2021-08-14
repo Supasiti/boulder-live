@@ -1,19 +1,19 @@
 const express = require('express');
 const path = require('path');
-const organiserAuth = require('./organiserAuth');
-const organiserQuery = require('../services/organiserQuery');
-const { getFailResponse } = require('./responseUtils');
+const regisUser = require('../services/registerUser');
 
 const router = express.Router();
 
+// api/users/
 
 // --------------------------------------
 // POST
 
+// register new user
+
 const validatePostRequest = (req, res) => {
   if (!req.body.username || !req.body.email || !req.body.password) {
-    const response = getFailResponse('The body of POST request must contain username, email and password')
-    res.json(response);
+    res.status(400).json('The body of POST request must contain username, email and password');
     return false;
   }
   return true;
@@ -38,7 +38,6 @@ const handlePostRequest = (req, res) => {
 
 
 // requests
-router.use('/auth', organiserAuth);
 router.post('/', handlePostRequest);
 
 module.exports = router;

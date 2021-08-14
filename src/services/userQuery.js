@@ -3,7 +3,7 @@
 // - read
 const { getObjectsFromDb } = require('../models/dbUtils');
 const { writeToFile } = require('../models/fsUtils');
-const { appendOrUpdate } = require('./arrayUtils');
+const { appendOrUpdate } = require('../utils/arrayUtils');
 const organiser = require('./organiser');
 
 const organiserDbFilePath = './src/models/organiser.json';
@@ -57,9 +57,3 @@ const getOrganiserById = (id) => {
     .then((organisers) => organisers.find((organiser) => organiser.id === id))
 }
 
-
-module.exports = {
-  saveOrganiser,
-  authenticateOrganiser,
-  getOrganiserById
-}

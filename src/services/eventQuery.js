@@ -16,7 +16,3 @@ const saveEvent = ({organiserId, title, start, end, location}) => {
 };
 
 
-
-module.exports = {
-  saveEvent
-}
