@@ -1,28 +1,40 @@
-const findProblemsByCompetitorId = require('../queries/findProblemsByCompetitorId');
-const categoryPool = require('../models/categoryPool');
-
+const getProblems = require('../queries/getProblems');
 
 // by using build instead of create, you don't need to connect to the database
 // this should be faster
 
-describe('../src/queries/findProblemsByCompetitorId',  () => {
+describe('../src/queries/getProblems',  () => {
   
-  it ('should returns a list of problem ids filtered by a competitor', async () => {
-    // const mockCategoryPoolData = await categoryPool.build([
-    //   {
-    //     competitorId: 1,
-    //     categoryId: 1
-    //   },
-    //   {
-    //     competitorId: 1,
-    //     categoryId: 2
-    //   }
-    // ]);
-
-
-    // const mockCategoryPool = jest.spyOn(categoryPool, 'findAll');
-    // mockCategoryPool.mockResolvedValue(mockCategoryPoolData)
-
-    await findProblemsByCompetitorId(1).then(console.log)
+  describe('idsByCategories', () => {
+    it ('should returns a list of problem ids from a list of categories', async () => {
+      const input = [{id: 1}];
+      const expected = [1,3];
+    
+      const result = await getProblems.idsByCategories(input);
+      expect(result).toEqual(expected);
+    })
   })
+
+  describe('idsByCompetitorId', () => {
+    it ('should returns a list of problem ids from a competitor id', async () => {
+      const input = 1;
+      const expected = [1,3];
+
+      const result = await getProblems.idsByCompetitorId(input);
+      expect(result).toEqual(expected);
+    })
+  })
+
+  describe('byCompetitorId', () => {
+    it ('should returns a list of problems from a competitor id', async () => {
+      const input = 1;
+      const expected = ['M1','FM1'];
+
+      const result = await getProblems.byCompetitorId(input);
+      console.log(result);
+      expect(result.map(r => r.name)).toEqual(expected);
+    })
+  })
+
+
 })
