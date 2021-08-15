@@ -16,8 +16,19 @@ const concatOrUpdate = (newItems, array) => {
   return filtered.concat(newItems);
 }
 
+// create a set from arrays of items/arrays
+//  - need to use function due to scope of 'arguments'
+const generateSet = function () { 
+  const duplicates = [].concat(...arguments);
+  return duplicates.reduce((acc, cur) => {
+    return acc.includes(cur)? [...acc] : [...acc, cur]
+  }, []);
+
+}
+
 module.exports = {
   appendTo,
   appendOrUpdate,
-  concatOrUpdate
+  concatOrUpdate,
+  generateSet
 }

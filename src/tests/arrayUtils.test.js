@@ -1,6 +1,4 @@
-const { appendTo,
-  appendOrUpdate,
-  concatOrUpdate } = require('../utils/arrayUtils');
+const utils = require('../utils/arrayUtils');
 
 const arrayOld = [
   {
@@ -20,7 +18,7 @@ describe('utils/arrayUtils', () => {
     it('should return a new array with new item appended', () => {
       const newItem = { id: "jejh", name:"tara"};
       
-      const result = appendTo(newItem, arrayOld);
+      const result = utils.appendTo(newItem, arrayOld);
 
       expect(result).toEqual(expect.arrayContaining(arrayOld));
       expect(result).toEqual(expect.arrayContaining([newItem]));
@@ -34,7 +32,7 @@ describe('utils/arrayUtils', () => {
     it('should return a new array with new item appended if the item\'s id differs', () =>{
       const newItem = { id: "jejh", name:"tara"};
       
-      const result = appendOrUpdate(newItem, arrayOld);
+      const result = utils.appendOrUpdate(newItem, arrayOld);
 
       expect(result).toEqual(expect.arrayContaining(arrayOld));
       expect(result).toEqual(expect.arrayContaining([newItem]));
@@ -45,7 +43,7 @@ describe('utils/arrayUtils', () => {
     it('should return a new array with the old item updated if the new item\'s id matches', () =>{
       const newItem = { id: "adsf", name:"tara"};
       
-      const result = appendOrUpdate(newItem, arrayOld);
+      const result = utils.appendOrUpdate(newItem, arrayOld);
 
       expect(result).toEqual(expect.arrayContaining([newItem]));
       expect(result.length).toEqual(2);
@@ -61,7 +59,7 @@ describe('utils/arrayUtils', () => {
         { id: "jenh", name:"rob"}
       ];
       
-      const result = concatOrUpdate(newItems, arrayOld);
+      const result = utils.concatOrUpdate(newItems, arrayOld);
 
       expect(result).toEqual(expect.arrayContaining(arrayOld));
       expect(result).toEqual(expect.arrayContaining(newItems));
@@ -75,11 +73,32 @@ describe('utils/arrayUtils', () => {
         { id: "jenh", name:"rob"}
       ];
       
-      const result = concatOrUpdate(newItems, arrayOld);
+      const result = utils.concatOrUpdate(newItems, arrayOld);
 
       expect(result).toEqual(expect.arrayContaining(newItems));
       expect(result.length).toEqual(3);
       expect(arrayOld).toEqual(arrayOld);
     });
   });
-});
+
+  describe('generateSet', () => {
+    it ('should generate a set', () => {
+      const inputA = [1,2];
+      const inputB = [2,3];
+      const expected = [1,2,3];
+      
+      const result = utils.generateSet(inputA, inputB);
+      expect(result).toEqual(expected);
+    })
+
+    it ('should generate a set', () => {
+      const inputA = [1,2,3];
+      const inputB = 2;
+      const inputC = 4;
+      const expected = [1,2,3,4];
+      
+      const result = utils.generateSet(inputA, inputB, inputC);
+      expect(result).toEqual(expected);
+    })
+  })
+})

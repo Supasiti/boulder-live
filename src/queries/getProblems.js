@@ -1,48 +1,58 @@
 const Category = require('../models/Category');
 const CategoryPool = require('../models/CategoryPool'); // so that the association between competitor and category are established
 const Competitor = require('../models/Competitor');
-const ProblemAssignment =require('../models/ProblemAssignment');
+const ProblemAssignment = require('../models/ProblemAssignment');
 const Problem = require('../models/Problem');
+const utils = require('../utils/arrayUtils');
 
-
-//  get categories that a competitor enrolled
-const getCategoriesEnrolledByCompetitor = async (competitorId) => {
-  const aCompetitor = await Competitor.findByPk(
-    competitorId,
-    { include: Category}
-  )
-  return aCompetitor.categories; // [category]
-}
 
 // get problems filtered by categories
+// return 
+//  - Array<int>
 const idsByCategories = async (categories) => {
   const ids = categories.map(c => c.id);
   const assignments = await ProblemAssignment.findAll({ 
     attributes: ['problemId'],
     where: {categoryId : ids}
   })
-  return assignments.map(a => a.problemId); // [ 1, 2,...]
+  return assignments.map(a => a.problemId); 
 }
 
 // get problems from ids
+// return 
+//  - Array<Problem>
 const byIds = async (ids) => {
-  return await Problem.findAll({where: { id : ids}}); // [problem]
+  return await Problem.findAll({where: { id : ids}}); 
 }
 
 // get all the problem id that a competitor need to do
+// return 
+//  - Array<int>
 const idsByCompetitorId = async (competitorId) => {
-  const categoriesEnrolled = await getCategoriesEnrolledByCompetitor(competitorId);
-  return await idsByCategories(categoriesEnrolled);  
+  const problems = await byCompetitorId(competitorId);
+  return problems.map(p => p.id);  
 }
 
 // get all the problems that a competitor to compete
+// return 
+//  - Array<Problem>
 const byCompetitorId = async (competitorId) => {
-  const problemIds = await idsByCompetitorId(competitorId);
-  return await byIds(problemIds);
+  const competitor = await Competitor.findByPk(
+    competitorId,
+    { 
+      include: 
+      {
+        model: Category,
+        include: Problem
+      }
+    }
+  )
+  const problemArrays = competitor.categories.map(c => c.problems);
+  return utils.generateSet(...problemArrays); 
+
 }
 
 module.exports = {
-  getCategoriesEnrolledByCompetitor,
   idsByCategories,
   idsByCompetitorId,
   byIds,

@@ -31,7 +31,6 @@ describe('../src/queries/getProblems',  () => {
       const expected = ['M1','FM1'];
 
       const result = await getProblems.byCompetitorId(input);
-      console.log(result);
       expect(result.map(r => r.name)).toEqual(expected);
     })
   })
