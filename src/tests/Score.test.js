@@ -1,11 +1,10 @@
 require('../services/initTables')
-const score = require('../models/score');
-const seedDatabase = require('../seeds/seedDatabase');
+const Score = require('../models/Score');
 
 // by using build instead of create, you don't need to connect to the database
 // this should be faster
 
-describe('../src/models/score', () => {
+describe('../src/models/Score', () => {
   
   // validation constraints
   describe('validation', ()=> {
@@ -67,7 +66,7 @@ describe('../src/models/score', () => {
     ]
   
     test.each(testConditions)('On input of %j, it should throw an error ', (input) => {
-      const result = score.build(input);
+      const result = Score.build(input);
       expect(result.validate()).rejects.toThrow();
     })
   })

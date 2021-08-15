@@ -1,14 +1,14 @@
 const sequelize = require('../configs/sequelizeConnection');
 
-const category = require('../models/category');
-const categoryPool = require('../models/categoryPool');
-const competitor = require('../models/competitor');
-const event = require('../models/event');
-const organiser = require('../models/organiser');
-const problem = require('../models/problem');
-const problemAssignment = require('../models/problemAssignment');
-const score = require('../models/score');
-const user = require('../models/user');
+const Category = require('../models/Category');
+const CategoryPool = require('../models/CategoryPool');
+const Competitor = require('../models/Competitor');
+const Event = require('../models/Event');
+const Organiser = require('../models/Organiser');
+const Problem = require('../models/Problem');
+const ProblemAssignment = require('../models/ProblemAssignment');
+const Score = require('../models/Score');
+const User = require('../models/User');
 
 // data
 const userSeedData = require('./userSeedData.json');
@@ -24,20 +24,21 @@ const competitorSeedData = require('./competitorSeedData.json');
 const categoryPoolSeedData = require('./categoryPoolSeedData.json');
 const scoreSeedData = require('./scoreSeedData.json');
 
+// function
 const seedDatabase = async () => {
   await sequelize.sync({ force: true });
-  await user.bulkCreate(userSeedData);
-  await event.bulkCreate(eventSeedData);
-  await problem.bulkCreate(problemSeedData);
+  await User.bulkCreate(userSeedData);
+  await Event.bulkCreate(eventSeedData);
+  await Problem.bulkCreate(problemSeedData);
   
-  await organiser.bulkCreate(organiserSeedData);
-  await category.bulkCreate(categorySeedData);
+  await Organiser.bulkCreate(organiserSeedData);
+  await Category.bulkCreate(categorySeedData);
 
-  await problemAssignment.bulkCreate(problemAssignmentSeedData);
-  await competitor.bulkCreate(competitorSeedData);
+  await ProblemAssignment.bulkCreate(problemAssignmentSeedData);
+  await Competitor.bulkCreate(competitorSeedData);
 
-  await categoryPool.bulkCreate(categoryPoolSeedData);    
-  await score.bulkCreate(scoreSeedData);    
+  await CategoryPool.bulkCreate(categoryPoolSeedData);    
+  await Score.bulkCreate(scoreSeedData);    
 }
 
 module.exports = seedDatabase;

@@ -1,30 +1,22 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
-const BaseEntity = require('./BaseEntity');
-const Problem = require('./problem').getModel();
-const Category = require('./category').getModel();
+const Problem = require('./Problem');
+const Category = require('./Category');
 
-class ProblemAssignmentDb extends Model {}
+class ProblemAssignment extends Model {}
 
-const problemAssignment = new BaseEntity(ProblemAssignmentDb);
+ProblemAssignment.init(
+  {},
+  {
+    sequelize,
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'problem_assignment',
+  }
+);
 
-// add init method 
-problemAssignment.init = () => {
-  ProblemAssignmentDb.init(
-    {},
-    {
-      sequelize,
-      timestamps: false,
-      freezeTableName: true,
-      underscored: true,
-      modelName: 'problem_assignment',
-    }
-  );
-  
-  Category.belongsToMany(Problem, {through: 'problem_assignment'});
-  Problem.belongsToMany(Category, {through: 'problem_assignment'});
-};
+Category.belongsToMany(Problem, {through: 'problem_assignment'});
+Problem.belongsToMany(Category, {through: 'problem_assignment'});
 
-problemAssignment.init();
-
-module.exports = problemAssignment;
+module.exports = ProblemAssignment;

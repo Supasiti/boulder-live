@@ -35,6 +35,4 @@ describe('../src/queries/getProblems',  () => {
       expect(result.map(r => r.name)).toEqual(expected);
     })
   })
-
-
 })

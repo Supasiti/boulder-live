@@ -1,29 +1,22 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
-const User = require('./user').getModel();
-const Event = require('./event').getModel();
-const BaseEntity = require('./BaseEntity');
+const User = require('./User');
+const Event = require('./Event');
 
-class OrganiserDb extends Model {}
+class Organiser extends Model {}
 
-const organiser = new BaseEntity(OrganiserDb);
+Organiser.init({},
+  {
+    sequelize,
+    timestamps: false,
+    freezeTableName: true,
+    underscored: true,
+    modelName: 'organiser',
+  }
+);
 
-// add init method 
-organiser.init = () => {
-  OrganiserDb.init({},
-    {
-      sequelize,
-      timestamps: false,
-      freezeTableName: true,
-      underscored: true,
-      modelName: 'organiser',
-    }
-  );
-  
-  User.belongsToMany(Event, {through: 'organiser'});
-  Event.belongsToMany(User, {through: 'organiser'});
-}
+User.belongsToMany(Event, {through: 'organiser'});
+Event.belongsToMany(User, {through: 'organiser'});
 
-organiser.init();
 
-module.exports = organiser;
+module.exports = Organiser;
