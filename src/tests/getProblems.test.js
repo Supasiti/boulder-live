@@ -1,8 +1,5 @@
 const getProblems = require('../queries/getProblems');
 
-// by using build instead of create, you don't need to connect to the database
-// this should be faster
-
 describe('../src/queries/getProblems',  () => {
   
   describe('idsByCategories', () => {

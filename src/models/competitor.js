@@ -18,6 +18,13 @@ Competitor.init(
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false
     },
+    status: {
+      type:DataTypes.STRING(40),
+      allowNull: false,
+      validate : {
+        in: ['pending', 'approved', 'withdrawn']
+      }
+    }
   },
   {
     sequelize,
