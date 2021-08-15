@@ -20,7 +20,7 @@ class BaseEntity {
   build (values, options) {
     return this.model.build(values, options);
   }
-
+  
   // build and save
   create (values, options){
     return this.model.create(values, options)

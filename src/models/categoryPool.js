@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
-const Competitor = require('./competitor').getModel();
-const Category = require('./category').getModel();
+const competitor = require('./competitor');
+const category = require('./category');
 const BaseEntity = require('./BaseEntity');
 
 class CategoryPoolDb extends Model {}
@@ -14,14 +14,14 @@ categoryPool.init = () => {
       competitorId: {
         type: DataTypes.INTEGER,
         references: {
-          model: Competitor, 
+          model: competitor.getModel(), 
           key: 'id'
         }
       },
       categoryId: {
         type: DataTypes.INTEGER,
         references: {
-          model: Category,
+          model: category.getModel(),
           key: 'id'
         }
       }
@@ -35,13 +35,34 @@ categoryPool.init = () => {
     }
   );
 
-  Competitor.belongsToMany(Category, {through: CategoryPoolDb});
-  Category.belongsToMany(Competitor, {through: CategoryPoolDb});
+  competitor.getModel().belongsToMany(category.getModel(), {through: CategoryPoolDb});
+  category.getModel().belongsToMany(competitor.getModel(), {through: CategoryPoolDb});
 }
 
 categoryPool.init();
 
-// build and create -- need to test that events matches
+// to avoid registering a competitor to a wrong category (in a different event)
+const validateInput = async (values) => {
+  const {competitorId, categoryId} = values;
+  const aCompetitor = await competitor.findByPk(competitorId);
+  const aCategory = await category.findByPk(categoryId);
+  if (aCategory.eventId !== aCompetitor.eventId) {
+    throw new Error('This competitor cannot register to this category.')
+  }
+  return true;
+}
 
+// build and create -- need to test that events matches
+categoryPool.build = async (values, options) => {
+  if (validateInput(values)) {
+    return categoryPool.getModel().build(values, options);
+  }
+}
+
+categoryPool.create = async (values, options) => {
+  if (validateInput(values)) {
+    return categoryPool.getModel().create(values, options);
+  }
+}
 
 module.exports = categoryPool;

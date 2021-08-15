@@ -26,8 +26,6 @@ describe('../src/models/user', () => {
     const result = user.build(input)
     expect(result.email).toEqual('bob@email.com');
   })
-
-
 })
 
 

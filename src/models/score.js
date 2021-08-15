@@ -1,8 +1,10 @@
-const { Model, DataTypes } = require('sequelize');
+const { Model, DataTypes, Op } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
 const BaseEntity = require('./BaseEntity');
 const Competitor = require('./competitor').getModel();
 const Problem = require('./problem').getModel();
+const categoryPool = require('./categoryPool');
+const problemAssignment = require('./problemAssignment');
 
 class ScoreDb extends Model {}
 
@@ -43,18 +45,32 @@ score.init = () => {
       attemptBonus: {
         type: DataTypes.INTEGER.UNSIGNED,
         defaultValue: 0,
-        isConsistentWithBonus (value){
-          if (this.bonus && value === 0){
-            throw new Error('A number of attempts cannot be zero if a bonus is archieved.')
-          }
-          if (!this.bonus && value >0) {
-            throw new Error('A number of attempts must be zero if there is no bonus.')
+        validate : {
+          isConsistentWithBonus (value){
+            if (this.bonus && value === 0){
+              throw new Error('A number of attempts cannot be zero if a bonus is archieved.')
+            }
+            if (!this.bonus && value > 0) {
+              throw new Error('A number of attempts must be zero if there is no bonus.')
+            }
+          },
+          isConsistentWithAttemptTop (value) {
+            if (this.attemptTop < value)
+              throw new Error('Attempt top must be greater or equal to attempt bonus');
           }
         }
       },
       attempts: {
         type: DataTypes.INTEGER.UNSIGNED,
-        defaultValue: 0
+        defaultValue: 0,
+        validate : {
+          isConsistent (value){
+            const minAttempts = Math.max(this.attemptTop, this.attemptBonus);
+            if (value < minAttempts) {
+              throw new Error('Attempts must be greater or equal to max(attemptTop, attemptBonus)');
+            }
+          }
+        }
       }
     },
     {
