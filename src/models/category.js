@@ -20,7 +20,7 @@ category.init = () => {
         type: DataTypes.STRING(60),
         allowNull: false,
         validate: {
-          is: /^[a-zA-z][a-zA-z0-9\s]*[a-zA-z0-9]/g,
+          is: /^[a-zA-z0-9][a-zA-z0-9\s]*[a-zA-z0-9]/g,
         }
       },
       start: {
@@ -29,9 +29,14 @@ category.init = () => {
       end: {
         type: DataTypes.DATE,
         validate: {
+          doesStartExists (){
+            if (!this.start) {
+              throw new Error('A start time must be supplied.');
+            }
+          },
           isAfterStartDateTime(value) {
             if (value <= this.start) {
-              throw new Error('end time must be greater than start time.');
+              throw new Error('End time must be greater than start time.');
             }
           } 
         }

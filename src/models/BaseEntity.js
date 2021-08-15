@@ -15,6 +15,13 @@ class BaseEntity {
 
   // -------------
   // Create
+
+  // build a new model instance.
+  build (values, options) {
+    return this.model.build(values, options);
+  }
+
+  // build and save
   create (values, options){
     return this.model.create(values, options)
   };
@@ -22,6 +29,8 @@ class BaseEntity {
   bulkCreate(records, options){
     return this.model.bulkCreate(records, options);
   };
+
+
 
   // -------------
   // Read
