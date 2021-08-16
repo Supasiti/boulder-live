@@ -50,4 +50,14 @@ Category.init(
 Event.hasMany(Category);
 Category.belongsTo(Event);
 
+
+// return the bare properties in user
+Category.parse = (category) => {
+  if (category instanceof Category) {
+    const {id, name, start, end} = category;
+    return {id, name, start, end}; 
+  }
+  return null;
+}
+
 module.exports = Category;

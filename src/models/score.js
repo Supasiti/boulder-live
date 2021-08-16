@@ -79,4 +79,13 @@ Competitor.belongsToMany(Problem, {through: 'score'});
 Problem.belongsToMany(Competitor, {through: 'score'});
 
 
+// return the bare properties in user
+Score.parse = (score) => {
+  if (score instanceof Score) {
+    const {top, bonus, attemptTop, attemptBonus, attempts} = score;
+    return {top, bonus, attemptTop, attemptBonus, attempts};
+  }
+  return null;
+}
+
 module.exports = Score;

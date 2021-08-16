@@ -37,4 +37,14 @@ Competitor.init(
 User.belongsToMany(Event, {through: 'competitor'});
 Event.belongsToMany(User, {through: 'competitor'});
 
+
+// return the bare properties in user
+Competitor.parse = (competitor) => {
+  if (competitor instanceof Competitor) {
+    const {id, number, status} = competitor;
+    return {id, number, status}; 
+  }
+  return null;
+}
+
 module.exports = Competitor;

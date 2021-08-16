@@ -1,22 +1,7 @@
 const express = require('express');
-const eventQuery = require('../services/eventQuery')
+const getEvents = require('../queries/getEvents')
 const router = express.Router();
 
-// get success response
-const getSuccessResponse = (content) =>  { 
-  return {
-    status: 'success',
-    body: content,
-  };
-}
-
-// get fail response
-const getFailResponse = (message) =>  { 
-  return {
-    status: 'fail',
-    message: message
-  };
-}
 
 // --------------------------------------
 // GET

@@ -3,6 +3,7 @@ const authenticateUser = require('../services/authenticateUser');
 
 const router = express.Router();
 
+// api/users/login/
 
 // --------------------------------------
 // POST

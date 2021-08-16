@@ -20,9 +20,10 @@ const idsByCategories = async (categories) => {
 
 // get problems from ids
 // return 
-//  - Array<Problem>
+//  - Array<obj>
 const byIds = async (ids) => {
-  return await Problem.findAll({where: { id : ids}}); 
+  const problems = await Problem.findAll({where: { id : ids}}); 
+  return problems.map(p => Problem.parse(p));
 }
 
 // get all the problem id that a competitor need to do
@@ -48,8 +49,8 @@ const byCompetitorId = async (competitorId) => {
     }
   )
   const problemArrays = competitor.categories.map(c => c.problems);
-  return utils.generateSet(...problemArrays); 
-
+  const problems =  utils.generateSet(...problemArrays); 
+  return problems.map(p => Problem.parse(p));
 }
 
 module.exports = {
