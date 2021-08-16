@@ -34,8 +34,12 @@ Competitor.init(
     modelName: 'competitor',
   }
 );
-User.belongsToMany(Event, {through: 'competitor'});
-Event.belongsToMany(User, {through: 'competitor'});
+
+User.hasMany(Competitor);
+Competitor.belongsTo(User);
+
+Event.hasMany(Competitor);
+Competitor.belongsTo(Event);
 
 
 // return the bare properties in user

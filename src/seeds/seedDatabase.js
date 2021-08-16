@@ -26,7 +26,8 @@ const scoreSeedData = require('./scoreSeedData.json');
 
 // function
 const seedDatabase = async () => {
-  await sequelize.sync({ force: true });
+  await User.sequelize.sync({ force: true, logging: console.log});
+  
   await User.bulkCreate(userSeedData);
   await Event.bulkCreate(eventSeedData);
   await Problem.bulkCreate(problemSeedData);

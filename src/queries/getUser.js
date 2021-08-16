@@ -2,19 +2,21 @@ const User = require('../models/User');
 
 // by id
 // return 
-//  - User
-const byId = async (id) => {
+//  - User (cleaned up or not)
+const byId = async (id, cleaned=true) => {
   const user = await User.findByPk(id);
-  return user? User.parse(user): user;
+  if (!user || !cleaned) return user;
+  return User.parse(user);
 }
 
 // by email
 // return 
 //  - User
 
-const byEmail = async (email) => {
+const byEmail = async (email, cleaned=true) => {
   const user = await User.findOne({where : {email: email}});
-  return user? User.parse(user): user;
+  if (!user || !cleaned) return user;
+  return User.parse(user);
 }
 
 // all users

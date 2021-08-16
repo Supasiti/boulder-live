@@ -4,10 +4,6 @@ describe('../src/queries/getEvents',  () => {
   
   describe('all', () => {
     it ('should returns a list of events', async () => {    
-      // const expectedCategories = [['Female', 'Male'], ['Female', 'Male']]; 
-      // const expectedProblems = [
-      //   [['Female', 'Male'], ['Female', 'Male']] 
-      // ]
       const expected = {
         id: 1,
         name: 'Boulder Together',
@@ -37,8 +33,6 @@ describe('../src/queries/getEvents',  () => {
       };
 
       const result = await getEvents.all();
-      console.log(result);
-      // console.log(result);
       expect(result[0]).toEqual(expected);
 
     })

@@ -5,7 +5,29 @@ const Event = require('./Event');
 
 class Organiser extends Model {}
 
-Organiser.init({},
+Organiser.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+    },
+    UserId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: User, 
+        key: 'id'
+      }
+    },
+    EventId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: Event,
+        key: 'id'
+      }
+    }
+  },
   {
     sequelize,
     timestamps: false,
@@ -15,8 +37,11 @@ Organiser.init({},
   }
 );
 
-User.belongsToMany(Event, {through: 'organiser'});
-Event.belongsToMany(User, {through: 'organiser'});
+User.hasMany(Organiser);
+Organiser.belongsTo(User);
+
+Event.hasMany(Organiser);
+Organiser.belongsTo(Event);
 
 
 module.exports = Organiser;

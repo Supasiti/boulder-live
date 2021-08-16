@@ -1,4 +1,4 @@
 const seed = require('./seedDatabase');
 
-seed(); 
-process.exit();
+console.log('seeding database...');
+seed().then(() => process.exit())

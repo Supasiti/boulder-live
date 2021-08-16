@@ -20,9 +20,10 @@ const idsByCategories = async (categories) => {
 
 // get problems from ids
 // return 
-//  - Array<obj>
-const byIds = async (ids) => {
-  const problems = await Problem.findAll({where: { id : ids}}); 
+//  - Array<Object>
+const byIds = async (ids, cleaned=true) => {
+  const problems = await Problem.findAll({where: { id : ids}});
+  if (!cleaned) return problems;
   return problems.map(p => Problem.parse(p));
 }
 
@@ -36,8 +37,8 @@ const idsByCompetitorId = async (competitorId) => {
 
 // get all the problems that a competitor to compete
 // return 
-//  - Array<Problem>
-const byCompetitorId = async (competitorId) => {
+//  - Array<Object>
+const byCompetitorId = async (competitorId, cleaned=true) => {
   const competitor = await Competitor.findByPk(
     competitorId,
     { 
@@ -50,6 +51,7 @@ const byCompetitorId = async (competitorId) => {
   )
   const problemArrays = competitor.categories.map(c => c.problems);
   const problems =  utils.generateSet(...problemArrays); 
+  if (!cleaned) return problems;
   return problems.map(p => Problem.parse(p));
 }
 

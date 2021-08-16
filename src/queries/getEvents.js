@@ -3,16 +3,9 @@ const Category = require('../models/Category')
 const Problem = require('../models/Problem')
 const ProblemAssignment = require('../models/ProblemAssignment')
 
-
+// parse Event data into a nice format == include categories and problems
 const parseFull = (event) => {
   if (event instanceof Event){
-    // const result = Event.parse(event);
-    // result.categories = event.categories.map(c => {
-    //   // const parsed = Category.parse(c);
-    //   // parsed.problems = c.problems.map(p => Problem.parse(p));
-    //   // return parsed;
-    //   return c;
-    // })
     const result = Event.parse(event);
     result.categories = event.categories.map(c => {
       const parsed = Category.parse(c);
@@ -24,22 +17,17 @@ const parseFull = (event) => {
   return null
 }
 
-
-const all = async () => {
+// get all event
+// return 
+//  - Array<Object>
+const all = async (cleaned=true) => {
   const eventData = await Event.findAll({
     include: {
       model: Category,
       include: Problem
     }
   })
-  // return eventData;
-  // return await Event.findAll({
-  //   include: {
-  //     model: Category,
-  //     include: Problem
-  //   }
-  // }).catch(console.error);
-  // return eventdata;
+  if (!cleaned) return eventData; 
   return eventData.map(e => parseFull(e));
 }
 

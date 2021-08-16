@@ -7,9 +7,7 @@ const router = express.Router();
 // api/users/
 
 // --------------------------------------
-// POST
-
-// register new user
+// POST - register new user
 
 const validatePostRequest = (req, res) => {
   if (!req.body.username || !req.body.email || !req.body.password) {
@@ -19,7 +17,7 @@ const validatePostRequest = (req, res) => {
   return true;
 };
 
-// creating an organiser account
+// creating an account
 const handlePostRequest = async (req, res) => {
   if (validatePostRequest(req, res)) {
     try {
