@@ -1,10 +1,12 @@
 [
   {
     "name":"Boulder Together",
-    "location": "Crux Bouldering"
+    "location": "Crux Bouldering",
+    "status": "running"
   },
   {
     "name":"Boulder Cup",
-    "location": "Blochaus"
+    "location": "Blochaus",
+    "status": "closed"
   }
 ]

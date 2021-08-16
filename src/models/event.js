@@ -21,6 +21,13 @@ Event.init(
     location: {
       type: DataTypes.STRING(100),
       allowNull: false
+    },
+    status: {
+      type: DataTypes.STRING(20),
+      allowNull: false,
+      validate : {
+        isIn: ['pending', 'cancelled', 'open', 'running', 'closed']
+      }
     }
   },
   {

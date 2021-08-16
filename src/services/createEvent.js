@@ -7,6 +7,7 @@ const createEvent = async (newEventData) => {
     {
       name,
       location,
+      status : "pending",
       organisers : [{ userId: userId  }]
     },
     {

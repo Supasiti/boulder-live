@@ -22,7 +22,7 @@ Competitor.init(
       type:DataTypes.STRING(40),
       allowNull: false,
       validate : {
-        in: ['pending', 'approved', 'withdrawn']
+        isIn : ['pending', 'approved', 'withdrawn']
       }
     }
   },
