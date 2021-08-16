@@ -16,7 +16,7 @@ ProblemAssignment.init(
   }
 );
 
-Category.belongsToMany(Problem, {through: 'problem_assignment'});
-Problem.belongsToMany(Category, {through: 'problem_assignment'});
+Category.Problem = Category.belongsToMany(Problem, {through: 'problem_assignment'});
+Problem.Category = Problem.belongsToMany(Category, {through: 'problem_assignment'});
 
 module.exports = ProblemAssignment;

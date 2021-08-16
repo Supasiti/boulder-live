@@ -31,8 +31,8 @@ CategoryPool.init(
   }
 );
 
-Competitor.belongsToMany(Category, {through: CategoryPool});
-Category.belongsToMany(Competitor, {through: CategoryPool});
+Competitor.Category = Competitor.belongsToMany(Category, {through: CategoryPool});
+Category.Competitor = Category.belongsToMany(Competitor, {through: CategoryPool});
 
 
 

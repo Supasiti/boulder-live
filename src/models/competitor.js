@@ -35,11 +35,11 @@ Competitor.init(
   }
 );
 
-User.hasMany(Competitor);
-Competitor.belongsTo(User);
+User.Competitor = User.hasMany(Competitor);
+Competitor.User = Competitor.belongsTo(User);
 
-Event.hasMany(Competitor);
-Competitor.belongsTo(Event);
+Event.Competitor = Event.hasMany(Competitor);
+Competitor.Event = Competitor.belongsTo(Event);
 
 
 // return the bare properties in user

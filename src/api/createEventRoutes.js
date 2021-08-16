@@ -6,8 +6,8 @@ const router = express.Router();
 // POST - create an event
 
 const validatePostRequest = (req, res) => {
-  if (!req.body.name || !req.body.location) {
-    res.status(400).json('The body of POST request must contain name and location');
+  if (!req.body.name || !req.body.location || !req.body.userId) {
+    res.status(400).json('The body of POST request must contain userId, name and location');
     return false;
   }
   return true;

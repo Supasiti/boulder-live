@@ -47,8 +47,8 @@ Category.init(
   }
 );
 
-Event.hasMany(Category);
-Category.belongsTo(Event);
+Event.Category = Event.hasMany(Category);
+Category.Event = Category.belongsTo(Event);
 
 
 // return the bare properties in user

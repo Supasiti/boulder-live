@@ -37,11 +37,11 @@ Organiser.init(
   }
 );
 
-User.hasMany(Organiser);
-Organiser.belongsTo(User);
+User.Organiser = User.hasMany(Organiser);
+Organiser.User = Organiser.belongsTo(User);
 
-Event.hasMany(Organiser);
-Organiser.belongsTo(Event);
+Event.Organiser = Event.hasMany(Organiser);
+Organiser.Event = Organiser.belongsTo(Event);
 
 
 module.exports = Organiser;

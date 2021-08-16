@@ -75,8 +75,8 @@ Score.init(
   }
 );
 
-Competitor.belongsToMany(Problem, {through: 'score'});
-Problem.belongsToMany(Competitor, {through: 'score'});
+Competitor.Problem = Competitor.belongsToMany(Problem, {through: 'score'});
+Problem.Competitor = Problem.belongsToMany(Competitor, {through: 'score'});
 
 
 // return the bare properties in user
