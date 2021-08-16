@@ -1,14 +1,6 @@
 const sequelize = require('../configs/sequelizeConnection');
 
-const Category = require('../models/Category');
-const CategoryPool = require('../models/CategoryPool');
-const Competitor = require('../models/Competitor');
-const Event = require('../models/Event');
-const Organiser = require('../models/Organiser');
-const Problem = require('../models/Problem');
-const ProblemAssignment = require('../models/ProblemAssignment');
-const Score = require('../models/Score');
-const User = require('../models/User');
+const models = require('../models');
 
 // data
 const userSeedData = require('./userSeedData.json');
@@ -26,20 +18,20 @@ const scoreSeedData = require('./scoreSeedData.json');
 
 // function
 const seedDatabase = async () => {
-  await User.sequelize.sync({ force: true, logging: console.log});
+  await sequelize.sync({ force: true, logging: console.log});
   
-  await User.bulkCreate(userSeedData);
-  await Event.bulkCreate(eventSeedData);
-  await Problem.bulkCreate(problemSeedData);
+  await models.User.bulkCreate(userSeedData);
+  await models.Event.bulkCreate(eventSeedData);
+  await models.Problem.bulkCreate(problemSeedData);
   
-  await Organiser.bulkCreate(organiserSeedData);
-  await Category.bulkCreate(categorySeedData);
+  await models.Organiser.bulkCreate(organiserSeedData);
+  await models.Category.bulkCreate(categorySeedData);
 
-  await ProblemAssignment.bulkCreate(problemAssignmentSeedData);
-  await Competitor.bulkCreate(competitorSeedData);
+  await models.ProblemAssignment.bulkCreate(problemAssignmentSeedData);
+  await models.Competitor.bulkCreate(competitorSeedData);
 
-  await CategoryPool.bulkCreate(categoryPoolSeedData);    
-  await Score.bulkCreate(scoreSeedData);    
+  await models.CategoryPool.bulkCreate(categoryPoolSeedData);    
+  await models.Score.bulkCreate(scoreSeedData);    
 }
 
 module.exports = seedDatabase;

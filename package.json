@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "jest --watch",
-    "start": "nodemon server.js"
+    "start": "nodemon server.js",
+    "seed" : "node src/seeds/seed.js"
   },
   "repository": {
     "type": "git",
