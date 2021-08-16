@@ -28,13 +28,4 @@ Problem.init(
   }
 );
 
-// return the bare properties in user
-Problem.parse = (problem) => {
-  if (problem instanceof Problem) {
-    const {id, name} = problem;
-    return {id, name}; 
-  }
-  return null;
-}
-
 module.exports = Problem;

@@ -35,7 +35,7 @@ describe('../src/queries/getEvents',  () => {
       const expectedCategoryIds = firstEvent.categories.map(c => c.id);
 
       const result = await getEvents.all();
-      const resultCategoryIds = result[0].categories.map(c => c.id);
+      const resultCategoryIds = result[0].toJSON().categories.map(c => c.id);
 
       expect(result[0].id).toEqual(expected.id);
       expect(resultCategoryIds).toEqual(expect.arrayContaining(expectedCategoryIds))
@@ -50,7 +50,7 @@ describe('../src/queries/getEvents',  () => {
       const expectedLength = 1;
 
       const result = await getEvents.organisedByUser(input);
-      const resultCategoryIds = result[0].categories.map(c => c.id);
+      const resultCategoryIds = result[0].toJSON().categories.map(c => c.id);
 
       expect(result[0].id).toEqual(expected.id);
       expect(resultCategoryIds).toEqual(expect.arrayContaining(expectedCategoryIds))
@@ -75,7 +75,7 @@ describe('../src/queries/getEvents',  () => {
       const expectedLength = 1;
 
       const result = await getEvents.competedByUser(input);
-      const resultCategoryIds = result[0].categories.map(c => c.id);
+      const resultCategoryIds = result[0].toJSON().categories.map(c => c.id);
 
       expect(result[0].id).toEqual(expected.id);
       expect(resultCategoryIds).toEqual(expect.arrayContaining(expectedCategoryIds))
@@ -101,7 +101,7 @@ describe('../src/queries/getEvents',  () => {
       const expectedLength = 2;
 
       const result = await getEvents.byIds(input);
-      const resultCategoryIds = result[0].categories.map(c => c.id);
+      const resultCategoryIds = result[0].toJSON().categories.map(c => c.id);
 
       expect(result[0].id).toEqual(expected.id);
       expect(resultCategoryIds).toEqual(expect.arrayContaining(expectedCategoryIds))

@@ -43,13 +43,4 @@ User.init(
   }
 );
 
-// return the bare properties in user
-User.parse = (user) => {
-  if (user instanceof User) {
-    const {id, username, email, password} = user;
-    return {id, username, email, password}; 
-  }
-  return null;
-}
-
 module.exports = User;

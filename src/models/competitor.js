@@ -41,14 +41,4 @@ Competitor.User = Competitor.belongsTo(User);
 Event.Competitor = Event.hasMany(Competitor);
 Competitor.Event = Competitor.belongsTo(Event);
 
-
-// return the bare properties in user
-Competitor.parse = (competitor) => {
-  if (competitor instanceof Competitor) {
-    const {id, number, status} = competitor;
-    return {id, number, status}; 
-  }
-  return null;
-}
-
 module.exports = Competitor;

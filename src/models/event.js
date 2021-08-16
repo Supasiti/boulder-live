@@ -39,14 +39,5 @@ Event.init(
   }
 );
 
-// return the bare properties in user
-Event.parse = (event) => {
-  if (event instanceof Event) {
-    const {id, name, location} = event;
-    return {id, name, location}; 
-  }
-  return null;
-}
-
 
 module.exports = Event;
