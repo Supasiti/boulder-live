@@ -1,9 +1,10 @@
-const Category = require('../models/Category')
-const Competitor = require('../models/Competitor')
-const Event = require('../models/Event');
-const Organiser = require('../models/Organiser')
-const Problem = require('../models/Problem')
-const ProblemAssignment = require('../models/ProblemAssignment')
+const {
+  Category,
+  Competitor,
+  Event,
+  Organiser,
+  Problem,
+  ProblemAssignment } = require('../models')
 
 
 // get all event

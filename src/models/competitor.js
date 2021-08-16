@@ -1,7 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
-const User = require('./User');
-const Event = require('./Event');
 
 class Competitor extends Model {}
 
@@ -35,10 +33,5 @@ Competitor.init(
   }
 );
 
-User.Competitor = User.hasMany(Competitor);
-Competitor.User = Competitor.belongsTo(User);
-
-Event.Competitor = Event.hasMany(Competitor);
-Competitor.Event = Competitor.belongsTo(Event);
 
 module.exports = Competitor;

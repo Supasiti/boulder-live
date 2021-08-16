@@ -31,8 +31,6 @@ CategoryPool.init(
   }
 );
 
-Competitor.Category = Competitor.belongsToMany(Category, {through: CategoryPool});
-Category.Competitor = Category.belongsToMany(Competitor, {through: CategoryPool});
 
 
 module.exports = CategoryPool;

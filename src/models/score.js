@@ -1,7 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
-const Competitor = require('./Competitor');
-const Problem = require('./Problem');
 
 class Score extends Model {}
 
@@ -75,8 +73,6 @@ Score.init(
   }
 );
 
-Competitor.Problem = Competitor.belongsToMany(Problem, {through: 'score'});
-Problem.Competitor = Problem.belongsToMany(Competitor, {through: 'score'});
 
 
 module.exports = Score;

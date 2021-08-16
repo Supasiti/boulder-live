@@ -1,6 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
-const Event = require('./Event');
 
 class Category extends Model {}
 
@@ -46,8 +45,5 @@ Category.init(
     modelName: 'category'
   }
 );
-
-Event.Category = Event.hasMany(Category);
-Category.Event = Category.belongsTo(Event);
 
 module.exports = Category;

@@ -1,7 +1,7 @@
 const sequelize = require('./src/configs/sequelizeConnection');
 
 // need to init all the tables to use sync (forced : true)
-require('./src/services/initTables'); 
+require('./src/models'); 
 
 const app = require('./src/app');
 const http = require('http');

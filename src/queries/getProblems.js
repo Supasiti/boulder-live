@@ -1,8 +1,9 @@
-const Category = require('../models/Category');
-const CategoryPool = require('../models/CategoryPool'); // so that the association between competitor and category are established
-const Competitor = require('../models/Competitor');
-const ProblemAssignment = require('../models/ProblemAssignment');
-const Problem = require('../models/Problem');
+const {
+  Category,
+  CategoryPool,    // so that the association between competitor and category are established
+  Competitor,
+  ProblemAssignment,
+  Problem } = require('../models');
 const utils = require('../utils/arrayUtils');
 
 

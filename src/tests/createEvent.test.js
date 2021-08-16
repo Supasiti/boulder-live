@@ -1,6 +1,6 @@
 const createEvent = require('../services/createEvent');
 const getEvents = require('../queries/getEvents');
-const Event = require('../models/Event');
+const { Event } = require('../models');
 
 describe('src/services/createEvent', () => {
 

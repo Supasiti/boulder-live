@@ -1,4 +1,4 @@
-const User = require('../models/User');
+const { User } = require('../models');
 const withoutProperty = require('../utils/objectUtils');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
