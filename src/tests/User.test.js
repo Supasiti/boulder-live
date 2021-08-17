@@ -1,6 +1,4 @@
-const sequelize = require('../configs/sequelizeConnection');
-require('../services/initTables')
-const user = require('../models/user');
+const { User } = require('../models');
 
 // by using build instead of create, you don't need to connect to the database
 // this should be faster
@@ -12,7 +10,7 @@ describe('../src/models/user', () => {
       username: 'Bob',
       email: 'bob@email.com'
     }
-    const result = user.build(input);
+    const result = User.build(input);
     expect(result.validate()).rejects.toThrow();
   })
 
@@ -23,7 +21,7 @@ describe('../src/models/user', () => {
       password: 'asdfjlasdf;asdf'
     }
 
-    const result = user.build(input)
+    const result = User.build(input)
     expect(result.email).toEqual('bob@email.com');
   })
 })

@@ -11,7 +11,8 @@ const utils = require('../utils/arrayUtils');
 // return 
 //  - Array<int>
 const idsByCategories = async (categories) => {
-  const ids = categories.map(c => c.id);
+  
+  const ids = (categories instanceof Array)? categories.map(c => c.id): categories;
   const assignments = await ProblemAssignment.findAll({ 
     attributes: ['problemId'],
     where: {categoryId : ids}

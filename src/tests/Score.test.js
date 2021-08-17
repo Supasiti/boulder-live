@@ -1,5 +1,4 @@
-require('../services/initTables')
-const Score = require('../models/Score');
+const { Score } = require('../models');
 
 // by using build instead of create, you don't need to connect to the database
 // this should be faster

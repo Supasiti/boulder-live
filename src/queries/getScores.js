@@ -19,7 +19,7 @@ const byCompetitorAndProblems = async (competitorId, problemIds) => {
 // return
 //  - TotalScore>
 // as specified by competitorId and problem ids
-const totalByCompetitorAndProblems = async (competitorId, problemIds) => {
+const total = async (competitorId, problemIds) => {
   const result = await models.Score.findAll({
     where : { 
       [Sequelize.Op.and]: [
@@ -28,13 +28,13 @@ const totalByCompetitorAndProblems = async (competitorId, problemIds) => {
       ]
     },
     attributes : [
-      [Sequelize.fn('SUM', Sequelize.col('score.top')), 'totalTops'],
-      [Sequelize.fn('SUM', Sequelize.col('score.bonus')), 'totalBonuses'],
-      [Sequelize.fn('SUM', Sequelize.col('score.attempt_top')), 'totalAttemptTops'],
-      [Sequelize.fn('SUM', Sequelize.col('score.attempt_bonus')), 'totalAttemptBonuses']
+      [Sequelize.cast(Sequelize.fn('SUM', Sequelize.col('score.top')), 'UNSIGNED'), 'totalTops'],
+      [Sequelize.cast(Sequelize.fn('SUM', Sequelize.col('score.bonus')), 'UNSIGNED'), 'totalBonuses'],
+      [Sequelize.cast(Sequelize.fn('SUM', Sequelize.col('score.attempt_top')), 'UNSIGNED'), 'totalAttemptTops'],
+      [Sequelize.cast(Sequelize.fn('SUM', Sequelize.col('score.attempt_bonus')), 'UNSIGNED'), 'totalAttemptBonuses']
     ]
   })
-  return result;
+  return result[0].toJSON();
 }
 
 
@@ -42,5 +42,5 @@ const totalByCompetitorAndProblems = async (competitorId, problemIds) => {
 
 module.exports = {
   byCompetitorAndProblems,
-  totalByCompetitorAndProblems
+  total
 }

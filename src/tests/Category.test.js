@@ -1,5 +1,4 @@
-require('../services/initTables');
-const Category = require('../models/Category')
+const { Category } = require('../models')
 
 // by using build instead of create, you don't need to connect to the database
 // this should be faster

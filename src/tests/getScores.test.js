@@ -18,15 +18,25 @@ describe('src/queries/getScores', () => {
   })
   
 
-  describe('totalByCompetitorAndProblems', () => {
+  describe('total', () => {
     it ('should return a total score from a competitor and a list of problems', async () => {
       
       const competitorId = 1;
       const problemIds = [1,3];
+      const expected = { 
+        totalTops: 2,
+        totalBonuses: 2,
+        totalAttemptTops: 2,
+        totalAttemptBonuses: 2
+      }
 
-      const result = await getScores.totalByCompetitorAndProblems(competitorId, problemIds);
-    
-      console.log(result);
+      const result = await getScores.total(competitorId, problemIds);
+      
+      expect(result.totalTops).toEqual(expected.totalTops);
+      expect(result.totalBonuses).toEqual(expected.totalBonuses);
+      expect(result.totalAttemptTops).toEqual(expected.totalAttemptTops);
+      expect(result.totalAttemptBonuses).toEqual(expected.totalAttemptBonuses);
+      
     })
   })
 })
