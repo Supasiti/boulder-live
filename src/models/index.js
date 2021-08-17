@@ -38,9 +38,13 @@ Organiser.Event = Organiser.belongsTo(Event);
 Category.Problem = Category.belongsToMany(Problem, {through: 'problem_assignment'});
 Problem.Category = Problem.belongsToMany(Category, {through: 'problem_assignment'});
 
-// competior - problem
-Competitor.Problem = Competitor.belongsToMany(Problem, {through: 'score'});
-Problem.Competitor = Problem.belongsToMany(Competitor, {through: 'score'});
+// competior - score 
+Competitor.hasMany(Score);
+Score.belongsTo(Competitor);
+
+// score - problem
+Problem.hasMany(Score);
+Score.belongsTo(Problem);
 
 
 module.exports = {
