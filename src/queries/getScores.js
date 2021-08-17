@@ -34,7 +34,7 @@ const total = async (competitorId, problemIds) => {
       [Sequelize.cast(Sequelize.fn('SUM', Sequelize.col('score.attempt_bonus')), 'UNSIGNED'), 'totalAttemptBonuses']
     ]
   })
-  return result[0].toJSON();
+  return result[0].get({ plain: true });
 }
 
 

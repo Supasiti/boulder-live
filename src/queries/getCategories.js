@@ -42,7 +42,7 @@ const withTotalScores = async (categoryId) => {
   }
 
   const category = await withScores(categoryId);
-  const {competitors, ...result} = category.toJSON();
+  const {competitors, ...result} = category.get({plain: true});
 
   const newCompetitors = competitors.map(competitor => {
     const {scores, ...result} = competitor;

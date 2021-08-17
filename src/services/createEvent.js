@@ -13,7 +13,7 @@ const createEvent = async (newEventData) => {
     {
       include: [ Event.Organiser ]
     });
-  return eventData;
+  return eventData.get({ plain :true });
 }
 
 

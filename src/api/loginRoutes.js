@@ -19,8 +19,12 @@ const validatePostRequest = (req, res) => {
 const handleAuthenticationRequest = async (req, res) => {
   if (validatePostRequest(req, res)) {
     try {
-      const response = await authenticateUser(req.body);
-      res.status(response.status).json(response.body);
+      const isValid = await authenticateUser(req.body);
+      if (isValid) {
+        res.status(200).json({ message: 'You are now logged in!' });
+      } else {
+        res.status(404).json({ message: 'Login failed. Please try again!' });
+      }
     } catch (err){
       res.status(500).json(err)
     }

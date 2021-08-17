@@ -9,27 +9,10 @@ const authenticateUser = (userInput) => {
   const userData = await getUser.byEmail(email);
   
   //  if it couldn't find user with that email
-  if (!userData) {
-    return {
-      status: 404,
-      body: { message: 'Login failed. Please try again!' }
-    }
-  }
+  if (!userData) return false;
 
-  const validPassword = await bcrypt.compare(password, userData.password );
-
-  // if it is incorrect
-  if (!validPassword) {
-    return {
-      status: 404,
-      body: { message: 'Login failed. Please try again!' }
-    };
-  }
-  // otherwise accept login
-  return {
-    status: 200,
-    body : { message: 'You are now logged in!' }
-  }
+  const result = await bcrypt.compare(password, userData.password );
+  return result ;
 }
 
 

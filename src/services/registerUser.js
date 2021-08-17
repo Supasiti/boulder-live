@@ -13,7 +13,7 @@ const registerUser = async (newUser) => {
     password: encryptedPassword
   });
 
-  const result = withoutProperty(userData.toJSON(),'password')
+  const result = withoutProperty(userData.get({ plain :true }),'password')
   return result;
 } 
 
