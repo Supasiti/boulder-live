@@ -2,7 +2,7 @@ const event = require('../services/eventServices');
 const getEvents = require('../queries/getEvents');
 const sanitize = require('../services/sanitize')
 
-describe('src/services/eventCommands', () => {
+describe('src/services/eventServices', () => {
 
   // create and remove
   it ('should create an event and orgniser', async () => {

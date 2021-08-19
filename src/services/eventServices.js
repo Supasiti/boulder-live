@@ -12,7 +12,6 @@ const create = async (newEventData) => {
     {
       name,
       location,
-      status : "pending",
       organisers : [{ userId }]
     },
     {
