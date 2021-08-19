@@ -1,20 +1,14 @@
-const {
-  Category,
-  Competitor,
-  Event,
-  Organiser,
-  Problem,
-  ProblemAssignment } = require('../models')
+const models = require('../models')
 
 
 // get all event
 // return 
 //  - Array<Event>
 const all = async () => {
-  const eventData = await Event.findAll({
+  const eventData = await models.Event.findAll({
     include: {
-      model: Category,
-      include: Problem
+      model: models.Category,
+      include: models.Problem
     }
   })
   return eventData;
@@ -23,13 +17,13 @@ const all = async () => {
 
 // get all events with a set of ids
 // return 
-//  - Array<Object>
+//  - Array<Event>
 const byIds = async (eventIds) => {
-  const result = await Event.findAll({
+  const result = await models.Event.findAll({
     where: { id: eventIds},
     include: {
-      model: Category,
-      include: Problem
+      model: models.Category,
+      include: models.Problem
     }
   })
   return result;
@@ -39,7 +33,7 @@ const byIds = async (eventIds) => {
 // return 
 //  - Array<Event>
 const organisedByUser = async (userId) => {
-  const organisers = await Organiser.findAll({
+  const organisers = await models.Organiser.findAll({
     attributes : ['eventId'],
     where : { userId : userId}
   })
@@ -52,7 +46,7 @@ const organisedByUser = async (userId) => {
 // return 
 //  - Array<Object>
 const competedByUser = async (userId) => {
-  const competitors = await Competitor.findAll({
+  const competitors = await models.Competitor.findAll({
     attributes : ['eventId'],
     where : { userId : userId}
   })

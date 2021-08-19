@@ -13,6 +13,8 @@ const getProblemsInCategory = async (categoryId) => {
   return problemIds
 }
 
+// return 
+//  - Object 
 const getWithScoresQueryObject = (categoryId, problemIds) => {
   return {
     where : { id: categoryId },

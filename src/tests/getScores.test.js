@@ -26,16 +26,16 @@ describe('src/queries/getScores', () => {
       const expected = { 
         totalTops: 2,
         totalBonuses: 2,
-        totalAttemptTops: 2,
-        totalAttemptBonuses: 2
+        totalAttemptTop: 2,
+        totalAttemptBonus: 2
       }
 
       const result = await getScores.total(competitorId, problemIds);
       
       expect(result.totalTops).toEqual(expected.totalTops);
       expect(result.totalBonuses).toEqual(expected.totalBonuses);
-      expect(result.totalAttemptTops).toEqual(expected.totalAttemptTops);
-      expect(result.totalAttemptBonuses).toEqual(expected.totalAttemptBonuses);
+      expect(result.totalAttemptTop).toEqual(expected.totalAttemptTop);
+      expect(result.totalAttemptBonus).toEqual(expected.totalAttemptBonus);
       
     })
   })

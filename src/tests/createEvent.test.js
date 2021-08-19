@@ -1,9 +1,11 @@
-const createEvent = require('../services/createEvent');
+const event = require('../services/eventCommands');
 const getEvents = require('../queries/getEvents');
+const sanitize = require('../services/sanitize')
 const { Event } = require('../models');
 
 describe('src/services/createEvent', () => {
 
+  // create and remove
   it ('should create an event and orgniser', async () => {
     const input = {
       userId: 3,
@@ -11,11 +13,32 @@ describe('src/services/createEvent', () => {
       location: "Northside Boulders"
     }
 
-    await createEvent(input);
-    const resultEvent = await getEvents.organisedByUser(3);
+    const eventData = await event.create(input);
+    const resultEvent = await getEvents.byIds(eventData.id);
+
     expect(resultEvent[0].name).toEqual(input.name);
     expect(resultEvent[0].location).toEqual(input.location);
 
-    await Event.destroy({where : {name: "Boulder Ladder"}});
+    await event.remove(eventData.id);
   })
+
+
+  // update event
+  describe('update', () => { 
+    it('should return a new event', async () => {
+
+      const firstInput  = {
+        name: "Boulder Ladder",
+        location: "Northside Boulders"
+      }
+      const secondInput = { name: "Boulder Plus" }
+
+      const createdData = await event.create(firstInput);
+      const updatedData = await event.update(secondInput, createdData.id);
+      const rowsRemoved = await event.remove(createdData.id);
+
+      expect(updatedData.name).toEqual(secondInput.name);
+    })
+  })
+
 })

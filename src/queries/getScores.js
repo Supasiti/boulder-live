@@ -1,5 +1,6 @@
 const Sequelize = require("sequelize");
 const models = require('../models');
+const totalScore = require('../services/totalScore')
 
 // return
 //  - Array<Score>
@@ -20,24 +21,10 @@ const byCompetitorAndProblems = async (competitorId, problemIds) => {
 //  - TotalScore>
 // as specified by competitorId and problem ids
 const total = async (competitorId, problemIds) => {
-  const result = await models.Score.findAll({
-    where : { 
-      [Sequelize.Op.and]: [
-        { competitorId: competitorId }, 
-        { problemId: problemIds } 
-      ]
-    },
-    attributes : [
-      [Sequelize.cast(Sequelize.fn('SUM', Sequelize.col('score.top')), 'UNSIGNED'), 'totalTops'],
-      [Sequelize.cast(Sequelize.fn('SUM', Sequelize.col('score.bonus')), 'UNSIGNED'), 'totalBonuses'],
-      [Sequelize.cast(Sequelize.fn('SUM', Sequelize.col('score.attempt_top')), 'UNSIGNED'), 'totalAttemptTops'],
-      [Sequelize.cast(Sequelize.fn('SUM', Sequelize.col('score.attempt_bonus')), 'UNSIGNED'), 'totalAttemptBonuses']
-    ]
-  })
-  return result[0].get({ plain: true });
+  const scores = await byCompetitorAndProblems(competitorId, problemIds)
+  const result = totalScore.fromScores(scores);
+  return result;
 }
-
-
 
 
 module.exports = {
