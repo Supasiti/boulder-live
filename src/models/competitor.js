@@ -12,6 +12,20 @@ Competitor.init(
       autoIncrement: true,
       allowNull: false
     },
+    userId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'user', 
+        key: 'id'
+      }
+    },
+    eventId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'event',
+        key: 'id'
+      }
+    },
     number: {
       type: DataTypes.INTEGER.UNSIGNED,
       allowNull: false

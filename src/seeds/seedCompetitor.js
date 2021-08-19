@@ -1,4 +1,6 @@
-[
+const models = require('../models');
+
+const data = [
   {
     "userId": 2,
     "eventId": 1,
@@ -48,3 +50,7 @@
     "status": "approved"
   }
 ]
+
+const seedCompetitor =  () => models.Competitor.bulkCreate(data);
+
+module.exports = seedCompetitor;

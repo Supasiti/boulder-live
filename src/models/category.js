@@ -11,6 +11,13 @@ Category.init(
       autoIncrement: true,
       allowNull: false
     },
+    event_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'event', 
+        key: 'id'
+      }
+    },
     name: {
       type: DataTypes.STRING(60),
       allowNull: false,

@@ -1,7 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
-const User = require('./User');
-const Event = require('./Event');
 
 class Organiser extends Model {}
 
@@ -16,14 +14,14 @@ Organiser.init(
     UserId: {
       type: DataTypes.INTEGER,
       references: {
-        model: User, 
+        model: 'user', 
         key: 'id'
       }
     },
     EventId: {
       type: DataTypes.INTEGER,
       references: {
-        model: Event,
+        model: 'event',
         key: 'id'
       }
     }

@@ -1,4 +1,6 @@
-[
+const models = require('../models');
+
+const data = [
   {
     "categoryId": 1,
     "problemId": 1
@@ -32,3 +34,8 @@
     "problemId": 6
   }
 ]
+
+const seedProblemAssignment = () => models.ProblemAssignment.bulkCreate(data);
+
+
+module.exports = seedProblemAssignment;

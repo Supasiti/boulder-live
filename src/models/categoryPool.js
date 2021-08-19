@@ -1,23 +1,27 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
-const Competitor = require('./Competitor');
-const Category = require('./Category');
 
 class CategoryPool extends Model {}
 
 CategoryPool.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+    },
     competitorId: {
       type: DataTypes.INTEGER,
       references: {
-        model: Competitor, 
+        model: 'competitor', 
         key: 'id'
       }
     },
     categoryId: {
       type: DataTypes.INTEGER,
       references: {
-        model: Category,
+        model: 'category',
         key: 'id'
       }
     }

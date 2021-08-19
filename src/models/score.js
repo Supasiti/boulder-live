@@ -5,6 +5,12 @@ class Score extends Model {}
 
 Score.init(
   {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+    },
     top: {
       type: DataTypes.BOOLEAN,
       defaultValue: false

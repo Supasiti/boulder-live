@@ -11,36 +11,36 @@ const User = require('./User');
 // associations
 
 // event - category
-Event.Category = Event.hasMany(Category);
-Category.Event = Category.belongsTo(Event);
+Event.hasMany(Category);
+Category.belongsTo(Event);
 
 // competitor - category
-Competitor.Category = Competitor.belongsToMany(Category, {through: CategoryPool});
-Category.Competitor = Category.belongsToMany(Competitor, {through: CategoryPool});
+Competitor.belongsToMany(Category, {through: CategoryPool});
+Category.belongsToMany(Competitor, {through: CategoryPool});
 
 //  user - competitor 
-User.Competitor = User.hasMany(Competitor);
-Competitor.User = Competitor.belongsTo(User);
+User.hasMany(Competitor);
+Competitor.belongsTo(User);
 
 // event - competitor
-Event.Competitor = Event.hasMany(Competitor);
-Competitor.Event = Competitor.belongsTo(Event);
+Event.hasMany(Competitor);
+Competitor.belongsTo(Event);
 
 // user - organiser
-User.Organiser = User.hasMany(Organiser);
-Organiser.User = Organiser.belongsTo(User);
+User.hasMany(Organiser);
+Organiser.belongsTo(User);
 
 // event - organiser
-Event.Organiser = Event.hasMany(Organiser);
-Organiser.Event = Organiser.belongsTo(Event);
+Event.hasMany(Organiser);
+Organiser.belongsTo(Event);
 
 // category - problem
-Category.Problem = Category.belongsToMany(Problem, {through: 'problem_assignment'});
-Problem.Category = Problem.belongsToMany(Category, {through: 'problem_assignment'});
+Category.belongsToMany(Problem, {through: 'problem_assignment'});
+Problem.belongsToMany(Category, {through: 'problem_assignment'});
 
 // competior - score 
-Competitor.hasMany(Score);
-Score.belongsTo(Competitor);
+CategoryPool.hasMany(Score);
+Score.belongsTo(CategoryPool);
 
 // score - problem
 Problem.hasMany(Score);
