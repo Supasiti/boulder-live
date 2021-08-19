@@ -39,8 +39,8 @@ Category.belongsToMany(Problem, {through: 'problem_assignment'});
 Problem.belongsToMany(Category, {through: 'problem_assignment'});
 
 // competior - score 
-CategoryPool.hasMany(Score);
-Score.belongsTo(CategoryPool);
+Competitor.hasMany(Score);
+Score.belongsTo(Competitor);
 
 // score - problem
 Problem.hasMany(Score);

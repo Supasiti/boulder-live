@@ -1,4 +1,5 @@
 const getCategories = require('../queries/getCategories');
+const sanitize = require('../services/sanitize');
 
 describe('src/queries/getCategories', () => {
   
@@ -11,6 +12,9 @@ describe('src/queries/getCategories', () => {
       }
 
       const result = await getCategories.withScores(categoryId);
+
+      console.log(sanitize(result));
+
       expect(result.id).toEqual(expected.id);
       expect(result.competitors.map(c => c.id))
         .toEqual(expect.arrayContaining(expected.competitorIds));

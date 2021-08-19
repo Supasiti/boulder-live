@@ -2,7 +2,7 @@ const models = require('../models');
 
 const data = [
   {
-    "categoryPoolId":1,
+    "competitorId":1,
     "problemId":1,
     "top":true,
     "bonus": true,
@@ -11,7 +11,7 @@ const data = [
     "attempts" : 1
   },
   {
-    "categoryPoolId":1,
+    "competitorId":1,
     "problemId":3,
     "top":true,
     "bonus": true,
@@ -20,7 +20,7 @@ const data = [
     "attempts" : 1
   },
   {
-    "categoryPoolId":2,
+    "competitorId":2,
     "problemId":1,
     "top":false,
     "bonus": true,
@@ -29,7 +29,7 @@ const data = [
     "attempts" : 3
   },
   {
-    "categoryPoolId":2,
+    "competitorId":2,
     "problemId":3,
     "top":true,
     "bonus": true,
@@ -38,7 +38,7 @@ const data = [
     "attempts" : 4
   },
   {
-    "categoryPoolId":3,
+    "competitorId":3,
     "problemId":2,
     "top":true,
     "bonus": true,
@@ -47,7 +47,7 @@ const data = [
     "attempts" : 1
   },
   {
-    "categoryPoolId":3,
+    "competitorId":3,
     "problemId":3,
     "top":true,
     "bonus": true,
@@ -56,7 +56,7 @@ const data = [
     "attempts" : 3
   },
   {
-    "categoryPoolId":4,
+    "competitorId":4,
     "problemId":2,
     "top":false,
     "bonus": true,
@@ -65,7 +65,7 @@ const data = [
     "attempts" : 3
   },
   {
-    "categoryPoolId":4,
+    "competitorId":4,
     "problemId":3,
     "top":true,
     "bonus": true,
@@ -74,7 +74,7 @@ const data = [
     "attempts" : 3
   },
   {
-    "categoryPoolId":5,
+    "competitorId":5,
     "problemId":5,
     "top":true,
     "bonus": true,
@@ -83,7 +83,7 @@ const data = [
     "attempts" : 1
   },
   {
-    "categoryPoolId": 5,
+    "competitorId": 5,
     "problemId":6,
     "top":true,
     "bonus": true,
@@ -92,7 +92,7 @@ const data = [
     "attempts" : 1
   },
   {
-    "categoryPoolId":6,
+    "competitorId":6,
     "problemId":5,
     "top":false,
     "bonus": true,
@@ -101,7 +101,7 @@ const data = [
     "attempts" : 3
   },
   {
-    "categoryPoolId":6,
+    "competitorId":6,
     "problemId":6,
     "top":true,
     "bonus": true,
@@ -110,7 +110,7 @@ const data = [
     "attempts" : 4
   },
   {
-    "categoryPoolId":7,
+    "competitorId":7,
     "problemId":4,
     "top":true,
     "bonus": true,
@@ -119,7 +119,7 @@ const data = [
     "attempts" : 1
   },
   {
-    "categoryPoolId":7,
+    "competitorId":7,
     "problemId":6,
     "top":true,
     "bonus": true,
@@ -128,7 +128,7 @@ const data = [
     "attempts" : 3
   },
   {
-    "categoryPoolId":8,
+    "competitorId":8,
     "problemId":4,
     "top":false,
     "bonus": true,
@@ -137,7 +137,7 @@ const data = [
     "attempts" : 3
   },
   {
-    "categoryPoolId":8,
+    "competitorId":8,
     "problemId":6,
     "top":true,
     "bonus": true,
