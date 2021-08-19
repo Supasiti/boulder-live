@@ -39,9 +39,8 @@ const update = async (newCategory, categoryId) => {
   })
   if (!categoriesUpdated[0]) return null;
   const updatedCategory = await models.Category.findByPk(categoryId);
-  return updatedCategory[0];
+  return updatedCategory;
 }
-
 
 
 module.exports = {

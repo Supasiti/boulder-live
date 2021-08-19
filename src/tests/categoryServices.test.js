@@ -1,9 +1,8 @@
-const event = require('../services/eventCommands');
 const models = require('../models')
-const category = require('../services/categoryCommands')
+const category = require('../services/categoryServices')
 const sanitize = require('../services/sanitize')
 
-describe('src/services/categoryCommands', () => {
+describe('src/services/categoryServices', () => {
 
   // create and remove
   it ('should create a category and orgniser', async () => {
