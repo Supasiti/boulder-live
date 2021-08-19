@@ -25,6 +25,7 @@ Event.init(
     status: {
       type: DataTypes.STRING(20),
       allowNull: false,
+      defaultValue: 'pending',
       validate : {
         isIn: ['pending', 'cancelled', 'open', 'running', 'closed']
       }

@@ -31,7 +31,6 @@ const remove = async (eventId) => {
   return eventsRemoved;
 }
 
-
 // update an event 
 // return 
 //  - Event
@@ -40,12 +39,9 @@ const update = async (newEvent, eventId) => {
     where: { id: eventId }
   })
   if (!eventsUpdated[0]) return null;
-  console.log('update: ', eventsUpdated )
   const updatedEvent = await getEvents.byIds(eventId);
   return updatedEvent[0];
 }
-
-
 
 
 

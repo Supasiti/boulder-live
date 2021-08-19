@@ -1,7 +1,6 @@
 const event = require('../services/eventCommands');
 const getEvents = require('../queries/getEvents');
 const sanitize = require('../services/sanitize')
-const { Event } = require('../models');
 
 describe('src/services/createEvent', () => {
 
