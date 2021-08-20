@@ -1,7 +1,6 @@
 const models = require('../models');
 
 
-
 const createProblemAssignments = async (problemId, categoryIds) => {
   const problemAssignmentArray = categoryIds.map( categoryId => {
     return { problemId, categoryId } 
@@ -46,6 +45,7 @@ const remove = async (problemId) => {
 }
 
 //----------------------------------------------------------------------------------------
+// UPDATE
 
 const getAssociatedProblemAssignments = async (problemId) => {
   const assignments = await models.ProblemAssignment.findAll({

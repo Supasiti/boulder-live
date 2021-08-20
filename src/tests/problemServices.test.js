@@ -1,5 +1,4 @@
 const problem = require('../services/problemServices');
-const getProblems = require('../queries/getProblems');
 const sanitize = require('../services/sanitize')
 const models = require('../models');
 
@@ -57,7 +56,6 @@ describe('src/services/problemServices', () => {
       categoryIds : [2, 3]
     }
     const updatedProblem = await problem.update(secondInput);
-    console.log(sanitize(updatedProblem));
     await problem.remove(updatedProblem.id)
   
     expect(updatedProblem.name).toEqual(secondInput.name);

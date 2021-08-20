@@ -33,6 +33,7 @@ Competitor.init(
     status: {
       type:DataTypes.STRING(40),
       allowNull: false,
+      defaultValue: 'pending',
       validate : {
         isIn : ['pending', 'approved', 'withdrawn']
       }
