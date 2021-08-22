@@ -98,7 +98,6 @@ const getCategoryPoolIdsToRemove = (oldCategoryPools, newCategoryIds) => {
 const updateCategoryPools = async (updatedCompetitor, newCategoryIds) => {
   const { id, eventId } = updatedCompetitor;
   const filteredCategoryIds = await filterCategoryIdsByEvent(eventId, newCategoryIds)
-  console.log(filteredCategoryIds);
   if (!filteredCategoryIds.length) return
 
   const oldCategoryPools = await models.CategoryPool.findAll({ where : { competitorId: id } });
@@ -106,7 +105,6 @@ const updateCategoryPools = async (updatedCompetitor, newCategoryIds) => {
   const categoryPoolIdsToRemove = getCategoryPoolIdsToRemove(oldCategoryPools, filteredCategoryIds) 
   
   const categoryIdsToCreate = filteredCategoryIds.filter((id) => !oldCategoryIds.includes(id));
-  console.log(categoryIdsToCreate);
   const categoryPoolsToCreate = getCategoryPoolToCreate(categoryIdsToCreate, id)
 
   const categoryPoolsRemoved = await models.CategoryPool.destroy({ where: { id : categoryPoolIdsToRemove }});
@@ -133,7 +131,6 @@ const update = async (newCompetitor) => {
   if ('categoryIds' in newCompetitor){
     const { categoryIds } = newCompetitor;
     if (categoryIds.length){
-      console.log('update category pool')
       await updateCategoryPools(updatedCompetitor, categoryIds);
     }
   }
