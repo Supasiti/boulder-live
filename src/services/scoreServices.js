@@ -34,7 +34,7 @@ const validateScoreInput = async ( newScore ) => {
   return false;
 }
 
-// create new set of scores
+// create a new score
 // arguments : {competitorId, problemId}
 // return 
 //  - Score
@@ -48,10 +48,74 @@ const createOne = async ( newScore ) => {
     return score;
   }
   return null;
+}
 
+//----------------------------------------------------------------------------------------
+
+// filter out any duplicates
+const filterOutDuplicate = async ( competitorId, problemIds ) => {
+  const duplicateProblemIds = await models.Score.findAll({
+    attributes: ['problemId'],
+    where : { 
+      [Op.and]: [ 
+        { problemId: problemIds }, 
+        { competitorId: competitorId }
+      ]
+    }
+  });
+  const duplicateProblemIdArray = duplicateProblemIds.map(({ problemId }) => problemId )
+  const result = problemIds.filter((id) => !duplicateProblemIdArray.includes(id))
+  return result;
+}
+
+// filter out any problems that are not in competitor's set
+const filterProblemsNotInCompetitorSet = async ( competitorId, problemIds ) => {
+  const problemSet = await getProblems.byCompetitorId(competitorId);
+  const problemSetIds = problemSet.map(({ id }) => id);
+  const result = problemIds.filter((id) => problemSetIds.includes(id));
+  return result;
+}
+
+// combine
+const filterProblemIds = async ( competitorId, problemIds ) => {
+  const uniqueProblemIds = await filterOutDuplicate(competitorId, problemIds);
+
+  if (!uniqueProblemIds.length) return [];
+  const result = await filterProblemsNotInCompetitorSet(competitorId, uniqueProblemIds)
+  return result;
+}
+
+
+// create new set of scores
+// arguments : competitorId, problemIds
+// return 
+//  - Array<Score>
+const createMany = async ( competitorId, problemIds ) => {
+  const filteredProblemIds = await filterProblemIds(competitorId, problemIds);
+
+  if ( !filteredProblemIds.length ) return null
+  const scoreData = filteredProblemIds.map((problemId) => {
+    return { competitorId, problemId }
+  })
+  const result = await models.Score.bulkCreate(scoreData);
+  return result;
+}
+
+
+
+
+// remove a score from id
+// return 
+//  - int
+const remove = async (scoreId) => {
+  const scoreRemoved = await models.Score.destroy({
+    where : {id : scoreId }
+  })
+  return scoreRemoved;
 }
 
 module.exports = {
   createOne,
-
+  createMany,
+  remove
 }
