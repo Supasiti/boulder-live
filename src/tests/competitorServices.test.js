@@ -10,7 +10,6 @@ describe('src/services/competitorServices', () => {
       const input = {
         userId: 6,
         eventId: 1,
-        categoryIds : [1]
       }
 
       const createdData = await competitor.create(input);
@@ -26,7 +25,6 @@ describe('src/services/competitorServices', () => {
       const firstInput = {
         userId: 6,
         eventId: 1,
-        categoryIds : [1]
       }
       const { id } = await competitor.create(firstInput);
       const secondInput = {
@@ -36,10 +34,10 @@ describe('src/services/competitorServices', () => {
         categoryIds : [1, 2]
       }
       const updatedData = await competitor.update(secondInput);
-      const categoryPools = await models.CategoryPool.findAll({
+      const totalScores = await models.TotalScore.findAll({
         where : { competitorId : id}
       })
-      const resultCategoryIds = categoryPools.map(({ categoryId }) => categoryId)
+      const resultCategoryIds = totalScores.map(({ categoryId }) => categoryId)
       await competitor.remove(id);
       
       expect(updatedData.userId).toEqual(secondInput.userId);

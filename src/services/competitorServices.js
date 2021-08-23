@@ -13,40 +13,8 @@ const getNextCompetitorNumber = async (eventId) => {
   return nextAvailableNumber;
 }
 
-// get category ids to creat by checking if it is in the event or not
-// return - Array<int>
-const filterCategoryIdsByEvent = async (eventId, newCategoryIds) => {
-  const events = await getEvents.byIds(eventId);
-  if (!events.length) return [];
-  if (!events[0].categories.length) return [];
-  const categoryIdsInEvent = events[0].categories.map(({ id }) => id);
-  const result = newCategoryIds.filter((id) => categoryIdsInEvent.includes(id));
-  return result;
-}
-
-// return an array of data object to create category pool
-// return Array<Object>
-const getCategoryPoolToCreate = (categoryIds, competitorId) => {
-  const result = categoryIds.map((categoryId) => {
-    return { competitorId, categoryId }
-  })
-  return result;
-}
-
-// create category pools
-// return - Array<CategoryPool>
-const createCategoryPools = async (competitor, categoryIds) => {
-  const { eventId } = competitor;
-  const categoryIdsToCreate = await filterCategoryIdsByEvent(eventId, categoryIds);
-  
-  if (!categoryIdsToCreate.length) return 
-  const categoryPoolsToCreate = getCategoryPoolToCreate(categoryIdsToCreate, competitor.id);
-  const newCategoryPools = await models.CategoryPool.bulkCreate(categoryPoolsToCreate);
-  return newCategoryPools;
-}
-
 // create a new competitor
-// arguments : {userId, eventId, categoryIds?}
+// arguments : {userId, eventId}
 // return 
 //  - Competitor 
 const create = async (newCompetitor) => {
@@ -59,12 +27,6 @@ const create = async (newCompetitor) => {
   const competitorData = { ...newCompetitor, number }
   const competitor = await models.Competitor.create(competitorData);
   
-  if ( 'categoryIds' in newCompetitor) {
-    const { categoryIds } = newCompetitor;
-    if (categoryIds.length){
-      await createCategoryPools(competitor, categoryIds);
-    }
-  }
   return competitor;
 }
 
@@ -84,33 +46,52 @@ const remove = async (competitorId) => {
 //----------------------------------------------------------------------------------------
 // UPDATE
 
+// get category ids to creat by checking if it is in the event or not
+// return - Array<int>
+const filterCategoryIdsByEvent = async (eventId, newCategoryIds) => {
+  const events = await getEvents.byIds(eventId);
+  if (!events.length) return [];
+  if (!events[0].categories.length) return [];
+  const categoryIdsInEvent = events[0].categories.map(({ id }) => id);
+  const result = newCategoryIds.filter((id) => categoryIdsInEvent.includes(id));
+  return result;
+}
 
-const getCategoryPoolIdsToRemove = (oldCategoryPools, newCategoryIds) => {
-  const result = oldCategoryPools
+// return an array of data object to create category pool
+// return Array<Object>
+const getTotalScoresToCreate = (categoryIds, competitorId) => {
+  const result = categoryIds.map((categoryId) => {
+    return { competitorId, categoryId }
+  })
+  return result;
+}
+
+const getTotalScoreIdsToRemove = (oldTotalScores, newCategoryIds) => {
+  const result = oldTotalScores
     .filter(({ categoryId }) => !newCategoryIds.includes(categoryId) )
     .map(({ id }) => id)
   return result;
 }
 
 
-// update all associated category pools
-// return - Array<CategoryPool>
-const updateCategoryPools = async (updatedCompetitor, newCategoryIds) => {
+// update all associated TotalScore
+// return - Array<TotalScore>
+const updateTotalScores = async (updatedCompetitor, newCategoryIds) => {
   const { id, eventId } = updatedCompetitor;
   const filteredCategoryIds = await filterCategoryIdsByEvent(eventId, newCategoryIds)
   if (!filteredCategoryIds.length) return
 
-  const oldCategoryPools = await models.CategoryPool.findAll({ where : { competitorId: id } });
-  const oldCategoryIds = oldCategoryPools.map(({ categoryId }) => categoryId);
-  const categoryPoolIdsToRemove = getCategoryPoolIdsToRemove(oldCategoryPools, filteredCategoryIds) 
+  const oldTotalScores = await models.TotalScore.findAll({ where : { competitorId: id } });
+  const oldCategoryIds = oldTotalScores.map(({ categoryId }) => categoryId);
+  const totalScoreIdsToRemove = getTotalScoreIdsToRemove(oldTotalScores, filteredCategoryIds) 
   
   const categoryIdsToCreate = filteredCategoryIds.filter((id) => !oldCategoryIds.includes(id));
-  const categoryPoolsToCreate = getCategoryPoolToCreate(categoryIdsToCreate, id)
+  const totalScoresToCreate = getTotalScoresToCreate(categoryIdsToCreate, id)
 
-  const categoryPoolsRemoved = await models.CategoryPool.destroy({ where: { id : categoryPoolIdsToRemove }});
-  const newCategoryPools = await models.CategoryPool.bulkCreate(categoryPoolsToCreate)
+  const totalScoresRemoved = await models.TotalScore.destroy({ where: { id : totalScoreIdsToRemove }});
+  const newTotalScores = await models.TotalScore.bulkCreate(totalScoresToCreate)
 
-  return newCategoryPools;
+  return newTotalScores;
 }
 
 
@@ -131,7 +112,7 @@ const update = async (newCompetitor) => {
   if ('categoryIds' in newCompetitor){
     const { categoryIds } = newCompetitor;
     if (categoryIds.length){
-      await updateCategoryPools(updatedCompetitor, categoryIds);
+      await updateTotalScores(updatedCompetitor, categoryIds);
     }
   }
   return updatedCompetitor;
