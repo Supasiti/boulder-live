@@ -1,6 +1,6 @@
 const models = require('../models');
 const utils = require('../utils/arrayUtils');
-
+const sanitize = require('../services/sanitize');
 
 // get problems from ids
 // return 
@@ -14,17 +14,14 @@ const byIds = async (ids) => {
 // return 
 //  - Array<Problem>
 const byCompetitorId = async (competitorId) => {
-  const competitor = await models.Competitor.findByPk(
-    competitorId,
-    { 
-      include: 
-      {
-        model: models.Category,
-        include: models.Problem
-      }
+  const totalScores = await models.TotalScore.findAll({
+    where : { competitorId : competitorId },
+    include : { 
+      model: models.Category,
+      include: models.Problem
     }
-  )
-  const problemArrays = competitor.categories.map(c => c.problems);
+  })
+  const problemArrays = totalScores.map((score) => score.category.problems);
   const result =  utils.generateSet(...problemArrays); 
   return result;
 }

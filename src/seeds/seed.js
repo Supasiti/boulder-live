@@ -7,6 +7,7 @@ const seedOrganiser = require('./seedOrganiser');
 const seedProblemAssignment = require('./seedProblemAssignment');
 const seedProblem = require('./seedProblem');
 const seedScore = require('./seedScore');
+const seedTotalScore = require('./seedTotalScore');
 const seedUser = require('./seedUser');
 
 // connect with database
@@ -40,6 +41,9 @@ const seedAll = async () => {
   
   await seedCategoryPool();
   console.log('\n----- CATEGORY POOLS SEEDED -----\n');
+
+  await seedTotalScore();
+  console.log('\n----- TOTAL SCORES SEEDED -----\n');
 
   await seedScore();
   console.log('\n----- SCORES SEEDED -----\n');

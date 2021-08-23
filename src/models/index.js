@@ -6,6 +6,7 @@ const Organiser = require('./Organiser');
 const Problem = require('./Problem');
 const ProblemAssignment = require('./ProblemAssignment');
 const Score = require('./Score');
+const TotalScore = require('./TotalScore');
 const User = require('./User');
 
 // associations
@@ -47,6 +48,14 @@ Problem.hasMany(Score);
 Score.belongsTo(Problem);
 
 
+// totalScore - competitor
+Competitor.hasMany(TotalScore);
+TotalScore.belongsTo(Competitor);
+
+// totalScore - category
+Category.hasMany(TotalScore);
+TotalScore.belongsTo(Category);
+
 module.exports = {
   Category,
   CategoryPool,
@@ -56,5 +65,6 @@ module.exports = {
   Problem, 
   ProblemAssignment,
   Score,
+  TotalScore,
   User 
 }

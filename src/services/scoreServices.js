@@ -101,7 +101,7 @@ const createMany = async ( competitorId, problemIds ) => {
   return result;
 }
 
-
+//----------------------------------------------------------------------------------------
 
 
 // remove a score from id
