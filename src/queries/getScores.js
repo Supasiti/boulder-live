@@ -20,14 +20,14 @@ const byCompetitorAndProblems = async (competitorId, problemIds) => {
 // return
 //  - TotalScore>
 // as specified by competitorId and problem ids
-const total = async (competitorId, problemIds) => {
-  const scores = await byCompetitorAndProblems(competitorId, problemIds)
-  const result = totalScore.fromScores(scores);
-  return result;
-}
+// const total = async (competitorId, problemIds) => {
+//   const scores = await byCompetitorAndProblems(competitorId, problemIds)
+//   const result = totalScore.fromScores(scores);
+//   return result;
+// }
 
 
 module.exports = {
   byCompetitorAndProblems,
-  total
+  // total
 }

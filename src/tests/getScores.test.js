@@ -18,25 +18,25 @@ describe('src/queries/getScores', () => {
   })
   
 
-  describe('total', () => {
-    it ('should return a total score from a competitor and a list of problems', async () => {
+  // describe('total', () => {
+  //   it ('should return a total score from a competitor and a list of problems', async () => {
       
-      const competitorId = 1;
-      const problemIds = [1,3];
-      const expected = { 
-        totalTops: 2,
-        totalBonuses: 2,
-        totalAttemptTop: 2,
-        totalAttemptBonus: 2
-      }
+  //     const competitorId = 1;
+  //     const problemIds = [1,3];
+  //     const expected = { 
+  //       totalTops: 2,
+  //       totalBonuses: 2,
+  //       totalAttemptTop: 2,
+  //       totalAttemptBonus: 2
+  //     }
 
-      const result = await getScores.total(competitorId, problemIds);
+  //     const result = await getScores.total(competitorId, problemIds);
       
-      expect(result.totalTops).toEqual(expected.totalTops);
-      expect(result.totalBonuses).toEqual(expected.totalBonuses);
-      expect(result.totalAttemptTop).toEqual(expected.totalAttemptTop);
-      expect(result.totalAttemptBonus).toEqual(expected.totalAttemptBonus);
+  //     expect(result.totalTops).toEqual(expected.totalTops);
+  //     expect(result.totalBonuses).toEqual(expected.totalBonuses);
+  //     expect(result.totalAttemptTop).toEqual(expected.totalAttemptTop);
+  //     expect(result.totalAttemptBonus).toEqual(expected.totalAttemptBonus);
       
-    })
-  })
+  //   })
+  // })
 })
