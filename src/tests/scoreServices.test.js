@@ -145,7 +145,7 @@ describe('src/services/scoreServices', () => {
       }
       const takeDownInput = {
         scoreId : 11,
-        attempts: 3
+        attempts: 3 
       }
       const updatedScore = await score.update(input);
       await score.update(takeDownInput);

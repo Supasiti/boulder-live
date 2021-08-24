@@ -16,14 +16,11 @@ class TotalScore extends Model {
     const keys = Object.keys(properties);
     const newTotalScore = keys.reduce((total, key) => { 
       if (!(properties[key] in change)) return { ...total };
-
-      console.log('change:', change[properties[key]])
       const changeInProperty = this[key] + change[properties[key]];
       const result = { ...total, [key]: changeInProperty }
       return result; 
      }, {});
     
-    console.log('new Total score: ', newTotalScore);
     const result = await this.update(newTotalScore);
     return result;
   }
