@@ -119,16 +119,6 @@ const remove = async (scoreId) => {
 //----------------------------------------------------------------------------------------
 
 
-// update total scores
-// arguments : new score, change
-// return - Array<TotalScore>
-// const updateTotalScores = async (updatedScore, change) => {
-//   const totalScores = await getTotalScores.byScore(updatedScore);  
-//   const result = await Promise.all(totalScores.map((total) => total.adjustBy(change)));
-//   return result;
-// }
-
-
 // UPDATE
 // update a score
 // arguments : { scoreId, new score}
