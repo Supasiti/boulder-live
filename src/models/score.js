@@ -1,7 +1,21 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
 
-class Score extends Model {}
+class Score extends Model {
+
+  // return a difference between the old and new scores
+  difference ( newScore ) {
+    const properties = ['top', 'bonus', 'attemptTop', 'attemptBonus', 'attempts'];
+
+    const result = properties.reduce((change, property) => {
+      if (!(property in newScore)) return { ...change };
+      const changeInProperty = newScore[property] - this[property];
+      const result = { ...change, [property]: changeInProperty }
+      return result;
+    }, {})
+    return result;
+  }
+}
 
 Score.init(
   {
@@ -22,7 +36,6 @@ Score.init(
         if (this.top && !value){
           throw new Error('A bonus is also archieved when a top is archieved.')
         }
-      
       }
     },
     attemptTop: {

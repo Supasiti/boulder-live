@@ -1,6 +1,8 @@
 const { Op } = require('sequelize');
 const models = require('../models');
-const getProblems = require('../queries/getProblems')
+const getProblems = require('../queries/getProblems');
+const getCategories = require('../queries/getCategories');
+const sanitize = require('./sanitize');
 
 // return true if there are duplicate
 const isDuplicate = async (newScore) => {
@@ -103,7 +105,6 @@ const createMany = async ( competitorId, problemIds ) => {
 
 //----------------------------------------------------------------------------------------
 
-
 // remove a score from id
 // return 
 //  - int
@@ -114,8 +115,53 @@ const remove = async (scoreId) => {
   return scoreRemoved;
 }
 
+//----------------------------------------------------------------------------------------
+
+
+const getTotalScoresByScore = async (score) => {
+  const { competitorId, problemId } = score;
+  const categoryIds = await getCategories.idsByProblemId(problemId);
+  const totalScores = await models.TotalScore.findAll({
+    where : {
+      [Op.and]: [
+        { competitorId },
+        { categoryId: categoryIds }
+      ]
+    }
+  })
+  return totalScores;
+}
+
+const updateTotalScores = async (updatedScore, change) => {
+  // const totalScore = await models.TotalScore.findByPk(6)
+  const totalScores = await getTotalScoresByScore(updatedScore);
+  // const updatedTotal = await totalScore.adjustBy(change);
+  console.log('total scores: ', sanitize(totalScores));
+  
+  const result = await Promise.all(totalScores.map((total) => total.adjustBy(change)));
+  return result;
+}
+
+
+
+
+// UPDATE
+// update a score
+// arguments : { scoreId, new score}
+const update = async (newScore) => {
+  const { scoreId } = newScore;
+  const oldScore = await models.Score.findByPk(scoreId);
+  const change = oldScore.difference(newScore);
+  const updatedScore = await oldScore.update(newScore);
+  const updatedTotalScores = await updateTotalScores(updatedScore, change);
+
+  console.log('updated total Scores: ', sanitize(updatedTotalScores) )
+  return updatedScore;
+}
+
 module.exports = {
   createOne,
   createMany,
-  remove
+  remove,
+  update
 }

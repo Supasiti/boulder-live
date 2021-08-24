@@ -19,7 +19,7 @@ const createOne = async (newProblem) => {
   const problemData = await models.Problem.create(newProblem);
   
   if ( 'categoryIds' in newProblem && newProblem.categoryIds.length) {
-    const newProblemAssignments = await createProblemAssignments(problemData.id, newProblem.categoryIds);
+    await createProblemAssignments(problemData.id, newProblem.categoryIds);
   }
   return problemData
 }

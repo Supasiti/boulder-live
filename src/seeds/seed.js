@@ -1,6 +1,5 @@
 const sequelize = require('../configs/sequelizeConnection');
 const seedCategory = require('./seedCategory');
-const seedCategoryPool = require('./seedCategoryPool');
 const seedCompetitor = require('./seedCompetitor');
 const seedEvent = require('./seedEvent');
 const seedOrganiser = require('./seedOrganiser');
@@ -38,9 +37,6 @@ const seedAll = async () => {
 
   await seedProblemAssignment();
   console.log('\n----- PROBLEM ASSIGNMENTS SEEDED -----\n');
-  
-  await seedCategoryPool();
-  console.log('\n----- CATEGORY POOLS SEEDED -----\n');
 
   await seedTotalScore();
   console.log('\n----- TOTAL SCORES SEEDED -----\n');

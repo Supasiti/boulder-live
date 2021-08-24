@@ -30,6 +30,22 @@ const withTotalScores = async (categoryId) => {
   return result[0];
 }
 
+// get all categories associated with this problemId 
+// argument : problemId
+// return 
+//  - Array<int> 
+const idsByProblemId = async (problemId) => {
+  const categoryIds = await models.ProblemAssignment.findAll({
+    where : { problemId : problemId },
+    attributes: ['categoryId']
+  })
+  const result = categoryIds.map(({ categoryId }) => categoryId )
+  return result;
+} 
+
+
+
 module.exports = {
-  withTotalScores
+  withTotalScores,
+  idsByProblemId
 }

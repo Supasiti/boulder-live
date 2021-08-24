@@ -23,4 +23,15 @@ describe('src/queries/getCategories', () => {
 
     })
   })
+
+  describe('byProblemId', () => {
+    it('should return a list of categories associated with a problem id', async () => {
+      const input = 5;
+      const expectedIds = [4];
+
+      const result = await getCategories.idsByProblemId(input);
+      
+      expect(result).toEqual(expect.arrayContaining(expectedIds));
+    })
+  })
 })

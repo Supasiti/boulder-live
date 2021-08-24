@@ -1,5 +1,4 @@
 const Category = require('./Category');
-const CategoryPool = require('./CategoryPool');
 const Competitor = require('./Competitor');
 const Event = require('./Event');
 const Organiser = require('./Organiser');
@@ -15,9 +14,6 @@ const User = require('./User');
 Event.hasMany(Category);
 Category.belongsTo(Event);
 
-// competitor - category
-Competitor.belongsToMany(Category, {through: CategoryPool});
-Category.belongsToMany(Competitor, {through: CategoryPool});
 
 //  user - competitor 
 User.hasMany(Competitor);
@@ -58,7 +54,6 @@ TotalScore.belongsTo(Category);
 
 module.exports = {
   Category,
-  CategoryPool,
   Competitor,
   Event, 
   Organiser, 

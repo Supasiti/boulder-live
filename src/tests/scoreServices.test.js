@@ -123,7 +123,6 @@ describe('src/services/scoreServices', () => {
       const expectedProblemIds = [2];
       const newScores = await score.createMany(inputCompetitorId, inputProblemIds);
 
-      console.log('new scores: ', sanitize(newScores) )
       const resultProblemIds = newScores.map(({ problemId }) => problemId);
       const resultCategoryId = newScores[0].competitorId;
 
@@ -132,4 +131,27 @@ describe('src/services/scoreServices', () => {
     })
 
   })
+
+
+  // update 
+  describe('update', () => {
+    
+    //
+    it('should update the score and the total score', async () => {
+
+      const input = {
+        scoreId : 11,
+        attempts: 4
+      }
+      const takeDownInput = {
+        scoreId : 11,
+        attempts: 3
+      }
+      const updatedScore = await score.update(input);
+      await score.update(takeDownInput);
+
+      expect(updatedScore.attempts).toEqual(input.attempts);
+    })
+  })
+
 })

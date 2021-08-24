@@ -1,7 +1,33 @@
 const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../configs/sequelizeConnection');
+const sanitize = require('../services/sanitize');
 
-class TotalScore extends Model {}
+class TotalScore extends Model {
+
+  // adjust the total score by the change
+  async adjustBy ( change ) {
+    const properties = {
+      tops: 'top', 
+      bonuses:'bonus', 
+      attemptTop: 'attemptTop', 
+      attemptBonus: 'attemptBonus', 
+      attempts: 'attempts'
+    };
+    const keys = Object.keys(properties);
+    const newTotalScore = keys.reduce((total, key) => { 
+      if (!(properties[key] in change)) return { ...total };
+
+      console.log('change:', change[properties[key]])
+      const changeInProperty = this[key] + change[properties[key]];
+      const result = { ...total, [key]: changeInProperty }
+      return result; 
+     }, {});
+    
+    console.log('new Total score: ', newTotalScore);
+    const result = await this.update(newTotalScore);
+    return result;
+  }
+}
 
 TotalScore.init(
   {
