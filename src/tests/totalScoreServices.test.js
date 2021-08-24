@@ -7,6 +7,7 @@ const models = require('../models');
 
 describe('src/services/totalScoreServices', () => {
 
+  // update Scores
   describe('updateScores', () => {
 
     // success condition

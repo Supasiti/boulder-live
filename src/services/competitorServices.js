@@ -116,7 +116,7 @@ const update = async (newCompetitor) => {
     }
   }
   return updatedCompetitor;
-}
+} 
 
 
 

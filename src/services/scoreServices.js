@@ -1,9 +1,7 @@
 const { Op } = require('sequelize');
 const models = require('../models');
 const getProblems = require('../queries/getProblems');
-const getTotalScores = require('../queries/getTotalScores');
 const totalScore = require('../services/totalScoreServices');
-const sanitize = require('./sanitize');
 
 // return true if there are duplicate
 const isDuplicate = async (newScore) => {
@@ -88,7 +86,6 @@ const filterProblemIds = async ( competitorId, problemIds ) => {
   return result;
 }
 
-
 // create new set of scores
 // arguments : competitorId, problemIds
 // return 
@@ -117,7 +114,6 @@ const remove = async (scoreId) => {
 }
 
 //----------------------------------------------------------------------------------------
-
 
 // UPDATE
 // update a score
