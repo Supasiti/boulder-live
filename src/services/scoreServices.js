@@ -2,6 +2,7 @@ const { Op } = require('sequelize');
 const models = require('../models');
 const getProblems = require('../queries/getProblems');
 const getTotalScores = require('../queries/getTotalScores');
+const totalScore = require('../services/totalScoreServices');
 const sanitize = require('./sanitize');
 
 // return true if there are duplicate
@@ -121,11 +122,11 @@ const remove = async (scoreId) => {
 // update total scores
 // arguments : new score, change
 // return - Array<TotalScore>
-const updateTotalScores = async (updatedScore, change) => {
-  const totalScores = await getTotalScores.byScore(updatedScore);  
-  const result = await Promise.all(totalScores.map((total) => total.adjustBy(change)));
-  return result;
-}
+// const updateTotalScores = async (updatedScore, change) => {
+//   const totalScores = await getTotalScores.byScore(updatedScore);  
+//   const result = await Promise.all(totalScores.map((total) => total.adjustBy(change)));
+//   return result;
+// }
 
 
 // UPDATE
@@ -136,7 +137,7 @@ const update = async (newScore) => {
   const oldScore = await models.Score.findByPk(scoreId);
   const change = oldScore.difference(newScore);
   const updatedScore = await oldScore.update(newScore);
-  await updateTotalScores(updatedScore, change);
+  await totalScore.updateScores(updatedScore, change);
   return updatedScore;
 }
 
