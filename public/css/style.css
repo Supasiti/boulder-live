@@ -1,0 +1,85 @@
+:root {
+  --spring:#E1EDBD;
+  --laurel: #B0CF98;
+  --asparagus: #82B068;
+  --russian: #719A5E;
+  --middle: #5A8559;
+  --amazon: #426D54;
+  --tapestry: #B06883;
+  --shakespeare:  #426471;
+  --border-radius: 4px;
+
+}
+
+html {
+  font-size: 90%;
+  scroll-behavior: smooth;
+}
+body {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  /* background-color: var(--middle); */
+}
+
+h1,
+h2,
+h3,
+h4,
+p, a {
+  /* color: var(--laurel); */
+  letter-spacing: 1px;
+  line-height: 1.4;
+}
+
+h1 {
+  font-size: 6rem;
+  font-weight: 200;
+  line-height: 1.4;
+  text-transform: uppercase;
+  /* color: var(--shakespeare); */
+}
+h2 { font-size: 2rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+p { font-size: 1.2rem; }
+a {
+  font-size: 1.2rem;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* background */
+.bg-spring {
+  background-color: var(--spring);
+}
+.bg-lauren {
+  background-color: var(--laurel);
+}
+.bg-asparagus {
+  background-color: var(--asparagus);
+}
+.bg-russian {
+  background-color: var(--russian);
+}
+.bg-middle {
+  background-color: var(--middle);
+}
+.bg-amazon {
+  background-color: var(--amazon);
+}
+
+/* text */
+.text-tapestry {
+  color: var(--tapestry)
+}
+
+
+
+.form-signin {
+  width: 100%;
+  max-width: 400px;
+  padding: 15px;
+  margin: auto;
+  text-align: center;
+}

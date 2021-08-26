@@ -1,5 +1,5 @@
-const getTotalScores = require('../queries/getTotalScores');
-const models = require('../models/Score')
+const getTotalScores = require('../src/queries/getTotalScores');
+const models = require('../src/models/Score')
 
 describe('src/queries/getTotalScores', () => {
   

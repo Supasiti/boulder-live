@@ -1,6 +1,6 @@
 const { Op } = require('sequelize');
 const models = require('../models');
-const getCategories = require('../queries/getCategories');
+const getCategories = require('./getCategories');
 
 
 // get associated total scores with score

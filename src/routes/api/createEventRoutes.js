@@ -1,5 +1,5 @@
 const express = require('express');
-const createEvent = require('../queries/getEvents')
+const createEvent = require('../../queries/getEvents')
 const router = express.Router();
 
 // --------------------------------------
