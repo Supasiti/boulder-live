@@ -1,5 +1,5 @@
 <div class="form-signin mt-5">
-  <form class="login-form" novalidate>
+  <form id="signup-form" novalidate>
     <h2 class="h3 mb-3 fw-normal">Please enter your details</h2>
 
     {{> usernameInput }}
@@ -13,7 +13,9 @@
     </button>
 
   </form>
-  {{!-- script for form here --}}
 
   <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
 </div>
+
+<script src="/js/addFormValidation.js"></script>
+<script src="/js/signup.js"></script>

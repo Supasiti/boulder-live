@@ -6,11 +6,11 @@ const router = require('express').Router();
 // route:  /
 
 // homepage
+// TODO : if already login --> kick to dashboard
 router.get('/', async (req, res) => {
   try {
     res.render('homepage', {
-      pageTitle: 'Boulder Live',
-      // loggedIn: req.session.logged_in,
+      pageTitle: 'Boulder Live'
     });
   } catch (err) {
     res.status(500).json(err);
@@ -20,12 +20,11 @@ router.get('/', async (req, res) => {
 // signup page
 router.get('/signup', (req, res) => {
   // if (req.session.logged_in) {
-  //   res.redirect('/');
+  //   res.redirect('/dashboard');
   //   return;
   // }
   res.render('signup', {
     pageTitle: 'Boulder Live',
-    // loggedIn: req.session.logged_in,
   });
 });
 
