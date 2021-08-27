@@ -1,0 +1,123 @@
+<div class="container d-flex flex-wrap justify-content-between mb-5">
+  <h2 class="d-inline"> Your Event</h2>
+</div>
+
+
+{{!-- Tab  --}}
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <button 
+      class="nav-link active" 
+      id="description-tab" 
+      data-bs-toggle="tab" 
+      data-bs-target="#description" 
+      type="button" 
+      role="tab" 
+      aria-controls="description" 
+      aria-selected="true">
+      Description
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button 
+      class="nav-link" 
+      id="category-tab" 
+      data-bs-toggle="tab" 
+      data-bs-target="#category" 
+      type="button" 
+      role="tab" 
+      aria-controls="category" 
+      aria-selected="false">
+      Categories
+    </button>
+  </li>
+  <li class="nav-item" role="presentation">
+    <button 
+      class="nav-link" 
+      id="problem-tab" 
+      data-bs-toggle="tab" 
+      data-bs-target="#problem" 
+      type="button" 
+      role="tab" 
+      aria-controls="problem" 
+      aria-selected="false">
+      Problems
+    </button>
+  </li>
+</ul>
+
+{{!-- tab content --}}
+<div class="tab-content" id="myTabContent">
+  
+  {{!-- description --}}
+  <div 
+    class="tab-pane fade show active" 
+    id="description" role="tabpanel" aria-labelledby="home-tab">
+    
+    <form id="event-description-form" class="px-3 py-5" novalidate>
+
+      <div class="row mb-3">
+        <label for="event-name-input" 
+          class="col-sm-2 col-form-label">
+          Event Name
+        </label>
+        
+        <div class="col-sm-10">
+          <input type="text" class="form-control" 
+            id="event-name-input" placeholder="Your Event Name">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label for="event-location-input" 
+          class="col-sm-2 col-form-label">
+          Location
+        </label>
+        
+        <div class="col-sm-10">
+          <input type="text" class="form-control" 
+            id="event-description-input" placeholder="Bouldering Gym">
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label for="event-status-input" 
+          class="col-sm-2 col-form-label">
+          Status
+        </label>
+        
+        <div class="col-sm-10">
+          <select id="event-status-input" class="form-select">
+            <option selected>Choose...</option>
+            <option value="pending">Pending</option>
+            <option value="open">Open</option>
+            <option value="running">Running</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="ended">Ended</option>
+          </select>
+        </div>
+      </div>
+
+      <button
+        id="save-event-description-btn"
+        class="btn btn-lg btn-primary" 
+        type="submit">
+        Save
+      </button>
+    </form>
+  </div>
+
+  {{!-- category --}}
+  <div 
+    class="tab-pane fade" 
+    id="category" role="tabpanel" aria-labelledby="profile-tab">
+    
+  </div>
+  
+  {{!-- problem --}}
+  <div 
+    class="tab-pane fade" 
+    id="problem" role="tabpanel" aria-labelledby="contact-tab">
+    
+  </div>
+</div>
