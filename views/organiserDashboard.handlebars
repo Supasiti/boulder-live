@@ -14,7 +14,7 @@
   <h3 class="mt-4">Your Running Events</h3>
   {{#> eventTable}}
     {{#each runningEvents as | event |}}
-      {{> eventTableRow  canDelete=false }}
+      {{> eventTableRow  canDelete=true }}
     {{/each }}
   {{/eventTable}}
 </div>
