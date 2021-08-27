@@ -1,0 +1,15 @@
+<tr>
+  <th scope="row">{{id}}</th>
+  <td>{{name}}</td>
+  <td>{{location}}</td>
+  <td>
+    {{#if canEdit }} 
+      <i class="far fa-edit"></i> 
+    {{/if }} 
+  </td>
+  <td>
+    {{#if canDelete }} 
+      <i class="far fa-trash-alt"></i> 
+    {{/if }}
+  </td>
+</tr>

@@ -30,8 +30,6 @@ const renderOrganiserDashboard = async (req, res) => {
   const futureEvents = getFutureEvents(cleanedEventData);
   const pastEvents = getPastEvents(cleanedEventData);
 
-  console.log(runningEvents);
-  
   res.render('organiserDashboard', {
     loggedIn: req.session.logged_in,
     user: req.session.user,
