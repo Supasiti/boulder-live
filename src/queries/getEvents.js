@@ -28,13 +28,13 @@ const byIds = async (eventIds) => {
 //  - Event
 const byId = async (eventId) => {
   const result = await models.Event.findAll({ 
-    where: { id: eventIds},
+    where: { id: eventId},
     include: {
       model: models.Category,
       include: models.Problem
     }
   })
-  return result;
+  return result[0];
 }
 
 // get all event organised by a user

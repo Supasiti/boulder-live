@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const withAuth = require('../../utils/auth');
 const dashboardRouter = require('./dashboardRoutes');
-
+const eventRouter = require('./eventRoutes');
 
 // route:  /
 
@@ -44,5 +44,6 @@ router.get('/', renderHomePage);
 router.get('/signup', renderSignUpPage);
 router.get('/purpose', withAuth, renderPurposePage);
 router.use('/dashboard', dashboardRouter);
+router.use('/events/', eventRouter)
 
 module.exports = router;
