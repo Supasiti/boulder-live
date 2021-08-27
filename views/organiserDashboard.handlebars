@@ -14,7 +14,7 @@
   <h3 class="mt-4">Your Running Events</h3>
   {{#> eventTable}}
     {{#each runningEvents as | event |}}
-      {{> eventTableRow canEdit=true canDelete=false }}
+      {{> eventTableRow  canDelete=false }}
     {{/each }}
   {{/eventTable}}
 </div>
@@ -25,7 +25,7 @@
   <h3 class="mt-4">Your Future Events</h3>
   {{#> eventTable}}
     {{#each futureEvents as | event |}}
-      {{> eventTableRow canEdit=true canDelete=true }}
+      {{> eventTableRow  canDelete=true }}
     {{/each }}
   {{/eventTable}}
 </div>
@@ -35,7 +35,10 @@
 <h3 class="mt-4">Your Past Events</h3>
 {{#> eventTable}}
   {{#each pastEvents as | event |}}
-    {{> eventTableRow canEdit=true canDelete=false}}
+    {{> eventTableRow  canDelete=false}}
   {{/each }}
 {{/eventTable}}
 </div>
+
+
+<script src="/js/goToEditEvent.js"></script>
