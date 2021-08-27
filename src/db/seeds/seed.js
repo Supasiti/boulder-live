@@ -1,4 +1,4 @@
-const sequelize = require('../configs/sequelizeConnection');
+const sequelize = require('../../configs/sequelizeConnection');
 const seedCategory = require('./seedCategory');
 const seedCompetitor = require('./seedCompetitor');
 const seedEvent = require('./seedEvent');

@@ -7,8 +7,8 @@
     "test": "jest --watch",
     "start": "node server.js",
     "mon": "nodemon server.js",
-    "seed" : "node src/seeds/seed.js",
-    "setup" : "node src/db/initDB.js && node src/seeds/seed.js"
+    "seed" : "node src/db/seeds/seed.js",
+    "setup" : "node src/db/initDB.js && node src/db/seeds/seed.js"
   },
   "repository": {
     "type": "git",

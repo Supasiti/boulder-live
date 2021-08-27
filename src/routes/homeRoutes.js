@@ -1,16 +1,20 @@
 const router = require('express').Router();
-// const withAuth = require('../../utils/auth');
+const withAuth = require('../../utils/auth');
 // const sanitize = require('../services/sanitize');
 
 
 // route:  /
 
 // homepage
-// TODO : if already login --> kick to dashboard
 router.get('/', async (req, res) => {
+  if (req.session.logged_in) {
+    res.redirect('/purpose');
+    return;
+  }
   try {
     res.render('homepage', {
-      pageTitle: 'Boulder Live'
+      pageTitle: 'Boulder Live',
+      loggedIn: req.session.logged_in
     });
   } catch (err) {
     res.status(500).json(err);
@@ -19,13 +23,23 @@ router.get('/', async (req, res) => {
 
 // signup page
 router.get('/signup', (req, res) => {
-  // if (req.session.logged_in) {
-  //   res.redirect('/dashboard');
-  //   return;
-  // }
+  if (req.session.logged_in) {
+    res.redirect('/purpose');
+    return;
+  }
   res.render('signup', {
     pageTitle: 'Boulder Live',
+    loggedIn: req.session.logged_in
   });
 });
+
+// purpose
+router.get('/purpose', withAuth, (req, res) => {
+  res.render('purpose', {
+    pageTitle: 'Boulder Live',
+    loggedIn: req.session.logged_in
+  });
+});
+
 
 module.exports = router;

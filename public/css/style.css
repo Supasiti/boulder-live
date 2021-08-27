@@ -29,6 +29,7 @@ h4,
 p, a {
   /* color: var(--laurel); */
   letter-spacing: 1px;
+  margin: 0px;
   line-height: 1.4;
 }
 

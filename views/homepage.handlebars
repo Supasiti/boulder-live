@@ -5,10 +5,10 @@
   
   {{!-- login form --}}
   <div class="form-signin mt-4">
-    <form class="login-form" novalidate>
+    <form id="login-form" novalidate>
       <h2 class="h3 mb-3 fw-normal">Please sign in</h2>
 
-      {{> usernameInput }}
+      {{> emailInput }}
       {{> passwordInput }}
 
       <button 
@@ -26,3 +26,4 @@
 </div>
 
 <script src="/js/addFormValidation.js"></script>
+<script src="/js/login.js"></script>
