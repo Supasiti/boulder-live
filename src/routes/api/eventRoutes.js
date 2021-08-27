@@ -1,5 +1,5 @@
 const express = require('express');
-const getEvents = require('../queries/getEvents')
+const getEvents = require('../../queries/getEvents')
 const createEventRouter = require('./createEventRoutes')
 
 const router = express.Router();
@@ -8,7 +8,7 @@ const router = express.Router();
 // --------------------------------------
 // GET - will return a list of all events 
 
-const handleGetRequest = (req, res) => {
+const getAllEvents = async (req, res) => {
   try {
     const events = await getEvents.all();
     res.status(200).json(events);
@@ -20,7 +20,7 @@ const handleGetRequest = (req, res) => {
 
 
 // requests
-router.get('/', handleGetRequest);
+router.get('/', getAllEvents);
 router.get('/create', createEventRouter);
 
 module.exports = router;

@@ -19,7 +19,15 @@ const all = async () => {
 // return 
 //  - Array<Event>
 const byIds = async (eventIds) => {
-  const result = await models.Event.findAll({
+  const result = await models.Event.findAll({ where: { id: eventIds} })
+  return result;
+}
+
+// get an event with an id
+// return 
+//  - Event
+const byId = async (eventId) => {
+  const result = await models.Event.findAll({ 
     where: { id: eventIds},
     include: {
       model: models.Category,
@@ -58,6 +66,7 @@ const competedByUser = async (userId) => {
 
 module.exports = {
   all,
+  byId,
   byIds,
   organisedByUser,
   competedByUser

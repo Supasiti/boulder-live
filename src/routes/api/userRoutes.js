@@ -65,7 +65,20 @@ const getAllUsers = async (req, res) => {
 };
 
 
+const savePurpose = async (req, res) => {
+  try {
+    req.session.save(() => {
+      req.session.purpose = req.body.purpose;
+      res.json({ message: 'Sucessfully, registered your purpose' });
+    });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+}
+
+
 // requests
+router.post('/purpose', savePurpose)
 router.post('/signup', createNewUser); 
 router.post('/login', checkLogin);
 router.post('/logout', logUserOut)
