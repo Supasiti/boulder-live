@@ -7,7 +7,13 @@ const format_date = (date) => {
   return newDate.toLocaleDateString();
 };
 
+const capitalise = (str) => {
+  const result = str[0].toUpperCase() + str.substr(1);
+  return result;
+}
+
 module.exports = {
   format_time,
-  format_date
+  format_date,
+  capitalise
 };

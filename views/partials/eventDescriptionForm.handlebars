@@ -1,0 +1,53 @@
+  <form id="event-description-form" class="px-3 py-5" novalidate>
+
+    <div class="row mb-3">
+      <label for="event-name-input" 
+        class="col-sm-2 col-form-label">
+        Event Name
+      </label>
+      
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="event-name-input" 
+          placeholder="Your Event Name" value="{{name}}">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="event-location-input" 
+        class="col-sm-2 col-form-label">
+        Location
+      </label>
+      
+      <div class="col-sm-10">
+        <input type="text" class="form-control" 
+        id="event-description-input" placeholder="Bouldering Gym" 
+        value="{{location}}">
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label for="event-status-input" 
+        class="col-sm-2 col-form-label">
+        Status
+      </label>
+      
+      <div class="col-sm-10">
+        <select id="event-status-input" 
+          class="form-select" >
+          <option selected>{{capitalise status}}</option>
+          <option value="pending">Pending</option>
+          <option value="open">Open</option>
+          <option value="running">Running</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="ended">Ended</option>
+        </select>
+      </div>
+    </div>
+
+    <button
+      id="save-event-description-btn"
+      class="btn btn-lg btn-primary" 
+      type="submit">
+      Save
+    </button>
+  </form>

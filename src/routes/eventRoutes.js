@@ -8,7 +8,8 @@ const sanitize = require('../services/sanitize');
 
 const renderOrganiserEventPage = async (req, res) => {
   const eventId = req.params.eventId;
-  const eventData = await getEvents.byId(eventId);
+  const rawEventData = await getEvents.byId(eventId);
+  const eventData = sanitize(rawEventData);
   res.render('eventpage', {
     loggedIn: req.session.logged_in,
     event: eventData
