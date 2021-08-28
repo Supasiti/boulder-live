@@ -1,10 +1,11 @@
-const express = require('express');
-const app = express();
-const events = require('./eventRoutes');
+const router = require('express').Router();
+
+const eventRoutes = require('./eventRoutes');
 const userRoutes = require('./userRoutes');
+const categoryRoutes = require('./categoryRoutes');
 
-app.use('/events', events);
-app.use('/users', userRoutes);
+router.use('/events', eventRoutes);
+router.use('/users', userRoutes);
+router.use('/categories', categoryRoutes);
 
-
-module.exports = app;
+module.exports = router;

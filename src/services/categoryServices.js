@@ -20,6 +20,17 @@ const createMany = async (newCategories) => {
   return categoryData;
 }
 
+// combine the two methods above
+
+const create = async (newCategories) => {
+  if (newCategories instanceof Array) {
+    const result = await createMany(newCategories);
+    return result;
+  } 
+  const result = await createOne(newCategories);
+  return result;
+}
+
 // remove an event from id
 // return 
 //  - int
@@ -46,6 +57,7 @@ const update = async (newCategory, categoryId) => {
 module.exports = {
   createOne,
   createMany,
+  create,
   update,
   remove
 }

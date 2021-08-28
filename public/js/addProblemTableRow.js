@@ -24,13 +24,13 @@ const addProblemTableRow = (event) => {
     tableCell.addEventListener('click', deleteTableRow)
     return tableCell;
   } 
-  
+
   // create category table row
   const createTableRow = () => {
     const tableRow = document.createElement('tr');
     tableRow.innerHTML = `<th scope="row"></th>
   <td>
-    <input type="text" placeholder="Name"
+    <input type="text" placeholder="Name" data-input="name"
       class="form-control category-name-input">
   </td>
   <td class="text-end"></td>`

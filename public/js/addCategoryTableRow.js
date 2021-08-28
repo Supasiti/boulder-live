@@ -30,21 +30,24 @@ const addCategoryTableRow = (event) => {
     const tableRow = document.createElement('tr');
     tableRow.innerHTML = `<th scope="row"></th>
   <td>
-    <input type="text" placeholder="Name"
-      class="form-control category-name-input">
+    <input type="text" placeholder="Name" data-input="name"
+      class="form-control" required>
   </td>
   <td>
-    <input type="text" placeholder="yyyy-mm-dd" 
-      class="form-control category-start-date-input" >
+    <input type="text" placeholder="yyyy-mm-dd" data-input="start_date"
+      class="form-control" required>
   </td>
   <td>
-    <input type="text" class="form-control" placeholder="18:00" >
+    <input type="text" class="form-control" data-input="start_time"
+      placeholder="18:00" required>
   </td>
   <td>
-    <input type="text" class="form-control" placeholder="yyyy-mm-dd" >
+    <input type="text" class="form-control" data-input="end_date"
+      placeholder="yyyy-mm-dd" required>
   </td>
   <td>
-    <input type="text" class="form-control" placeholder="23:00" >
+    <input type="text" class="form-control" data-input="end_time"
+      placeholder="23:00" required>
   </td>
   <td class="text-end"></td>`
     const buttonCell = createDeleteBtnCell();

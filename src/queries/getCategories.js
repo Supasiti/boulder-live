@@ -1,5 +1,4 @@
 const models = require('../models');
-const totalScore = require('../services/totalScore');
 const sanitize = require('../services/sanitize');
 
 
@@ -44,8 +43,13 @@ const idsByProblemId = async (problemId) => {
 } 
 
 
+const all = async () => {
+  const result = await models.Category.findAll();
+  return result;
+}
 
 module.exports = {
+  all,
   withTotalScores,
   idsByProblemId
 }
