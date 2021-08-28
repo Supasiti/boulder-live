@@ -10,6 +10,9 @@ const renderOrganiserEventPage = async (req, res) => {
   const eventId = req.params.eventId;
   const rawEventData = await getEvents.byId(eventId);
   const eventData = sanitize(rawEventData);
+
+  console.log('\nEventPage Data: ', eventData )
+  
   res.render('eventpage', {
     loggedIn: req.session.logged_in,
     event: eventData

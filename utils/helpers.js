@@ -1,10 +1,17 @@
 const format_time = (date) => {
-  return date.toLocaleTimeString();
+  if (date instanceof Date) {
+    const newDate = date;
+    return newDate.toLocaleTimeString();
+  } 
+  return '';
 };
 
 const format_date = (date) => {
-  const newDate = date;
-  return newDate.toLocaleDateString();
+  if (date instanceof Date) {
+    const newDate = date;
+    return newDate.toLocaleDateString();
+  } 
+  return '';
 };
 
 const capitalise = (str) => {
