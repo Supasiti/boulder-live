@@ -26,6 +26,7 @@ const byCompetitorId = async (competitorId) => {
   return result;
 }
 
+
 module.exports = {
   byIds,
   byCompetitorId

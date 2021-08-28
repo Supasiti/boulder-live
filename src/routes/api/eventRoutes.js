@@ -1,6 +1,7 @@
 const express = require('express');
-const getEvents = require('../../queries/getEvents')
-const createEventRouter = require('./createEventRoutes')
+const getEvents = require('../../queries/getEvents');
+const createEventRouter = require('./createEventRoutes');
+const sanitize = require('../../services/sanitize');
 
 const router = express.Router();
 
@@ -10,7 +11,8 @@ const router = express.Router();
 
 const getAllEvents = async (req, res) => {
   try {
-    const events = await getEvents.all();
+    const rawEvents = await getEvents.all();
+    const events = sanitize(rawEvents);
     res.status(200).json(events);
   } catch (err){
     res.status(500).json(err)

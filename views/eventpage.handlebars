@@ -7,40 +7,25 @@
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
       <button 
-        class="nav-link active" 
-        id="description-tab" 
-        data-bs-toggle="tab" 
-        data-bs-target="#description" 
-        type="button" 
-        role="tab" 
-        aria-controls="description" 
-        aria-selected="true">
+        class="nav-link active" id="description-tab" data-bs-toggle="tab" 
+        data-bs-target="#description" type="button" role="tab" 
+        aria-controls="description" aria-selected="true">
         Description
       </button>
     </li>
     <li class="nav-item" role="presentation">
       <button 
-        class="nav-link" 
-        id="category-tab" 
-        data-bs-toggle="tab" 
-        data-bs-target="#category" 
-        type="button" 
-        role="tab" 
-        aria-controls="category" 
-        aria-selected="false">
+        class="nav-link"  id="category-tab" data-bs-toggle="tab" 
+        data-bs-target="#category" type="button" role="tab" 
+        aria-controls="category" aria-selected="false">
         Categories
       </button>
     </li>
     <li class="nav-item" role="presentation">
       <button 
-        class="nav-link" 
-        id="problem-tab" 
-        data-bs-toggle="tab" 
-        data-bs-target="#problem" 
-        type="button" 
-        role="tab" 
-        aria-controls="problem" 
-        aria-selected="false">
+        class="nav-link" id="problem-tab" data-bs-toggle="tab" 
+        data-bs-target="#problem" type="button" role="tab" 
+        aria-controls="problem" aria-selected="false">
         Problems
       </button>
     </li>
@@ -61,85 +46,7 @@
       class="tab-pane fade" 
       id="category" role="tabpanel" aria-labelledby="profile-tab">
       
-      <!-- <form id="event-category-form" class="px-3 py-5" novalidate>
-
-        <div class="row mb-2">
-          <div class="col-sm-5">Name</div>
-          <div class="col-sm-3">Start Date - Time</div>
-          <div class="col-sm-3">End  Date - Time</div>
-          <div class="col-sm-1"></div>
-        </div>
-
-        <div class="row mb-2">
-          <div class="col-sm-5">
-            <input type="text" class="form-control" placeholder="Name" >
-          </div>
-          <div class="col-sm-3">
-            <input type="text" class="form-control" placeholder="yyyy/mm/dd hh:mm" >
-          </div>
-          <div class="col-sm-3">
-            <input type="text" class="form-control" placeholder="yyyy/mm/dd hh:mm" >
-          </div>
-        </div>
-        
-      
-      </form>-->
-      <form id="event-category-form" class="px-3 py-4" novalidate>
-        {{#> categoryTable}}
-          {{#each categories}}
-            {{> categoryTableRow  }}
-          {{/each }}
-
-
-          <tr>
-            <th scope="row"></th>
-            <td>
-              <input type="text" placeholder="Name"
-                class="form-control category-name-input">
-            </td>
-            <td>
-              <input type="text" placeholder="yyyy-mm-dd" 
-                class="form-control category-start-date-input" >
-            </td>
-            <td>
-              <input type="text" class="form-control" placeholder="18:00" >
-            </td>
-            <td>
-              <input type="text" class="form-control" placeholder="yyyy-mm-dd" >
-            </td>
-            <td>
-              <input type="text" class="form-control" placeholder="23:00" >
-            </td>
-            <td class="text-end">
-    
-            </td>
-            <td class="text-end">
-              <button 
-                class=" btn btn-sm btn-light" 
-                type="button">
-                <i class="far fa-trash-alt"></i>
-              </button>
-            </td>
-          </tr>
-        {{/categoryTable}}
-
-        <div class="d-flex justify-content-center">
-          <button 
-            id="btn-add-category-table-row"
-            class="btn btn-primary mx-3" 
-            type="button">
-            Add Row
-          </button>
-          <button 
-            class="btn btn-primary mx-3" 
-            type="button">
-            Save
-          </button>
-        </div>
-      </form>
-      
-      
-      <script src="/js/addCategoryTableRow.js"></script>
+      {{> eventCategoryForm }}
     </div>
     
     {{!-- problem --}}
@@ -147,6 +54,7 @@
       class="tab-pane fade" 
       id="problem" role="tabpanel" aria-labelledby="contact-tab">
       
+      {{> eventProblemForm }}
     </div>
   </div>
 

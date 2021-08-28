@@ -33,9 +33,22 @@ const generateSet = function () {
   }, []);
 }
 
+// create a set from arrays of items/arrays using ID
+//  - need to use function due to scope of 'arguments'
+// return 
+//  - Array<..>
+const generateSetById = function () { 
+  const duplicates = [].concat(...arguments);
+  return duplicates.reduce((acc, cur) => {
+    const ids = acc.map(({ id }) => id);
+    return ids.includes(cur.id)? [...acc] : [...acc, cur]
+  }, []);
+}
+
 module.exports = {
   appendTo,
   appendOrUpdate,
   concatOrUpdate,
-  generateSet
+  generateSet,
+  generateSetById
 }

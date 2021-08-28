@@ -2,16 +2,14 @@ const router = require('express').Router();
 const withAuth = require('../../utils/auth');
 const withPurpose = require('../../utils/withPurpose');
 const getEvents = require('../queries/getEvents');
+const eventServices = require('../services/eventServices');
 const sanitize = require('../services/sanitize');
 
 // routes: /events/
 
 const renderOrganiserEventPage = async (req, res) => {
   const eventId = req.params.eventId;
-  const rawEventData = await getEvents.byId(eventId);
-  const eventData = sanitize(rawEventData);
-
-  console.log('\nEventPage Data: ', eventData )
+  const eventData = await eventServices.getOne(eventId);
   
   res.render('eventpage', {
     loggedIn: req.session.logged_in,
