@@ -31,7 +31,7 @@ const addProblemTableRow = (event) => {
     tableRow.innerHTML = `<th scope="row"></th>
   <td>
     <input type="text" placeholder="Name" data-input="name"
-      class="form-control category-name-input">
+      class="form-control">
   </td>
   <td class="text-end"></td>`
     const buttonCell = createDeleteBtnCell();

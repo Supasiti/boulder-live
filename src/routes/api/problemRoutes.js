@@ -19,7 +19,6 @@ const createProblems = async (req, res) => {
 // get all 
 const getAllProblems = async (req, res) => {
   try {
-    console.log('get all problems')
     const rawProblems = await getProblems.all();
     const problems = sanitize(rawProblems);
     res.status(200).json(problems)
