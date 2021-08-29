@@ -29,6 +29,14 @@
         Problems
       </button>
     </li>
+    <li class="nav-item" role="presentation">
+      <button 
+        class="nav-link" id="assignment-tab" data-bs-toggle="tab" 
+        data-bs-target="#assignment" type="button" role="tab" 
+        aria-controls="assignment" aria-selected="false">
+        Problem Assignments
+      </button>
+    </li>
   </ul>
 
   {{!-- tab content --}}
@@ -56,6 +64,15 @@
       
       {{> eventProblemForm }}
     </div>
+
+    {{!-- problem assignment --}}
+    <div 
+      class="tab-pane fade" 
+      id="assignment" role="tabpanel" aria-labelledby="contact-tab">
+      
+      {{> eventProblemAssignmentForm }}
+    </div>
+
   </div>
 
 {{/with}}

@@ -74,6 +74,9 @@ a {
 .text-tapestry {
   color: var(--tapestry)
 }
+.text-vertical {
+  transform: rotate(-90deg);
+}
 
 td, th {
   vertical-align: middle;

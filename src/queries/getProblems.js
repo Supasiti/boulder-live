@@ -41,7 +41,7 @@ const byEventId = async (eventId) => {
   const result = await models.Problem.findAll({
     where : { eventId: eventId },
     include: [ models.ProblemAssignment ],
-    order: [['name', 'ASC']]
+    order: [['id', 'ASC']]
   });
   return result;
 }
