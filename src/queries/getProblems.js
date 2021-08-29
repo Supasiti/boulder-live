@@ -1,5 +1,5 @@
 const models = require('../models');
-const utils = require('../utils/arrayUtils');
+const utils = require('../../utils/arrayUtils');
 const sanitize = require('../services/sanitize');
 
 // get problems from ids
@@ -26,8 +26,17 @@ const byCompetitorId = async (competitorId) => {
   return result;
 }
 
+// get all the problems 
+// return 
+//  - Array<Problem>
+const all = async () => {
+  const result = await models.Problem.findAll();
+  return result;
+}
+
 
 module.exports = {
+  all,
   byIds,
   byCompetitorId
 }

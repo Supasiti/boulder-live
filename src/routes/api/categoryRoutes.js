@@ -7,7 +7,6 @@ const sanitize = require('../../services/sanitize');
 
 const createCategories = async (req, res) => {
   try {
-    console.log(req.body);
     const rawCategories = await categoryServices.create(req.body);
     const cleanedCategories = sanitize(rawCategories);
     res.status(200).json(cleanedCategories)

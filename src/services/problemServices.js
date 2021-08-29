@@ -11,17 +11,12 @@ const createProblemAssignments = async (problemId, categoryIds) => {
 
 
 // create a new problem
-// arguments : name, categoryIds
+// arguments : { name }
 // return 
 //  - Problem 
 const createOne = async (newProblem) => {
-
-  const problemData = await models.Problem.create(newProblem);
-  
-  if ( 'categoryIds' in newProblem && newProblem.categoryIds.length) {
-    await createProblemAssignments(problemData.id, newProblem.categoryIds);
-  }
-  return problemData
+  const result = await models.Problem.create(newProblem);
+  return result;
 }
 
 // create new problems
@@ -29,9 +24,20 @@ const createOne = async (newProblem) => {
 // return 
 //  - Problem 
 const createMany = async (newProblems) => {
+  const result = await models.Problem.bulkCreate(newProblems);
+  return result;
+}
 
-  const problemsData = await models.Problem.bulkCreate(newProblems);
-  return problemsData
+
+// combine the two methods above
+
+const create = async (newProblems) => {
+  if (newProblems instanceof Array) {
+    const result = await createMany(newProblems);
+    return result;
+  } 
+  const result = await createOne(newProblems);
+  return result;
 }
 
 // remove a problem from id
@@ -111,6 +117,7 @@ const update = async (newProblem) => {
 module.exports = {
   createOne,
   createMany,
+  create,
   update,
   remove
 }

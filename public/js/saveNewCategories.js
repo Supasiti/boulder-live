@@ -5,6 +5,7 @@ const handleSaveCategories = async (event) => {
   event.preventDefault();
 
   const parseDate = (dateStr, timeStr) => {
+    // it is better to split the string instead of passing them directly
     const [year, month, day] = dateStr.split('-');
     const [hour, minute] = timeStr.split(':');
     const result = new Date(year, month-1, day, hour, minute, 0);
@@ -19,6 +20,24 @@ const handleSaveCategories = async (event) => {
     return result;
   }
 
+  const getCategoryDataFromInput = (input, eventId) => {
+    return { 
+      name: input.name,
+      start: parseDate(input.start_date, input.start_time),
+      end: parseDate(input.end_date, input.end_time),
+      eventId
+    }
+  }
+
+  const extractInputsFromCells = (cells) => {
+    return cells.reduce((acc, cell) => {
+      const key = cell.getAttribute('data-input');
+      const value = cell.value.trim();
+      const result = {...acc, [key]: value};
+      return result;
+    }, {});
+  };
+
   // extract data from each row
   // return Object data for category
   const getNewCategoryData = (row, eventId) => {
@@ -26,20 +45,12 @@ const handleSaveCategories = async (event) => {
     if (row.hasAttribute('data-categoryid')) return null;
 
     const inputCells = [...row.querySelectorAll('input')];
-    const inputObject = inputCells.reduce((acc, cell) => {
-      const key = cell.getAttribute('data-input');
-      const value = cell.value.trim();
-      const result = {...acc, [key]: value};
-      return result;
-    }, {})
-    const result = { 
-      name: inputObject.name,
-      start: parseDate(inputObject.start_date, inputObject.start_time),
-      end: parseDate(inputObject.end_date, inputObject.end_time),
-      eventId
-    }
-    return result;
+    const inputObject = extractInputsFromCells(inputCells)
+    return getCategoryDataFromInput(inputObject, eventId)
   };
+
+  // ----------------
+  // combine 
 
   const eventId = getEventId();
   const tableBody = event.target.closest('form').querySelector('tbody');
@@ -48,7 +59,6 @@ const handleSaveCategories = async (event) => {
     .map((row) => getNewCategoryData(row, eventId))
     .filter((item) => item );
   
-  console.log(categoryData);
 
   const response = await fetch('/api/categories', {
     method: 'POST',
