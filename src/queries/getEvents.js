@@ -1,17 +1,12 @@
 const models = require('../models')
 
 
-// get all event
+// get all event - with categories
 // return 
 //  - Array<Event>
 const all = async () => {
   const eventData = await models.Event.findAll({
-    include: [
-      {
-        model: models.Category,
-        include: models.Problem
-      }
-    ] 
+    include: [ models.Category ]
   })
   return eventData;
 }
@@ -30,11 +25,8 @@ const byIds = async (eventIds) => {
 //  - Event
 const byId = async (eventId) => {
   const result = await models.Event.findAll({ 
-    where: { id: eventId},
-    include: {
-      model: models.Category,
-      include: models.Problem
-    }
+    where: { id: eventId },
+    include: { model: models.Category }
   })
   return result[0];
 }

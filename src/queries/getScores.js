@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
-const models = require('../models');
-const totalScore = require('../services/totalScore')
+const models = require('../models'); 
 
 // return
 //  - Array<Score>

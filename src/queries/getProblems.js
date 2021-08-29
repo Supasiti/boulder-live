@@ -34,9 +34,21 @@ const all = async () => {
   return result;
 }
 
+// get all the problems for a particular event
+// return 
+//  - Array<Problem>
+const byEventId = async (eventId) => {
+  const result = await models.Problem.findAll({
+    where : { eventId: eventId },
+    include: [ models.ProblemAssignment ],
+    order: [['name', 'ASC']]
+  });
+  return result;
+}
 
 module.exports = {
   all,
   byIds,
-  byCompetitorId
+  byCompetitorId,
+  byEventId
 }

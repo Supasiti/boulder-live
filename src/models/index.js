@@ -31,9 +31,13 @@ Organiser.belongsTo(User);
 Event.hasMany(Organiser);
 Organiser.belongsTo(Event);
 
-// category - problem
-Category.belongsToMany(Problem, {through: 'problem_assignment'});
-Problem.belongsToMany(Category, {through: 'problem_assignment'});
+// category - problem_assignment
+Category.hasMany(ProblemAssignment);
+ProblemAssignment.belongsTo(Category);
+
+// problem - problem_assignment
+Problem.hasMany(ProblemAssignment);
+ProblemAssignment.belongsTo(Problem);
 
 // competior - score 
 Competitor.hasMany(Score);
@@ -42,7 +46,6 @@ Score.belongsTo(Competitor);
 // score - problem
 Problem.hasMany(Score);
 Score.belongsTo(Problem);
-
 
 // totalScore - competitor
 Competitor.hasMany(TotalScore);

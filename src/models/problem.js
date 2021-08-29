@@ -17,6 +17,13 @@ Problem.init(
       validate: {
         is: /[a-zA-z0-9\s]*/g,
       }
+    },
+    eventId: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'event',
+        key: 'id'
+      }
     }
   },
   {

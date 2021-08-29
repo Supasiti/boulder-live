@@ -11,7 +11,7 @@ const createProblemAssignments = async (problemId, categoryIds) => {
 
 
 // create a new problem
-// arguments : { name }
+// arguments : { name, event_id }
 // return 
 //  - Problem 
 const createOne = async (newProblem) => {
@@ -20,7 +20,7 @@ const createOne = async (newProblem) => {
 }
 
 // create new problems
-// arguments : name, 
+// arguments : Array<{name, event_id }>
 // return 
 //  - Problem 
 const createMany = async (newProblems) => {
@@ -92,8 +92,6 @@ const updateAssociatedProblemAssignments = async (problemId, newCategoryIds) => 
   return newAssignments;
 }
 
-
-
 // update a problem 
 // expect Object with problemId and new values
 // return 
@@ -111,8 +109,6 @@ const update = async (newProblem) => {
   return updatedProblem;
 
 }
-
-
 
 module.exports = {
   createOne,

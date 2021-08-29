@@ -1,5 +1,5 @@
 const { Event, Organiser } = require('../models');
-const getEvents = require('../queries/getEvents');
+const query = require('../queries');
 const utils = require('../../utils/arrayUtils');
 const sanitize = require('./sanitize');
 
@@ -46,31 +46,20 @@ const update = async (newEvent, eventId) => {
 //----------------------------------
 // get an event witn nice clean data
 
-// get unique problems from eventData
-const getProblemData = (eventData) => {
-  const problemArrays = eventData.categories.map(({ problems }) => problems );
-  const problems = utils.generateSetById(...problemArrays);
-  const result = problems.sort((a, b) => a.id - b.id);
+
+//get unique problem assignments from problems
+const getAssignmentData = (problems) => {
+  const assignmentArrays = problems.map((problem) => problem.problem_assignments);
+  const result = [].concat(...assignmentArrays);
   return result;
 }
-
-//get unique problem assignments from eventData
-const getAssignmentData = (eventData) => {
-  const problemArrays = eventData.categories.reduce((acc, cur) => {
-    return acc.concat(cur.problems);
-  }, []);
-  const duplicatedAssignments = problemArrays.map(({ problem_assignment }) => problem_assignment )
-  const assignments = utils.generateSetById(...duplicatedAssignments);
-  const result = assignments.sort((a, b) => a.id - b.id);
-  return result;
-}
-
 
 const getOne = async (eventId) => {
-  const rawEventData = await getEvents.byId(eventId);
+  const rawEventData = await query.getEvents.byId(eventId);
+  const rawProblemData = await query.getProblems.byEventId(eventId);
   const eventData = sanitize(rawEventData);
-  const problemData = getProblemData(eventData);
-  const assignmentData = getAssignmentData(eventData);
+  const problemData = sanitize(rawProblemData);
+  const assignmentData = getAssignmentData(problemData);
   const result = {
     ...eventData, 
     problems: problemData,
@@ -78,7 +67,6 @@ const getOne = async (eventId) => {
   };
   return result;
 }
-
 
 module.exports = {
   create,
