@@ -60,8 +60,8 @@
             </label>
             
             <div class="col-12">
-              <input type="text" class="form-control" id="event-name-input" 
-                placeholder="Your Event Name">
+              <input type="text" class="form-control" 
+                data-input="name" placeholder="Your Event Name">
             </div>
           
             <label for="event-location-input" 
@@ -70,8 +70,8 @@
             </label>
             
             <div class="col-12">
-              <input type="text" class="form-control" 
-              id="event-location-input" placeholder="Bouldering Gym" >
+              <input type="text" class="form-control" data-input="location"
+               placeholder="Bouldering Gym" >
             </div>
           </div>
         </form>
@@ -80,7 +80,10 @@
       {{!-- footer --}}
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save</button>
+        <button type="button" class="btn btn-primary"
+          id="create-event-btn">
+          Save
+        </button>
       </div>
     </div>
   </div>
@@ -88,3 +91,4 @@
 
 
 <script src="/js/goToEditEvent.js"></script>
+<script src="/js/createEvent.js"></script>
