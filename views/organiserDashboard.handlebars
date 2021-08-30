@@ -1,12 +1,11 @@
 <div class="container d-flex flex-wrap justify-content-between">
   <h2 class="d-inline"> Welcome back, {{user.username}}</h2>
   <button 
-    class="btn btn-lg btn-primary" 
-    type="button">
+    type="button" class="btn btn-primary" 
+    data-bs-toggle="modal" data-bs-target="#createEventModal">
     New Event
   </button>
 </div>
-
 
 
 {{!-- running table --}}
@@ -38,6 +37,53 @@
     {{> eventTableRow  canDelete=false}}
   {{/each }}
 {{/eventTable}}
+</div>
+
+
+<div class="modal fade" id="createEventModal" tabindex="-1" 
+  aria-labelledby="createEventModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      {{!-- title --}}
+      <div class="modal-header">
+        <h5 class="modal-title">Create Event</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      {{!-- body --}}
+      <div class="modal-body">
+        <form id="event-description-form" class="px-3" novalidate>
+          <div class="row mb-3">
+            <label for="event-name-input" 
+              class="col-12 col-form-label">
+              Event Name
+            </label>
+            
+            <div class="col-12">
+              <input type="text" class="form-control" id="event-name-input" 
+                placeholder="Your Event Name">
+            </div>
+          
+            <label for="event-location-input" 
+              class="col-12 col-form-label">
+              Location
+            </label>
+            
+            <div class="col-12">
+              <input type="text" class="form-control" 
+              id="event-location-input" placeholder="Bouldering Gym" >
+            </div>
+          </div>
+        </form>
+      </div>
+
+      {{!-- footer --}}
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 
