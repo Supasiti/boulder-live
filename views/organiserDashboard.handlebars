@@ -7,38 +7,40 @@
   </button>
 </div>
 
+<div id="event-tables">
+  {{!-- running table --}}
+  <div class="py-4">
+    <h3 class="mt-4">Your Running Events</h3>
+    {{#> eventTable}}
+      {{#each runningEvents as | event |}}
+        {{> eventTableRow  canDelete=true }}
+      {{/each }}
+    {{/eventTable}}
+  </div>
 
-{{!-- running table --}}
-<div class="py-4">
-  <h3 class="mt-4">Your Running Events</h3>
-  {{#> eventTable}}
-    {{#each runningEvents as | event |}}
-      {{> eventTableRow  canDelete=true }}
-    {{/each }}
-  {{/eventTable}}
+
+  {{!-- future table --}}
+  <div class="py-4">
+    <h3 class="mt-4">Your Future Events</h3>
+    {{#> eventTable}}
+      {{#each futureEvents as | event |}}
+        {{> eventTableRow  canDelete=true }}
+      {{/each }}
+    {{/eventTable}}
+  </div>
+
+  {{!-- past table --}}
+  <div class="py-4">
+    <h3 class="mt-4">Your Past Events</h3>
+    {{#> eventTable}}
+      {{#each pastEvents as | event |}}
+        {{> eventTableRow  canDelete=false}}
+      {{/each }}
+    {{/eventTable}}
+  </div>
 </div>
 
-
-{{!-- future table --}}
-<div class="py-4">
-  <h3 class="mt-4">Your Future Events</h3>
-  {{#> eventTable}}
-    {{#each futureEvents as | event |}}
-      {{> eventTableRow  canDelete=true }}
-    {{/each }}
-  {{/eventTable}}
-</div>
-
-{{!-- past table --}}
-<div class="py-4">
-<h3 class="mt-4">Your Past Events</h3>
-{{#> eventTable}}
-  {{#each pastEvents as | event |}}
-    {{> eventTableRow  canDelete=false}}
-  {{/each }}
-{{/eventTable}}
-</div>
-
+{{!-- modal --}}
 
 <div class="modal fade" id="createEventModal" tabindex="-1" 
   aria-labelledby="createEventModalLabel" aria-hidden="true">

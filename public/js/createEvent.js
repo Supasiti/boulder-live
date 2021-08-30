@@ -3,7 +3,6 @@ const createEventAndGoToIt = async (event) => {
   event.preventDefault();
 
   const getInputs = (event) => {
-
     const modalContent = event.target.closest('.modal-content');
     const inputs = modalContent.querySelectorAll('input');
     const result = [...inputs].reduce((acc, input) => {

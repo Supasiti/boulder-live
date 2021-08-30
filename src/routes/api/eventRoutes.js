@@ -42,10 +42,20 @@ const createNewEvent = async (req, res) => {
   }
 };
 
+// update an event
+const updateEvent = async (req, res) => {
+  try {
+    await services.event.update(req.body, req.params.id);
+    res.status(200).json({ message: 'success'});
+  } catch (err){
+    res.status(400).json(err)
+  }
+};
 
 // requests
 router.get('/', getAllEvents);
 router.post('/create', createNewEvent);
 router.get('/:id', getFullEvent);
+router.put('/:id', updateEvent);
 
 module.exports = router;

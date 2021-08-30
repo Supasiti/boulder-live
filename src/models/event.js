@@ -27,7 +27,7 @@ Event.init(
       allowNull: false,
       defaultValue: 'pending',
       validate : {
-        isIn: ['pending', 'cancelled', 'open', 'running', 'ended']
+        isIn: [['pending', 'cancelled', 'open', 'running', 'ended']]
       }
     }
   },

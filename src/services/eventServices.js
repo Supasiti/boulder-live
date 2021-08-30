@@ -32,14 +32,15 @@ const remove = async (eventId) => {
 }
 
 // update an event 
+// argument eventData, eventId
 // return 
 //  - Event
-const update = async (newEvent, eventId) => {
-  const eventsUpdated = await Event.update(newEvent, {
+const update = async (eventData, eventId) => {
+  const eventsUpdated = await Event.update(eventData, {
     where: { id: eventId }
   })
   if (!eventsUpdated[0]) return null;
-  const updatedEvent = await getEvents.byIds(eventId);
+  const updatedEvent = await query.getEvents.byIds(eventId);
   return updatedEvent[0];
 }
 
