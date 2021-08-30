@@ -1,7 +1,7 @@
-const eventTables = document.querySelectorAll('.table');
 
 // cancel event and reload the page
 const cancelEvent = async (event) => {
+  event.preventDefault();
   event.stopPropagation(); // stop bubbling
 
   const tableRow = event.target.closest('tr');
@@ -34,6 +34,7 @@ const goToEditEventPage = async (event) => {
     await cancelEvent(event);
     return
   }
+
   const tableRow = event.target.closest('tr');
   const eventId = tableRow.getAttribute('data-eventid');
   if (!eventId) return

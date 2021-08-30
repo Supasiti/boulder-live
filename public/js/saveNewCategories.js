@@ -12,14 +12,6 @@ const handleSaveCategories = async (event) => {
     return result;
   }
 
-  // expect .../eventId
-  const getEventId = () => {
-    const path = document.location.href.split('?')[0];
-    const routes = path.split('/');
-    const result = routes[routes.length - 1];
-    return result;
-  }
-
   const getCategoryDataFromInput = (input, eventId) => {
     return { 
       name: input.name,
