@@ -53,61 +53,15 @@ const remove = async (problemId) => {
 //----------------------------------------------------------------------------------------
 // UPDATE
 
-const getAssociatedProblemAssignments = async (problemId) => {
-  const assignments = await models.ProblemAssignment.findAll({
-    where : { problemId }
-  })
-  
-  return assignments;
-}
-
-const getProblemAssignmentsToCreate = (oldCategoryIds, newCategoryIds, problemId) => {
-  const idsToCreate = newCategoryIds.filter((id) => !oldCategoryIds.includes(id))
-  const result = idsToCreate.map( (id) => {
-    return {
-      problemId,
-      categoryId: id
-    }
-  })
-  return result;
-}
-
-const getProblemAssignmentIdsToRemove = (oldAssignments, newCategoryIds) => {
-  const result = oldAssignments
-    .filter(({ categoryId }) => !newCategoryIds.includes(categoryId))
-    .map(({ id }) => id)
-  return result;
-}
-
-// update all assciated problem assignments 
-const updateAssociatedProblemAssignments = async (problemId, newCategoryIds) => {
-  const oldAssignments = await getAssociatedProblemAssignments(problemId);
-  const oldCategoryIds = oldAssignments.map(({ categoryId }) => categoryId);
-  const assignmentsToCreate = getProblemAssignmentsToCreate(oldCategoryIds, newCategoryIds, problemId);
-  const assignmentIdsToRemove = getProblemAssignmentIdsToRemove(oldAssignments, newCategoryIds);
-
-  const assignmentsRomoved = await models.ProblemAssignment.destroy({ where : { id : assignmentIdsToRemove }})
-  const newAssignments = await models.ProblemAssignment.bulkCreate(assignmentsToCreate);
-
-  return newAssignments;
-}
-
 // update a problem 
 // expect Object with problemId and new values
 // return 
 //  - Problem
 const update = async (newProblem) => {
   const { problemId } = newProblem;
-  
-  const problemsUpdated = await models.Problem.update(newProblem, {
-    where: { id: problemId }
-  })
-  if ('categoryIds' in newProblem) {
-    await updateAssociatedProblemAssignments(problemId, newProblem.categoryIds)
-  }
+  await models.Problem.update(newProblem, { where: { id: problemId } })
   const updatedProblem = models.Problem.findByPk(problemId);
   return updatedProblem;
-
 }
 
 module.exports = {
