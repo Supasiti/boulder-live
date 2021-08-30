@@ -1,15 +1,5 @@
 const models = require('../models');
 
-
-const createProblemAssignments = async (problemId, categoryIds) => {
-  const problemAssignmentArray = categoryIds.map( categoryId => {
-    return { problemId, categoryId } 
-  })
-  const result = await models.ProblemAssignment.bulkCreate(problemAssignmentArray);
-  return result;
-};
-
-
 // create a new problem
 // arguments : { name, event_id }
 // return 
