@@ -11,7 +11,7 @@
   {{!-- running table --}}
   <div class="py-4">
     <h3 class="mt-4">Your Running Events</h3>
-    {{#> eventTable}}
+    {{#> eventTable status=true}}
       {{#each runningEvents as | event |}}
         {{> eventTableRow  canDelete=true }}
       {{/each }}
@@ -22,7 +22,7 @@
   {{!-- future table --}}
   <div class="py-4">
     <h3 class="mt-4">Your Future Events</h3>
-    {{#> eventTable}}
+    {{#> eventTable status=true}}
       {{#each futureEvents as | event |}}
         {{> eventTableRow  canDelete=true }}
       {{/each }}
@@ -32,7 +32,7 @@
   {{!-- past table --}}
   <div class="py-4">
     <h3 class="mt-4">Your Past Events</h3>
-    {{#> eventTable}}
+    {{#> eventTable status=true}}
       {{#each pastEvents as | event |}}
         {{> eventTableRow  canDelete=false}}
       {{/each }}
@@ -56,36 +56,24 @@
       <div class="modal-body">
         <form id="event-description-form" class="px-3" novalidate>
           <div class="row mb-3">
-            <label for="event-name-input" 
-              class="col-12 col-form-label">
-              Event Name
-            </label>
-            
-            <div class="col-12">
-              <input type="text" class="form-control" 
-                data-input="name" placeholder="Your Event Name">
-            </div>
+
+            {{> input idName="eventNameInput" label="Event Name" type="text" 
+              placeholder="Your Event Name" name="name" }}
           
-            <label for="event-location-input" 
-              class="col-12 col-form-label">
-              Location
-            </label>
-            
-            <div class="col-12">
-              <input type="text" class="form-control" data-input="location"
-               placeholder="Bouldering Gym" >
-            </div>
+            {{> input idName="eventLocationInput" label="Location" type="text" 
+              placeholder="Bouldering Gym" name="location" }}
+
+          </div>
+          <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-secondary mx-3" 
+              data-bs-dismiss="modal">
+              Close
+            </button>
+            {{#>button idName="createEventBtn" class="mx-3" type="button"}}
+              Save
+            {{/button}}
           </div>
         </form>
-      </div>
-
-      {{!-- footer --}}
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary"
-          id="create-event-btn">
-          Save
-        </button>
       </div>
     </div>
   </div>

@@ -5,16 +5,27 @@
   <th scope="row">{{id}}</th>
   <td>{{name}}</td>
   <td>{{location}}</td>
+  
+  {{#if status}}
+    <td>
+      <span class="badge bg-success">{{status}}</span>
+    </td>
+  {{/if}}
+  
   <td>
-    <span class="badge bg-success">{{status}}</span>
+    <div class="text-end">
+      {{#if canDelete }} 
+        {{#> button class="btn-sm" type="button"}}
+          Cancel
+        {{/button}}
+      {{/if }}
+      {{#if canWithdraw }} 
+        {{#> button class="btn-sm" type="button"}}
+          Withdraw
+        {{/button}}
+      {{/if }}
+    </div>
+    
   </td>
-  <td>
-    {{#if canDelete }} 
-      <button 
-        class=" btn btn-sm btn-primary" 
-        type="button">
-        Cancel
-      </button>
-    {{/if }}
-  </td>
+
 </tr>

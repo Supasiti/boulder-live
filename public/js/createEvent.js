@@ -6,7 +6,7 @@ const createEventAndGoToIt = async (event) => {
     const modalContent = event.target.closest('.modal-content');
     const inputs = modalContent.querySelectorAll('input');
     const result = [...inputs].reduce((acc, input) => {
-      const key = input.getAttribute('data-input');
+      const key = input.getAttribute('name');
       const value = input.value.trim();
       return value ? {...acc, [key]: value } : {...acc};
     }, {})
@@ -30,6 +30,6 @@ const createEventAndGoToIt = async (event) => {
 
 document.addEventListener('DOMContentLoaded', (e) => {
   document
-  .getElementById('create-event-btn')
-  .addEventListener('click', createEventAndGoToIt)
+    .getElementById('createEventBtn')
+    .addEventListener('click', createEventAndGoToIt)
 });

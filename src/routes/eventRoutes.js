@@ -1,11 +1,22 @@
 const router = require('express').Router();
 const withAuth = require('../../utils/auth');
 const withPurpose = require('../../utils/withPurpose');
+const query = require('../queries');
 const services = require('../services');
 const sanitize = require('../services/sanitize');
 
 // routes: /events/
 
+const renderSearchEvent = async (req, res) => {
+  const rawEventData = await query.getEvents.all();
+  const cleaned = sanitize(rawEventData);
+  res.render('searchEvent', {
+    loggedIn: req.session.logged_in,
+    events: cleaned
+  });
+};
+
+// render organiser event
 const renderOrganiserEventPage = async (req, res) => {
   const eventId = req.params.eventId;
   const eventData = await services.event.getOne(eventId);
@@ -15,6 +26,7 @@ const renderOrganiserEventPage = async (req, res) => {
     event: eventData
   });
 };
+
 
 // TODO - need to check that userId matches event id in organiser list 
 
@@ -31,8 +43,10 @@ const renderEventPage = async (req, res) => {
   }
 };
 
-// router
 
+
+// router
+router.get('/search', withAuth, withPurpose, renderSearchEvent)
 router.get('/:eventId', withAuth, withPurpose, renderEventPage)
 
 module.exports = router;

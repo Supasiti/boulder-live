@@ -1,0 +1,31 @@
+<div class="container d-flex flex-wrap justify-content-between">
+  <h2 class="d-inline"> Welcome back, {{user.username}}</h2>
+  {{#> button type="button"}}
+    <a href="/events/search" class="text-decoration-none text-light">
+      Search
+    </a>
+  {{/button}}
+</div>
+
+<div id="event-tables">
+  {{!-- running table --}}
+  <div class="py-4">
+    <h3 class="mt-4">Current Events</h3>
+    {{#> eventTable}}
+      {{#each runningEvents as | event |}}
+        {{> eventTableRow status=false canWithdraw=true}}
+      {{/each }}
+    {{/eventTable}}
+  </div>
+
+
+  {{!-- future table --}}
+  <div class="py-4">
+    <h3 class="mt-4">Future Events</h3>
+    {{#> eventTable}}
+      {{#each futureEvents as | event |}}
+        {{> eventTableRow  status=false canWithdraw=true}}
+      {{/each }}
+    {{/eventTable}}
+  </div>
+</div>
