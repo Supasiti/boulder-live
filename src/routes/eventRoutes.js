@@ -35,11 +35,21 @@ const renderOrganiserEventPage = async (req, res) => {
   });
 };
 
+//---------------------------------------------------------------------------------------
 // render event page for competitor
 
 //// NOT finish need to create two lists of categories 
 // - already registered
 // - can register
+
+// get other categories not enrolled to compete in
+const getAvailableCategories = (event, competeIn) => {
+  const competeInIds = competeIn.map(({ id }) => id);
+  const result = event.categories.filter((c) => {
+    return !competeInIds.includes(c.id);
+  })
+  return result;
+}
 
 const renderCompetitorEventPage = async (req, res) => {
   if (!req.session.competitor) {
@@ -52,13 +62,11 @@ const renderCompetitorEventPage = async (req, res) => {
   const rawCompeteIn = await query.getCategories.all({ competitor_id: competitorId })
   const competeIn = sanitize(rawCompeteIn);
 
-  console.log('\n event Route: ', competeIn);
-
-
   res.render('competitorEvent', {
     loggedIn: req.session.logged_in,
     event: eventData,
-    competeIn : competeIn
+    competeIn : competeIn,
+    availableCategories: getAvailableCategories(eventData, competeIn)
   });
 };
 
