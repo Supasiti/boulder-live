@@ -23,6 +23,7 @@ const renderSearchEvent = async (req, res) => {
 };
 
 // render organiser event
+
 const renderOrganiserEventPage = async (req, res) => {
   // TODO - need to check that userId matches event id in organiser list 
   const eventId = req.params.eventId;
@@ -36,15 +37,24 @@ const renderOrganiserEventPage = async (req, res) => {
 
 // render event page for competitor
 
+//// NOT finish need to create two lists of categories 
+// - already registered
+// - can register
+
 const renderCompetitorEventPage = async (req, res) => {
   if (!req.session.competitor) {
     res.redirect('/dashboard');
     return
   }
-
+  const competitorId = req.session.competitor.id;
   const eventId = req.params.eventId;
   const eventData = await services.event.getOne(eventId);
-  
+  const rawCompeteIn = await query.getCategories.all({ competitor_id: competitorId })
+  const competeIn = sanitize(rawCompeteIn);
+
+  console.log('\n event Route: ', competeIn);
+
+
   res.render('competitorEvent', {
     loggedIn: req.session.logged_in,
     event: eventData

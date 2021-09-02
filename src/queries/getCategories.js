@@ -42,8 +42,6 @@ const idsByProblemId = async (problemId) => {
   return result;
 } 
 
-
-
 // filter the courses according to some filters and return ids
 // return Array<int>
 const getFilteredIds = async (rawFilter) => {
