@@ -4,6 +4,7 @@ const withPurpose = require('../../utils/withPurpose');
 const query = require('../queries');
 const services = require('../services');
 const sanitize = require('../services/sanitize');
+const arrayUtils = require('../../utils/arrayUtils');
 
 // routes: /events/
 
@@ -38,10 +39,6 @@ const renderOrganiserEventPage = async (req, res) => {
 //---------------------------------------------------------------------------------------
 // render event page for competitor
 
-//// NOT finish need to create two lists of categories 
-// - already registered
-// - can register
-
 // get other categories not enrolled to compete in
 const getAvailableCategories = (event, competeIn) => {
   const competeInIds = competeIn.map(({ id }) => id);
@@ -58,18 +55,25 @@ const renderCompetitorEventPage = async (req, res) => {
   }
   const competitorId = req.session.competitor.id;
   const eventId = req.params.eventId;
-  const eventData = await services.event.getOne(eventId);
+  
+  const rawEventData = await query.getEvents.byId(eventId);
   const rawCompeteIn = await query.getCategories.all({ competitor_id: competitorId })
+  const rawScores = await query.getScores.byCompetitor(competitorId);
+  
+  const eventData = sanitize(rawEventData);
   const competeIn = sanitize(rawCompeteIn);
+  const scores = sanitize(rawScores);
+  
+ 
+  console.log(scores);
 
   res.render('competitorEvent', {
     loggedIn: req.session.logged_in,
-    event: eventData,
     competeIn : competeIn,
-    availableCategories: getAvailableCategories(eventData, competeIn)
+    availableCategories: getAvailableCategories(eventData, competeIn),
+    scores: scores
   });
 };
-
 
 
 // render overall event page

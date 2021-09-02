@@ -16,8 +16,21 @@ const byCompetitorAndProblems = async (competitorId, problemIds) => {
   return result;
 }
 
+// get all the scores by a competitor
+// return Array<Score>
+const byCompetitor = async (competitorId) => {
+  const result = await models.Score.findAll({
+    where: { competitorId : competitorId },
+    include: [
+      {
+        model: models.Problem
+      }
+    ]
+  })
+  return result;
+}
 
 module.exports = {
   byCompetitorAndProblems,
-  // total
+  byCompetitor
 }

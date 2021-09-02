@@ -24,11 +24,11 @@ const byIds = async (eventIds) => {
 // return 
 //  - Event
 const byId = async (eventId) => {
-  const result = await models.Event.findAll({ 
+  const result = await models.Event.findOne({ 
     where: { id: eventId },
     include: { model: models.Category }
   })
-  return result[0];
+  return result;
 }
 
 // get all event organised by a user

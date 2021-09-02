@@ -73,7 +73,6 @@ const getTotalScoreIdsToRemove = (oldTotalScores, newCategoryIds) => {
   return result;
 }
 
-
 // update all associated TotalScore
 // return - Array<TotalScore>
 const updateTotalScores = async (updatedCompetitor, newCategoryIds) => {
@@ -100,9 +99,6 @@ const updateTotalScores = async (updatedCompetitor, newCategoryIds) => {
 // return 
 //  - Competitor
 const update = async (newCompetitor) => {
-  if (!('competitorId' in newCompetitor)) {
-    throw new Error('competitorId is required to update a competitor.')
-  }
   const { competitorId } = newCompetitor;
   const competitorsUpdated = await models.Competitor.update(newCompetitor, {
     where : { id : competitorId }
