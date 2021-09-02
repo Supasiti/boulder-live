@@ -1,13 +1,14 @@
 const router = require('express').Router();
-const categoryServices = require('../../services/categoryServices');
-const getCategories = require('../../queries/getCategories')
+const services = require('../../services');
+const query = require('../../queries')
 const sanitize = require('../../services/sanitize');
 
 // route /categories
 
-const createCategories = async (req, res) => {
+// create a category
+const createCategory= async (req, res) => {
   try {
-    const rawCategories = await categoryServices.create(req.body);
+    const rawCategories = await services.category.create(req.body);
     const cleanedCategories = sanitize(rawCategories);
     res.status(200).json(cleanedCategories)
   } catch (err){
@@ -18,7 +19,7 @@ const createCategories = async (req, res) => {
 // get all 
 const getAllCategories = async (req, res) => {
   try {
-    const rawCategories = await getCategories.all();
+    const rawCategories = await query.getCategories.all();
     const categories = sanitize(rawCategories);
     res.status(200).json(categories)
   } catch (err) {
@@ -26,7 +27,10 @@ const getAllCategories = async (req, res) => {
   }
 } 
 
-router.post('/', createCategories)
+
+// router
+
+router.post('/', createCategory)
 router.get('/', getAllCategories)
 
 module.exports = router;

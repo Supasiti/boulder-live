@@ -8,6 +8,7 @@ const getEvents = require('../queries/getEvents');
 // return - int
 const getNextCompetitorNumber = async (eventId) => {
   const competitors = await models.Competitor.findAll({ where : { eventId }});
+  if (!competitors.length) return 1;
   const numbers = competitors.map(({ number }) => number);
   const nextAvailableNumber = Math.max(...numbers) + 1;
   return nextAvailableNumber;

@@ -52,7 +52,7 @@ const updateEvent = async (req, res) => {
   }
 };
 
-
+//----------------------------------------------------------------------------------------
 // let user join an event
 //
 const saveCompetitor = (req, res, rawCompetitor) => {
@@ -71,9 +71,11 @@ const joinEvent = async (req, res) => {
     const rawCompetitor = await services.competitor.create(competitorData);
     saveCompetitor(req, res, rawCompetitor);
   } catch (err){
+    console.error(err)
     res.status(400).json(err)
   }
 }
+
 
 // requests
 router.get('/', getAllEvents);

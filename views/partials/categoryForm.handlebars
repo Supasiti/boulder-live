@@ -1,7 +1,7 @@
 <form id="categoryForm" class="px-3 py-4" novalidate>
-  {{#> categoryTable}}
+  {{#> categoryTable forOrganiser=true}}
     {{#each categories}}
-      {{> categoryTableRow  }}
+      {{> categoryTableRow  forOrganiser=true}}
     {{/each }}
   {{/categoryTable}}
 

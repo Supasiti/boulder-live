@@ -48,6 +48,8 @@ const all = async () => {
   return result;
 }
 
+
+
 module.exports = {
   all,
   withTotalScores,

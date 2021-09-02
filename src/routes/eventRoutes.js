@@ -24,6 +24,7 @@ const renderSearchEvent = async (req, res) => {
 
 // render organiser event
 const renderOrganiserEventPage = async (req, res) => {
+  // TODO - need to check that userId matches event id in organiser list 
   const eventId = req.params.eventId;
   const eventData = await services.event.getOne(eventId);
   
@@ -33,8 +34,24 @@ const renderOrganiserEventPage = async (req, res) => {
   });
 };
 
+// render event page for competitor
 
-// TODO - need to check that userId matches event id in organiser list 
+const renderCompetitorEventPage = async (req, res) => {
+  if (!req.session.competitor) {
+    res.redirect('/dashboard');
+    return
+  }
+
+  const eventId = req.params.eventId;
+  const eventData = await services.event.getOne(eventId);
+  
+  res.render('competitorEvent', {
+    loggedIn: req.session.logged_in,
+    event: eventData
+  });
+};
+
+
 
 // render overall event page
 const renderEventPage = async (req, res) => {
@@ -42,10 +59,7 @@ const renderEventPage = async (req, res) => {
   if (req.session.purpose === 'organise'){
     await renderOrganiserEventPage(req, res);
   } else {
-    res.render('eventpage', {
-      loggedIn: req.session.logged_in,
-      user: req.session.user
-    });
+    await renderCompetitorEventPage(req, res);
   }
 };
 
