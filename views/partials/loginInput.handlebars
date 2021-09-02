@@ -1,0 +1,15 @@
+<div class="input-group input-group-lg mb-3">
+  <div 
+    class="input-group-text" 
+    id="{{idAddOn}}">
+    {{> @partial-block }}
+  </div>
+  <input 
+    type="{{#if type}}{{type}}{{else}}text{{/if}}" 
+    id="{{idName}}"
+    class="form-control" 
+    placeholder="{{placeholder}}" 
+    aria-label="{{label}}" 
+    aria-describedby="{{idAddOn}}"
+    required>
+</div>

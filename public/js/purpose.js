@@ -19,7 +19,7 @@ const handleSelectPurpose = async (event) => {
   }
 }
 
-document.querySelector('#compete-btn')
+document.getElementById('competeBtn')
   .addEventListener('click', handleSelectPurpose);
-document.querySelector('#organise-btn')
+document.getElementById('organiseBtn')
   .addEventListener('click', handleSelectPurpose);

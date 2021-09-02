@@ -6,17 +6,13 @@
   {{/categoryTable}}
 
   <div class="d-flex justify-content-center">
-    <button 
-      id="btn-add-category-table-row"
-      class="btn btn-primary mx-3" 
-      type="button">
+    {{#>button idName="btn-add-category-table-row" class="mx-3" type="button"}}
       Add Row
-    </button>
-    <button 
-      class="btn btn-primary mx-3" 
-      type="button">
+    {{/button}}
+
+    {{#>button idName="saveEventBtn" class="mx-3" type="button"}}
       Save
-    </button>
+    {{/button}}
   </div>
 </form>
 
