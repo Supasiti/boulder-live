@@ -1,4 +1,4 @@
-  <form id="event-description-form" class="px-3 py-5" novalidate>
+  <form id="eventForm" class="px-3 py-5" novalidate>
 
     {{#with name as | value |}}    
       {{> input idName="eventNameInput" classLabel="col-sm-2" classInput="col-sm-10"
@@ -20,8 +20,9 @@
       
       <div class="col-sm-10">
         <select id="eventStatusInput" 
-          class="form-select" >
-          <option selected>{{capitalise status}}</option>
+          class="form-select" 
+          name="status">
+          <option value="{{status}}" selected>{{capitalise status}}</option>
           <option value="pending">Pending</option>
           <option value="open">Open</option>
           <option value="running">Running</option>
