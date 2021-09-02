@@ -1,7 +1,14 @@
 
 <h3 class="mt-4">Your Categories</h3>
 {{#> categoryTable }}
-  {{#each categories}}
+  {{#each competeIn }}
     {{> categoryTableRow }}
+  {{/each }}
+{{/categoryTable}}
+
+<h3 class="mt-4">More Categories</h3>
+{{#> categoryTable }}
+  {{#each availableCategories }}
+    {{> categoryTableRow canJoin=true}}
   {{/each }}
 {{/categoryTable}}

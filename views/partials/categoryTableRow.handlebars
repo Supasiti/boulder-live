@@ -29,7 +29,9 @@
         type="button">
         <i class="far fa-trash-alt"></i>
       </button>
-    {{else}}
+    {{/if}}
+
+    {{#if canJoin}}
       {{#> button type="button"}} 
         Join
       {{/button}}
