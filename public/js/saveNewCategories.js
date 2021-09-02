@@ -1,7 +1,7 @@
 
-const handleSaveCategories = async (event) => {
+const saveCategories = async (event) => {
   // make sure that it is 'Save' button is clicked
-  if (event.target.innerText !== 'Save') return
+  if (event.target.id !== 'saveEventBtn') return
   event.preventDefault();
 
   const parseDate = (dateStr, timeStr) => {
@@ -12,7 +12,7 @@ const handleSaveCategories = async (event) => {
     return result;
   }
 
-  const getCategoryDataFromInput = (input, eventId) => {
+  const createCategoryData = (input, eventId) => {
     return { 
       name: input.name,
       start: parseDate(input.start_date, input.start_time),
@@ -38,19 +38,23 @@ const handleSaveCategories = async (event) => {
 
     const inputCells = [...row.querySelectorAll('input')];
     const inputObject = extractInputsFromCells(inputCells)
-    return getCategoryDataFromInput(inputObject, eventId)
+    return createCategoryData(inputObject, eventId)
   };
+
+  const getData = (event, eventId) => {
+    const tableBody = event.target.closest('form').querySelector('tbody');
+    const tableRows = tableBody.querySelectorAll('tr');
+    const result = [...tableRows]
+      .map((row) => getNewCategoryData(row, eventId))
+      .filter((item) => item );
+    return result;
+  }
 
   // ----------------
   // combine 
 
   const eventId = getEventId();
-  const tableBody = event.target.closest('form').querySelector('tbody');
-  const tableRows = tableBody.querySelectorAll('tr');
-  const categoryData = [...tableRows]
-    .map((row) => getNewCategoryData(row, eventId))
-    .filter((item) => item );
-  
+  const categoryData = getData(event, eventId);
 
   const response = await fetch('/api/categories', {
     method: 'POST',
@@ -65,10 +69,6 @@ const handleSaveCategories = async (event) => {
   }
 }
 
-// set up it 
-const setUpCategoryForm = () => {
-  const form = document.querySelector('#event-category-form');
-  form.addEventListener('click', handleSaveCategories)
-}
-
-setUpCategoryForm();
+document
+  .getElementById('categoryForm')
+  .addEventListener('click', saveCategories)

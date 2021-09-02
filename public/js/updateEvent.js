@@ -1,8 +1,4 @@
-
 // update event and reload the page
-
-// NOT FINISH !!!!!!!!!!!!
-
 const updateEvent = async (event) => {
   event.preventDefault();
 
