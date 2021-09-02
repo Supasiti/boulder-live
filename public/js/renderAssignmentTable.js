@@ -55,7 +55,7 @@ const renderAssignmentTable = async (eventData) => {
     return rowEl;
   }
 
-  const form = document.querySelector('#event-assignment-form');
+  const form = document.getElementById('assignmentForm');
   const tableBody = form.querySelector('tbody');
 
   problems.map((problem) => {

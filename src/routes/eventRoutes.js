@@ -7,12 +7,18 @@ const sanitize = require('../services/sanitize');
 
 // routes: /events/
 
+const getAvailableEvents = (events) => {
+  return events.filter((event) => ['open', 'running'].includes(event.status))
+}
+
 const renderSearchEvent = async (req, res) => {
   const rawEventData = await query.getEvents.all();
   const cleaned = sanitize(rawEventData);
+  const available = getAvailableEvents(cleaned);
+
   res.render('searchEvent', {
     loggedIn: req.session.logged_in,
-    events: cleaned
+    events: available
   });
 };
 
@@ -42,8 +48,6 @@ const renderEventPage = async (req, res) => {
     });
   }
 };
-
-
 
 // router
 router.get('/search', withAuth, withPurpose, renderSearchEvent)
