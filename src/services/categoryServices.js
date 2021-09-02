@@ -1,6 +1,6 @@
 const models = require('../models');
-const getEvents = require('../queries/getEvents')
-
+const query = require('../queries');
+const scoreServices = require('./scoreServices')
 
 // create a new category
 // arguments : { name, start, end, eventId }
@@ -53,11 +53,31 @@ const update = async (newCategory, categoryId) => {
   return updatedCategory;
 }
 
+//-----------------------------------------------------------
+// let a competitor join in a category
+
+// check if the competitor is in the same event as category
+const validateCompetitor = async ({ competitorId, categoryId }) => {
+  const competitor = await models.Competitor.findByPk(competitorId);
+  const category = await models.Category.findByPk(categoryId);
+  return category.eventId === competitor.eventId;
+}
+
+// argument: { competitorId, categoryId }
+// return true if it is successful
+const join = async (data) => {
+  const isValid = await validateCompetitor(data);
+  if (!isValid) return false;
+  const newTotalScore = await models.TotalScore.create(data); // create total score
+  await scoreServices.generate(newTotalScore);
+  return true
+}
 
 module.exports = {
   createOne,
   createMany,
   create,
   update,
-  remove
+  remove,
+  join
 }

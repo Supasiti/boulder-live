@@ -7,7 +7,7 @@
 {{/categoryTable}}
 
 <h3 class="mt-4">More Categories</h3>
-{{#> categoryTable }}
+{{#> categoryTable idName="availableCategoryTable"}}
   {{#each availableCategories }}
     {{> categoryTableRow canJoin=true}}
   {{/each }}
@@ -19,3 +19,5 @@
     {{> scoreTableRow name=this.problem.name}}
   {{/each }}
 {{/scoreTable}}
+
+<script src="/js/joinCategory.js"></script>

@@ -27,10 +27,31 @@ const getAllCategories = async (req, res) => {
   }
 } 
 
+// let a competitor join a category
+const joinCategory = async (req, res) => {
+  try {
+    const competitorId = req.session.competitor.id || req.body.competitorId;
+    const categoryId = req.params.id;
+
+    console.log('category routes: cat Id', categoryId);
+    console.log('category routes: comp id', competitorId);
+
+    const result = await services.category.join({ competitorId, categoryId })
+    if (result) {
+      res.status(200).json({ message: 'successfully join in this category'})
+    }
+    res.status(400).json({ message: 'competitorId is incompatible with this categoryId'});
+  } catch (err) {
+    console.error(err)
+    res.status(400).json(err);
+  }
+}
+
 
 // router
 
-router.post('/', createCategory)
-router.get('/', getAllCategories)
+router.post('/', createCategory);
+router.get('/', getAllCategories);
+router.post('/:id/join', joinCategory);
 
 module.exports = router;
