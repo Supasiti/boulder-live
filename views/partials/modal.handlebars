@@ -1,0 +1,20 @@
+<div 
+  class="modal fade" id="{{idName}}" tabindex="-1" 
+  aria-labelledby="{{idName}}Label" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered {{class}}">
+    <div class="modal-content">
+      {{!-- title --}}
+      <div class="modal-header">
+        <h5 class="modal-title">{{title}}</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+
+      {{!-- body --}}
+      <div class="modal-body">
+
+        {{> @partial-block }}
+        
+      </div>
+    </div>
+  </div>
+</div>

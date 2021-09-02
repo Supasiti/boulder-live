@@ -42,43 +42,28 @@
 
 {{!-- modal --}}
 
-<div class="modal fade" id="createEventModal" tabindex="-1" 
-  aria-labelledby="createEventModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      {{!-- title --}}
-      <div class="modal-header">
-        <h5 class="modal-title">Create Event</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
+{{#> modal title="Create Event" idName="createEventModal"}}
+  <form id="event-description-form" class="px-3" novalidate>
+    <div class="row mb-3">
 
-      {{!-- body --}}
-      <div class="modal-body">
-        <form id="event-description-form" class="px-3" novalidate>
-          <div class="row mb-3">
+      {{> input idName="eventNameInput" label="Event Name" type="text" 
+        placeholder="Your Event Name" name="name" }}
+    
+      {{> input idName="eventLocationInput" label="Location" type="text" 
+        placeholder="Bouldering Gym" name="location" }}
 
-            {{> input idName="eventNameInput" label="Event Name" type="text" 
-              placeholder="Your Event Name" name="name" }}
-          
-            {{> input idName="eventLocationInput" label="Location" type="text" 
-              placeholder="Bouldering Gym" name="location" }}
-
-          </div>
-          <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-secondary mx-3" 
-              data-bs-dismiss="modal">
-              Close
-            </button>
-            {{#>button idName="createEventBtn" class="mx-3" type="button"}}
-              Save
-            {{/button}}
-          </div>
-        </form>
-      </div>
     </div>
-  </div>
-</div>
-
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-secondary mx-3" 
+        data-bs-dismiss="modal">
+        Close
+      </button>
+      {{#>button idName="createEventBtn" class="mx-3" type="button"}}
+        Save
+      {{/button}}
+    </div>
+  </form>
+{{/modal}}
 
 <script src="/js/goToEditEvent.js"></script>
 <script src="/js/createEvent.js"></script>
