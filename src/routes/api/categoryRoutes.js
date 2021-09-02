@@ -19,7 +19,8 @@ const createCategory= async (req, res) => {
 // get all 
 const getAllCategories = async (req, res) => {
   try {
-    const rawCategories = await query.getCategories.all();
+    console.log('\n', req.query)
+    const rawCategories = await query.getCategories.all(req.query);
     const categories = sanitize(rawCategories);
     res.status(200).json(categories)
   } catch (err) {
