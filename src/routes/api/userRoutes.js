@@ -6,7 +6,7 @@ const router = express.Router();
 
 // api/users/
 
-const savelogin = (req, res, rawUser) => {
+const saveLogin = (req, res, rawUser) => {
   const userWithPassword = sanitize(rawUser);
   const { password, ...userWithoutPassword } = userWithPassword;
 
@@ -22,7 +22,7 @@ const savelogin = (req, res, rawUser) => {
 const createNewUser = async (req, res) => {
   try {
     const rawUser = await userServices.create(req.body);
-    savelogin(req, res, rawUser);
+    saveLogin(req, res, rawUser);
   } catch (err){
     res.status(400).json(err)
   }
@@ -35,7 +35,7 @@ const checkLogin =  async (req, res) => {
     if (!rawUser) {
       res.status(400).json({ message: 'Incorrect email or password, please try again'})
     }
-    savelogin(req, res, rawUser);
+    saveLogin(req, res, rawUser);
   } catch (err) {
     res.status(400).json(err);
   }

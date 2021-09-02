@@ -47,7 +47,6 @@ const update = async (eventData, eventId) => {
 //----------------------------------
 // get an event witn nice clean data
 
-
 //get unique problem assignments from problems
 const getAssignmentData = (problems) => {
   const assignmentArrays = problems.map((problem) => problem.problem_assignments);
@@ -68,6 +67,7 @@ const getOne = async (eventId) => {
   };
   return result;
 }
+
 
 module.exports = {
   create,

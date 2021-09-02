@@ -25,9 +25,8 @@ const create = async (newCompetitor) => {
   const { eventId } = newCompetitor;
   const number = await getNextCompetitorNumber(eventId);
   const competitorData = { ...newCompetitor, number }
-  const competitor = await models.Competitor.create(competitorData);
-  
-  return competitor;
+  const result = await models.Competitor.create(competitorData);
+  return result;
 }
 
 //----------------------------------------------------------------------------------------

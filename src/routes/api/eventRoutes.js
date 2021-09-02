@@ -52,9 +52,33 @@ const updateEvent = async (req, res) => {
   }
 };
 
+
+// let user join an event
+//
+const saveCompetitor = (req, res, rawCompetitor) => {
+  const cleaned = sanitize(rawCompetitor);
+
+  req.session.save(() => {
+    req.session.competitor = cleaned
+    res.json({ competitor: cleaned, message: 'You are successfully join the event!' });
+  });
+}
+
+const joinEvent = async (req, res) => {
+  try {
+    const userId = req.session.user.id || req.body.userId;
+    const competitorData = { userId, eventId: req.params.id };
+    const rawCompetitor = await services.competitor.create(competitorData);
+    saveCompetitor(req, res, rawCompetitor);
+  } catch (err){
+    res.status(400).json(err)
+  }
+}
+
 // requests
 router.get('/', getAllEvents);
 router.post('/create', createNewEvent);
+router.post('/:id/join', joinEvent);
 router.get('/:id', getFullEvent);
 router.put('/:id', updateEvent);
 
