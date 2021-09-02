@@ -14,3 +14,8 @@
 {{/categoryTable}}
 
 <h3 class="mt-4">Your Scores</h3>
+{{#> scoreTable }}
+  {{#each  scores as | score |}}
+    {{> scoreTableRow name=this.problem.name}}
+  {{/each }}
+{{/scoreTable}}
