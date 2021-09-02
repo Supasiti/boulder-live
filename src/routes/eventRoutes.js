@@ -63,9 +63,6 @@ const renderCompetitorEventPage = async (req, res) => {
   const eventData = sanitize(rawEventData);
   const competeIn = sanitize(rawCompeteIn);
   const scores = sanitize(rawScores);
-  
- 
-  console.log(scores);
 
   res.render('competitorEvent', {
     loggedIn: req.session.logged_in,
