@@ -23,7 +23,7 @@ const saveCategories = async (event) => {
 
   const extractInputsFromCells = (cells) => {
     return cells.reduce((acc, cell) => {
-      const key = cell.getAttribute('data-input');
+      const key = cell.getAttribute('name');
       const value = cell.value.trim();
       const result = {...acc, [key]: value};
       return result;

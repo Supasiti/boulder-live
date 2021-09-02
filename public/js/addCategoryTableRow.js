@@ -30,23 +30,23 @@ const addCategoryTableRow = (event) => {
     const tableRow = document.createElement('tr');
     tableRow.innerHTML = `<th scope="row"></th>
   <td>
-    <input type="text" placeholder="Name" data-input="name"
+    <input type="text" placeholder="Name" name="name"
       class="form-control" required>
   </td>
   <td>
-    <input type="text" placeholder="yyyy-mm-dd" data-input="start_date"
+    <input type="text" placeholder="yyyy-mm-dd" name="start_date"
       class="form-control" required>
   </td>
   <td>
-    <input type="text" class="form-control" data-input="start_time"
+    <input type="text" class="form-control" name="start_time"
       placeholder="18:00" required>
   </td>
   <td>
-    <input type="text" class="form-control" data-input="end_date"
+    <input type="text" class="form-control" name="end_date"
       placeholder="yyyy-mm-dd" required>
   </td>
   <td>
-    <input type="text" class="form-control" data-input="end_time"
+    <input type="text" class="form-control" name="end_time"
       placeholder="23:00" required>
   </td>
   <td class="text-end"></td>`
@@ -54,7 +54,6 @@ const addCategoryTableRow = (event) => {
     tableRow.appendChild(buttonCell);
     return tableRow;
   }
-
 
   //-------------------
   // combine
@@ -64,4 +63,6 @@ const addCategoryTableRow = (event) => {
   tableBody.appendChild(newRow);
 }
 
-btnAddCategoryTableRow.addEventListener('click', addCategoryTableRow);
+document
+  .getElementById('addCategoryRowBtn')
+  .addEventListener('click', addCategoryTableRow);
