@@ -1,4 +1,4 @@
-<form id="event-problem-form" class="px-3 py-4" novalidate>
+<form id="problemForm" class="px-3 py-4" novalidate>
   {{#> problemTable}}
     {{#each problems}}
       {{> problemTableRow  }}
@@ -12,11 +12,11 @@
       type="button">
       Add Row
     </button>
-    <button 
-      class="btn btn-primary mx-3" 
-      type="button">
+
+
+    {{#>button idName="saveProblemBtn" class="mx-3" type="button"}}
       Save
-    </button>
+    {{/button}}
   </div>
 </form>
 

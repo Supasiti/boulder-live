@@ -1,6 +1,6 @@
-const btnAddProblemTableRow = document.querySelector('#btn-add-problem-table-row');
-
-
+// 
+// add a row to problem table
+// 
 const addProblemTableRow = (event) => {
   event.preventDefault();
 
@@ -30,7 +30,7 @@ const addProblemTableRow = (event) => {
     const tableRow = document.createElement('tr');
     tableRow.innerHTML = `<th scope="row"></th>
   <td>
-    <input type="text" placeholder="Name" data-input="name"
+    <input type="text" placeholder="Name" name="name"
       class="form-control">
   </td>
   <td class="text-end"></td>`
@@ -38,7 +38,6 @@ const addProblemTableRow = (event) => {
     tableRow.appendChild(buttonCell);
     return tableRow;
   }
-
 
   //-------------------
   // combine
@@ -48,4 +47,6 @@ const addProblemTableRow = (event) => {
   tableBody.appendChild(newRow);
 }
 
-btnAddProblemTableRow.addEventListener('click', addProblemTableRow);
+document
+  .getElementById('addProblemRowBtn')
+  .addEventListener('click', addProblemTableRow);

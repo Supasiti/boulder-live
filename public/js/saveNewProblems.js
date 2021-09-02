@@ -1,20 +1,21 @@
-
-const handleSaveProblems = async (event) => {
+//
+// save new problems entered by user
+//
+const saveProblems = async (event) => {
   // make sure that it is 'Save' button is clicked
-  if (event.target.innerText !== 'Save') return
+  if (event.target.id !== 'saveProblemBtn') return
   event.preventDefault();
 
-
-  const extractInputsFromCells = (cells) => {
+  const extractInputs = (cells) => {
     return cells.reduce((acc, cell) => {
-      const key = cell.getAttribute('data-input');
+      const key = cell.getAttribute('name');
       const value = cell.value.trim();
       const result = {...acc, [key]: value};
       return result;
     }, {});
   };
 
-  const getProblemDataFromInput = (input, eventId) => {
+  const createProblemData = (input, eventId) => {
     return { 
       name: input.name,
       eventId
@@ -23,13 +24,13 @@ const handleSaveProblems = async (event) => {
 
   // extract data from each row
   // return Object data for problem
-  const getNewProblemData = (row, eventId) => {
+  const getProblemData = (row, eventId) => {
     // this row is the original data - need to ignore
     if (row.hasAttribute('data-problem-id')) return null;
 
     const inputCells = [...row.querySelectorAll('input')];
-    const inputObject = extractInputsFromCells(inputCells)
-    return getProblemDataFromInput(inputObject, eventId)
+    const inputObject = extractInputs(inputCells)
+    return createProblemData(inputObject, eventId)
   };
 
   // ----------------
@@ -39,7 +40,7 @@ const handleSaveProblems = async (event) => {
   const tableBody = event.target.closest('form').querySelector('tbody');
   const tableRows = tableBody.querySelectorAll('tr');
   const problemData = [...tableRows]
-    .map((row) => getNewProblemData(row, eventId))
+    .map((row) => getProblemData(row, eventId))
     .filter((item) => item)
   
   const response = await fetch('/api/problems', {
@@ -55,12 +56,7 @@ const handleSaveProblems = async (event) => {
   }
 }
 
+document
+  .getElementById('problemForm')
+  .addEventListener('click', saveProblems)
 
-
-// set up it 
-const setUpProblemForm = () => {
-  const form = document.querySelector('#event-problem-form');
-  form.addEventListener('click', handleSaveProblems)
-}
-
-setUpProblemForm();

@@ -1,7 +1,7 @@
 
 const saveCategories = async (event) => {
   // make sure that it is 'Save' button is clicked
-  if (event.target.id !== 'saveEventBtn') return
+  if (event.target.id !== 'saveCategoryBtn') return
   event.preventDefault();
 
   const parseDate = (dateStr, timeStr) => {
@@ -21,7 +21,7 @@ const saveCategories = async (event) => {
     }
   }
 
-  const extractInputsFromCells = (cells) => {
+  const extractInputs = (cells) => {
     return cells.reduce((acc, cell) => {
       const key = cell.getAttribute('name');
       const value = cell.value.trim();
@@ -32,12 +32,12 @@ const saveCategories = async (event) => {
 
   // extract data from each row
   // return Object data for category
-  const getNewCategoryData = (row, eventId) => {
+  const getCategoryData = (row, eventId) => {
     // this row is the original data - need to ignore
     if (row.hasAttribute('data-categoryid')) return null;
 
     const inputCells = [...row.querySelectorAll('input')];
-    const inputObject = extractInputsFromCells(inputCells)
+    const inputObject = extractInputs(inputCells)
     return createCategoryData(inputObject, eventId)
   };
 
@@ -45,7 +45,7 @@ const saveCategories = async (event) => {
     const tableBody = event.target.closest('form').querySelector('tbody');
     const tableRows = tableBody.querySelectorAll('tr');
     const result = [...tableRows]
-      .map((row) => getNewCategoryData(row, eventId))
+      .map((row) => getCategoryData(row, eventId))
       .filter((item) => item );
     return result;
   }
