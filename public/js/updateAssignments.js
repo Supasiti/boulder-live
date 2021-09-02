@@ -1,7 +1,7 @@
 
 const updateAssignments = async (event) => {
   // make sure that it is 'Save' button is clicked
-  if (event.target.innerText !== 'Save') return
+  if (event.target.id !== 'saveAssignmentBtn') return
   event.preventDefault();
 
   // extract inputs from UI
@@ -14,14 +14,6 @@ const updateAssignments = async (event) => {
       const categoryId = parseInt(input.getAttribute('data-categoryId'));
       return { problemId, categoryId };
     })
-    return result;
-  }
-
-  // expect .../eventId
-  const getEventId = () => {
-    const path = document.location.href.split('?')[0];
-    const routes = path.split('/');
-    const result = routes[routes.length - 1];
     return result;
   }
 
@@ -44,5 +36,5 @@ const updateAssignments = async (event) => {
 };
 
 document
-  .querySelector('#event-assignment-form')
+  .getElementById('assignmentForm')
   .addEventListener('click', updateAssignments)
