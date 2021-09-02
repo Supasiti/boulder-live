@@ -1,0 +1,11 @@
+<button 
+  class="nav-link" 
+  id="{{idName}}" 
+  data-bs-toggle="tab" 
+  data-bs-target="#{{target}}" 
+  type="button" 
+  role="tab" 
+  aria-controls="{{target}}" 
+  aria-selected="{{#if select}}true{{else}}false{{/if}}">
+  {{> @partial-block }}
+</button>

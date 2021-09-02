@@ -6,36 +6,25 @@
   {{!-- Tab  --}}
   <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item" role="presentation">
-      <button 
-        class="nav-link active" id="description-tab" data-bs-toggle="tab" 
-        data-bs-target="#description" type="button" role="tab" 
-        aria-controls="description" aria-selected="true">
-        Description
-      </button>
+      {{#> tabButton idName="description-tab" target="description"
+        select="true"}}
+        Description 
+      {{/tabButton}}
     </li>
     <li class="nav-item" role="presentation">
-      <button 
-        class="nav-link"  id="category-tab" data-bs-toggle="tab" 
-        data-bs-target="#category" type="button" role="tab" 
-        aria-controls="category" aria-selected="false">
-        Categories
-      </button>
+      {{#> tabButton idName="category-tab" target="category"}}
+        Categories 
+      {{/tabButton}}
     </li>
     <li class="nav-item" role="presentation">
-      <button 
-        class="nav-link" id="problem-tab" data-bs-toggle="tab" 
-        data-bs-target="#problem" type="button" role="tab" 
-        aria-controls="problem" aria-selected="false">
-        Problems
-      </button>
+      {{#> tabButton idName="problem-tab" target="problem"}}
+        Problems 
+      {{/tabButton}}
     </li>
     <li class="nav-item" role="presentation">
-      <button 
-        class="nav-link" id="assignment-tab" data-bs-toggle="tab" 
-        data-bs-target="#assignment" type="button" role="tab" 
-        aria-controls="assignment" aria-selected="false">
+      {{#> tabButton idName="assignment-tab" target="assignment"}}
         Problem Assignments
-      </button>
+      {{/tabButton}}
     </li>
   </ul>
 
@@ -66,9 +55,8 @@
     {{!-- problem assignment --}}
     <div 
       class="tab-pane fade" 
-      id="assignment" role="tabpanel" aria-labelledby="contact-tab">
-      
-      {{> eventProblemAssignmentForm }}
+      id="assignment" role="tabpanel" aria-labelledby="assignment-tab">
+      {{> assignmentForm }}
     </div>
 
   </div>
