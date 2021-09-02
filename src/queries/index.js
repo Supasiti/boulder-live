@@ -1,3 +1,4 @@
+const getCompetitors = require('./getCompetitors');
 const getCategories = require('./getCategories');
 const getEvents = require('./getEvents');
 const getProblems = require('./getProblems');
@@ -8,6 +9,7 @@ const getUsers = require('./getUsers');
 
 
 module.exports = {
+  getCompetitors,
   getCategories, 
   getEvents,
   getProblems,

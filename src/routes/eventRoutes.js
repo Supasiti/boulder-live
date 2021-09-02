@@ -47,6 +47,8 @@ const renderCompetitorEventPage = async (req, res) => {
     return
   }
   const competitorId = req.session.competitor.id;
+  console.log(competitorId)
+
   const eventId = req.params.eventId;
   const eventData = await services.event.getOne(eventId);
   const rawCompeteIn = await query.getCategories.all({ competitor_id: competitorId })

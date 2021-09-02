@@ -55,6 +55,7 @@ const updateEvent = async (req, res) => {
 //----------------------------------------------------------------------------------------
 // let user join an event
 //
+// either create a new competitor or use existing one
 const saveCompetitor = (req, res, rawCompetitor) => {
   const cleaned = sanitize(rawCompetitor);
 
@@ -68,6 +69,14 @@ const joinEvent = async (req, res) => {
   try {
     const userId = req.session.user.id || req.body.userId;
     const competitorData = { userId, eventId: req.params.id };
+    
+    // find the saved one
+    const savedCompetitor = await query.getCompetitors.one(competitorData);
+    if (savedCompetitor) {
+      saveCompetitor(req, res, savedCompetitor);
+      return
+    }
+    // or create a new one
     const rawCompetitor = await services.competitor.create(competitorData);
     saveCompetitor(req, res, rawCompetitor);
   } catch (err){
