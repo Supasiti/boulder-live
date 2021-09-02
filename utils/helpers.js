@@ -19,8 +19,14 @@ const capitalise = (str) => {
   return result;
 }
 
+const booleanToTick = (truthy) => {
+  if (truthy) return "✅";
+  return ""
+}
+
 module.exports = {
   format_time,
   format_date,
-  capitalise
+  capitalise,
+  booleanToTick
 };
