@@ -77,20 +77,25 @@ const update = async (newScore) => {
   return updatedScore;
 }
 
-// add Top
-// update a score with a top
-// arguments : scoreId
-const addTop = async (scoreId) => {
+
+// update a score with eiter top or bonus or attempt
+// arguments : scoreId, property
+const addToScore = async (scoreId, toAdd) => {
   const oldScore = await models.Score.findByPk(scoreId);
-  const newScore = oldScore.addTop();
+  const newScore = oldScore[toAdd].apply(oldScore) // eval ot oldScore.'toAdd'();
+
   const change = oldScore.difference(newScore);
   const updatedScore = await oldScore.update(newScore);
   await totalScore.updateScores(updatedScore, change);
   return updatedScore;
 }
 
+
+
 module.exports = {
-  addTop,
+  addTop: (scoreId) => addToScore(scoreId, 'addTop'),
+  addBonus: (scoreId) => addToScore(scoreId, 'addBonus'),
+  addAttempt: (scoreId) => addToScore(scoreId, 'addAttempt'),
   remove,
   update,
   generate

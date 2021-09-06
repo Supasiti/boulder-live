@@ -5,11 +5,38 @@ class Score extends Model {
 
   // return a new score with add top
   addTop () {
+    if (this.top) return {...this};
     const result = {
       top: true,
       bonus: true,
-      attemptTop: this.attemptTop + 1,
-      attemptBonus: this.bonus ? this.attemptBonus : this.attemptBonus + 1,
+      attemptTop: this.attempts + 1,
+      attemptBonus: this.bonus ? this.attemptBonus : this.attempts + 1,
+      attempts: this.attempts + 1,
+    };
+    return result;
+  }
+
+  // return a new score with add bonus
+  addBonus () {
+    if (this.bonus) return {...this};
+    const result = {
+      top: this.top,
+      bonus: true,
+      attemptTop: this.attemptTop,
+      attemptBonus: this.attempts + 1,
+      attempts: this.attempts + 1,
+    };
+    return result;
+  }
+
+  // return a new score with added attempt
+  addAttempt () {
+    if (this.top && this.bonus) return {...this};
+    const result = {
+      top: this.top,
+      bonus: this.bonus,
+      attemptTop: this.attemptTop,
+      attemptBonus: this.attemptBonus,
       attempts: this.attempts + 1,
     };
     return result;
@@ -77,7 +104,7 @@ Score.init(
           }
         },
         isConsistentWithAttemptTop (value) {
-          if (this.attemptTop < value)
+          if (this.attemptTop < value && this.top)
             throw new Error('Attempt top must be greater or equal to attempt bonus');
         }
       }
