@@ -1,6 +1,6 @@
 <tr 
   class="score-row"
-  data-scoreid="{{id}}">
+  data-score-id="{{id}}">
 
   <td>{{name}}</td>
   <td>{{booleanToTick top}}</td>
@@ -9,8 +9,29 @@
   <td>{{attemptBonus}}</td>
   <td>{{attempts}}</td>
   <td class="text-end">
-    {{#> button type="button" }}
-      +
-    {{/button}}
+    <div class="btn-group">
+      <button type="button" class="btn btn-secondary dropdown-toggle" 
+        data-bs-toggle="dropdown" aria-expanded="false">
+      <span class="visually-hidden">Toggle Dropstart</span>
+    </button>
+      <ul class="dropdown-menu dropdown-menu-end">
+        <li>
+          <button class="dropdown-item btn-add-top" type="button">
+            Add Top
+          </button>
+        </li>
+        <li>
+          <button class="dropdown-item btn-add-bonus" type="button">
+            Add Bonus
+          </button>
+        </li>
+        <li>
+          <button class="dropdown-item btn-add-attempt" type="button">
+            Add Attempt
+          </button>
+        </li>
+      </ul>
+    </div>
   </td>
 </tr>
+

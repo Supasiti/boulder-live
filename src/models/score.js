@@ -3,6 +3,18 @@ const sequelize = require('../configs/sequelizeConnection');
 
 class Score extends Model {
 
+  // return a new score with add top
+  addTop () {
+    const result = {
+      top: true,
+      bonus: true,
+      attemptTop: this.attemptTop + 1,
+      attemptBonus: this.bonus ? this.attemptBonus : this.attemptBonus + 1,
+      attempts: this.attempts + 1,
+    };
+    return result;
+  }
+
   // return a difference between the old and new scores
   difference ( newScore ) {
     const properties = ['top', 'bonus', 'attemptTop', 'attemptBonus', 'attempts'];

@@ -58,8 +58,9 @@ const update = async (newCategory, categoryId) => {
 
 // check if the competitor is in the same event as category
 const validateCompetitor = async ({ competitorId, categoryId }) => {
-  const competitor = await models.Competitor.findByPk(competitorId);
-  const category = await models.Category.findByPk(categoryId);
+  const competitorPromise =  models.Competitor.findByPk(competitorId);
+  const categoryPromise =  models.Category.findByPk(categoryId);
+  const [competitor, category] = await Promise.all([competitorPromise, categoryPromise])
   return category.eventId === competitor.eventId;
 }
 

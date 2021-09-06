@@ -20,40 +20,5 @@
   {{/each }}
 {{/scoreTable}}
 
-<button 
-  type="button" class="btn btn-primary" 
-  data-bs-toggle="modal" data-bs-target="#addScoreModal">
-  Add Score
-</button>
-
-{{#> modal title="Add Attempt" idName="addScoreModal" class="w-25"}}
-  <form id="addScoreForm" class="" novalidate>
-    
-    <div class="row">
-      <h3 class="mb-3">Name</h3>
-
-      <div class="col d-flex flex-wrap">
-        <div class="col-6 form-check form-switch mb-3">
-          <label class="form-check-label" for="topSwitch">Top?</label>
-          <input class="form-check-input" type="checkbox" id="topSwitch">
-        </div>
-
-        <div class="col-6 form-check form-switch mb-3">
-          <label class="form-check-label" for="bonusSwitch">Bonus?</label>
-          <input class="form-check-input" type="checkbox" id="bounsSwitch">
-        </div>
-      </div>
-    </div>
-
-    {{#>button idName="addAttemptBtn" class="w-100" type="button"}}
-      Add 1 attempt
-    {{/button}}
-
-  </form>
-{{/modal}}
-
-
-
-
-
 <script src="/js/joinCategory.js"></script>
+<script src="/js/addTop.js"></script>

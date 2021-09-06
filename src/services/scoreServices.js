@@ -77,7 +77,20 @@ const update = async (newScore) => {
   return updatedScore;
 }
 
+// add Top
+// update a score with a top
+// arguments : scoreId
+const addTop = async (scoreId) => {
+  const oldScore = await models.Score.findByPk(scoreId);
+  const newScore = oldScore.addTop();
+  const change = oldScore.difference(newScore);
+  const updatedScore = await oldScore.update(newScore);
+  await totalScore.updateScores(updatedScore, change);
+  return updatedScore;
+}
+
 module.exports = {
+  addTop,
   remove,
   update,
   generate
