@@ -34,9 +34,11 @@ const joinCategory = async (req, res) => {
     const categoryId = req.params.id;
     const result = await services.category.join({ competitorId, categoryId })
     if (result) {
-      res.status(200).json({ message: 'successfully join in this category'})
+      return res.status(200)
+        .json({ message: 'successfully join in this category'})
     }
-    res.status(400).json({ message: 'competitorId is incompatible with this categoryId'});
+    return res.status(400)
+      .json({ message: 'competitorId is incompatible with this categoryId'});
   } catch (err) {
     res.status(400).json(err);
   }

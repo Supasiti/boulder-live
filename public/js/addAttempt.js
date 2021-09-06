@@ -2,8 +2,6 @@
 const addAttempt = async (event) => {
   event.preventDefault();
 
-  console.log('add attempt')
-
   const tr = event.target.closest('tr');
   const scoreId = parseInt(tr.getAttribute('data-score-id'));
 

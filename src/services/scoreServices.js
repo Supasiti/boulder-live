@@ -1,4 +1,3 @@
-const { Op } = require('sequelize');
 const models = require('../models');
 const query = require('../queries');
 const totalScore = require('../services/totalScoreServices');
@@ -6,7 +5,7 @@ const sanitize = require('./sanitize');
 
 //----------------------------------------------------------------------------------------
 
-const getRepeatedScores = async ( competitorId, problemIds) => {
+const getOldScores = async (problemIds, competitorId) => {
   const result = await models.Score.findAll({
     where : { 
       problemId: problemIds,  
@@ -16,21 +15,37 @@ const getRepeatedScores = async ( competitorId, problemIds) => {
   return result;
 }
 
-const getScoreData = (problemIds, competitorId) => {
-  const result = problemIds.map((problemId) => {
-    return { competitorId, problemId }
-  })
-  return result;
-}
-
-const getScoresToCreate = (newScores, oldScores) => {
+const getNewProblemIds = (problemIds, oldScores) => {
   const oldProblemIds = oldScores.map(({ problemId }) => problemId);
-  const result = newScores.filter(({ problemId }) => {
+  const result = problemIds.filter(( problemId ) => {
     return !oldProblemIds.includes(problemId)
   })
   return result;
 }
 
+const createNewScores = (problemIds, competitorId) => {
+  const result = problemIds.map((problemId) => {
+    return { competitorId, problemId }
+  })
+  return result;
+} 
+
+// return [newScores, oldScores]
+const sortScores = async (problemIds, competitorId) => {
+  const oldScores = await getOldScores(problemIds, competitorId);
+  const newProblemIds = getNewProblemIds(problemIds, oldScores)
+  const newScores = createNewScores(newProblemIds, competitorId);
+  return [newScores, oldScores];
+}
+
+const getProblemIds = async (categoryId) => {
+  const assignments = await models.ProblemAssignment.findAll({
+    attributes: ['id'],
+    where : { categoryId : categoryId }
+  })
+  const result = assignments.map(({ id }) => id);
+  return result;
+}
 
 // create new set of scores and update total score
 // arguments : TotalScore
@@ -38,17 +53,10 @@ const getScoresToCreate = (newScores, oldScores) => {
 //  - Array<Score>
 const generate = async (totalScore) => {
   const { competitorId, categoryId } = totalScore;
-  const problems = await query.getProblems.byCategory(categoryId);
-  const problemIds = problems.map(({ id }) => id);
-  
-  const newScores = getScoreData(problemIds, competitorId);
-  const repeatedScores = await getRepeatedScores(competitorId, problemIds);
-  
-  totalScore.fromScores(repeatedScores); // update total score
-  const scoresToCreate = getScoresToCreate(newScores, repeatedScores);
-  
-  if ( !scoresToCreate.length ) return null;
-  const result = await models.Score.bulkCreate(scoresToCreate);
+  const problemIds = await getProblemIds(categoryId);
+  const [newScores, oldScores] = await sortScores(problemIds, competitorId)
+  totalScore.fromScores(oldScores); // update total score
+  const result = await models.Score.bulkCreate(newScores);
   return result;
 }
 
@@ -64,33 +72,35 @@ const remove = async (scoreId) => {
 }
 
 //----------------------------------------------------------------------------------------
-
 // UPDATE
+
+// update old score with new one
+const updateWithNew = async (oldScore, newScore) => {
+  const change = oldScore.difference(newScore);
+  const updatedScore = await oldScore.update(newScore);
+  totalScore.updateScores(updatedScore, change);
+  return updatedScore;
+}
+
 // update a score
 // arguments : { scoreId, new score}
 const update = async (newScore) => {
   const { scoreId } = newScore;
   const oldScore = await models.Score.findByPk(scoreId);
-  const change = oldScore.difference(newScore);
-  const updatedScore = await oldScore.update(newScore);
-  await totalScore.updateScores(updatedScore, change);
-  return updatedScore;
+  const result = await updateWithNew(oldScore, newScore);
+  return result;
 }
 
-
 // update a score with eiter top or bonus or attempt
-// arguments : scoreId, property
+// arguments : 
+//   - scoreId, 
+//   - toAdd - function of Score to call
 const addToScore = async (scoreId, toAdd) => {
   const oldScore = await models.Score.findByPk(scoreId);
   const newScore = oldScore[toAdd].apply(oldScore) // eval ot oldScore.'toAdd'();
-
-  const change = oldScore.difference(newScore);
-  const updatedScore = await oldScore.update(newScore);
-  await totalScore.updateScores(updatedScore, change);
-  return updatedScore;
+  const result = await updateWithNew(oldScore, newScore);
+  return result;
 }
-
-
 
 module.exports = {
   addTop: (scoreId) => addToScore(scoreId, 'addTop'),
