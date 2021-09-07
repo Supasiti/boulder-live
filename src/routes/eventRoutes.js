@@ -8,7 +8,9 @@ const sanitize = require('../services/sanitize');
 // routes: /events/
 
 const getAvailableEvents = (events) =>
-  events.filter((event) => ['open', 'running'].includes(event.status));
+  events.filter((event) =>
+    ['open', 'running'].includes(event.status),
+  );
 
 const renderSearchEvent = async (req, res) => {
   const rawEventData = await query.getEvents.all();
@@ -40,7 +42,9 @@ const renderOrganiserEventPage = async (req, res) => {
 // get other categories not enrolled to compete in
 const getAvailableCategories = (event, competeIn) => {
   const competeInIds = competeIn.map(({ id }) => id);
-  const result = event.categories.filter((c) => !competeInIds.includes(c.id));
+  const result = event.categories.filter(
+    (c) => !competeInIds.includes(c.id),
+  );
   return result;
 };
 
@@ -62,6 +66,8 @@ const renderCompetitorEventPage = async (req, res) => {
   const competeIn = sanitize(rawCompeteIn);
   const scores = sanitize(rawScores);
 
+  console.log(scores);
+
   res.render('competitorEvent', {
     loggedIn: req.session.logged_in,
     competeIn,
@@ -82,7 +88,6 @@ const renderEventPage = async (req, res) => {
 // render  event scoreboard
 const renderEventScoreboard = async (req, res) => {
   const { eventId } = req.params;
-
   const rawData = await query.getTotalScores.byEvent(eventId);
   const event = sanitize(rawData);
 

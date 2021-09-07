@@ -12,7 +12,7 @@
   "plugins": ["prettier"],
   "extends": [
     "airbnb-base",
-    "prettier"
+    "plugin:prettier/recommendedr"
   ],
   "rules": {
     // Allow Prettier to throw errors via ESLint
