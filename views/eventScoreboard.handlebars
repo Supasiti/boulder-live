@@ -1,0 +1,16 @@
+<h2 class="mb-4"> Scoreboard</h2>
+
+{{#with event }}
+  {{#each  categories as | category |}}
+    
+    <h3 class="mb-4">{{name}}</h3>
+    {{#> totalScoreTable }}
+      {{#each total_scores as | totalScore |}}
+        {{> totalScoreRow 
+          number=this.competitor.number
+          name=this.competitor.user.username}}
+      {{/each }}
+
+    {{/totalScoreTable }}
+  {{/each }}
+{{/with }}
