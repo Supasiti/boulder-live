@@ -1,0 +1,12 @@
+<div id="event-tables">
+  <div class="py-4">
+    <h3 class="mt-4">All Events</h3>
+    {{#> eventTable status=true}}
+      {{#each events as | event |}}
+        {{> eventTableRow canJoin=true}}
+      {{/each }}
+    {{/eventTable}}
+  </div>
+</div>
+
+<script src="/js/joinEvent.js"></script>

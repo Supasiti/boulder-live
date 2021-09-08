@@ -1,0 +1,19 @@
+<form id="problemForm" class="px-3 py-4" novalidate>
+  {{#> problemTable}}
+    {{#each problems}}
+      {{> problemTableRow  }}
+    {{/each }}
+  {{/problemTable}}
+
+  <div class="d-flex justify-content-center">
+    {{#>button idName="addProblemRowBtn" class="mx-3" type="button"}}
+      Add Row
+    {{/button}}
+
+    {{#>button idName="saveProblemBtn" class="mx-3" type="button"}}
+      Save
+    {{/button}}
+  </div>
+</form>
+
+<script src="/js/addProblemTableRow.js"></script>

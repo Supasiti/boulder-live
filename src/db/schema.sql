@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS boulder_db;
+CREATE DATABASE boulder_db;

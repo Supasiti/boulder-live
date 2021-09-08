@@ -1,0 +1,74 @@
+<div class="container d-flex flex-wrap justify-content-between mb-5">
+  <h2 class="d-inline"> Your Event</h2>
+
+  <a href="/events/{{event.id}}/scoreboard"
+    class="btn btn-primary">
+    Scoreboard
+  </a>  
+</div>
+
+{{#with event}}
+  {{!-- Tab  --}}
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      {{#> tabButton idName="descriptionTab" target="description"
+        select="true"}}
+        Description 
+      {{/tabButton}}
+    </li>
+    <li class="nav-item" role="presentation">
+      {{#> tabButton idName="categoryTab" target="category"}}
+        Categories 
+      {{/tabButton}}
+    </li>
+    <li class="nav-item" role="presentation">
+      {{#> tabButton idName="problemTab" target="problem"}}
+        Problems 
+      {{/tabButton}}
+    </li>
+    <li class="nav-item" role="presentation">
+      {{#> tabButton idName="assignmentTab" target="assignment"}}
+        Problem Assignments
+      {{/tabButton}}
+    </li>
+  </ul>
+
+  {{!-- tab content --}}
+  <div class="tab-content" id="myTabContent">
+    
+    {{!-- description --}}
+    <div 
+      class="tab-pane fade show active" 
+      id="description" role="tabpanel" aria-labelledby="homeTab">
+      {{> eventForm }}
+    </div>
+
+    {{!-- category --}}
+    <div 
+      class="tab-pane fade" 
+      id="category" role="tabpanel" aria-labelledby="profileTab">
+      {{> categoryForm }}
+    </div>
+    
+    {{!-- problem --}}
+    <div 
+      class="tab-pane fade" 
+      id="problem" role="tabpanel" aria-labelledby="problemTab">
+      {{> problemForm }}
+    </div>
+
+    {{!-- problem assignment --}}
+    <div 
+      class="tab-pane fade" 
+      id="assignment" role="tabpanel" aria-labelledby="assignmentTab">
+      {{> assignmentForm }}
+    </div>
+  </div>
+{{/with}}
+
+
+<script src="/js/getEventId.js"></script>
+<script src="/js/saveNewCategories.js"></script>
+<script src="/js/saveNewProblems.js"></script>
+<script src="/js/updateEvent.js"></script>
+<script src="/js/updateAssignments.js"></script>

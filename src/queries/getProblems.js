@@ -1,0 +1,53 @@
+const models = require('../models');
+const utils = require('../../utils/arrayUtils');
+const sanitize = require('../services/sanitize');
+
+// get problems from ids
+// return 
+//  - Array<Problem>
+const byIds = async (ids) => {
+  const result = await models.Problem.findAll({where: { id : ids}});
+  return result;
+}
+
+// get all the problems 
+// return 
+//  - Array<Problem>
+const all = async () => {
+  const result = await models.Problem.findAll();
+  return result;
+}
+
+// get all the problems for a particular event
+// return 
+//  - Array<Problem>
+const byEventId = async (eventId) => {
+  const result = await models.Problem.findAll({
+    where : { eventId: eventId },
+    include: [ models.ProblemAssignment ],
+    order: [['id', 'ASC']]
+  });
+  return result;
+}
+
+// get all the problems for a particular category
+// return 
+//  - Array<Problem>
+const byCategory = async (categoryId) => {
+  const result = await models.Problem.findAll({
+    include: [
+      {
+        model: models.ProblemAssignment,
+        where: { categoryId: categoryId } 
+      }
+    ],
+  });
+  return result;
+}
+
+module.exports = {
+  all,
+  byIds,
+  byEventId,
+  byCategory
+}

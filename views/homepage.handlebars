@@ -1,0 +1,35 @@
+<div class="d-flex justify-content-center align-item-center flex-wrap">
+  <h1 class="col-12 text-center">Welcome</h1>
+  <h3 class="col-12 text-center mb-4">Quickly organise your boulder comp!
+  </h3>
+  
+  {{!-- login form --}}
+  <div class="form-signin mt-4">
+    <form id="login-form" novalidate>
+      <h2 class="h3 mb-3 fw-normal">Please sign in</h2>
+
+      {{#> loginInput 
+        idAddOn="basic-addon2" idName="email-input" placeholder="user@email.com"
+        label="Email" }} 
+        #
+      {{/loginInput}}
+      
+      {{#> loginInput 
+        idAddOn="basic-addon3" idName="password-input" placeholder="Password"
+        label="Password" type="password"}} 
+        #
+      {{/loginInput}}
+
+      {{#>button class="w-100 btn-lg" type="submit"}}
+        Sign in
+      {{/button}}
+    </form>
+
+    <p class="mt-5 mb-3 text-muted">Don't have an account? Sign up <a href="/signup">here</a></p>
+    <p class="mt-5 mb-3 text-muted">© 2017–2021</p>
+
+  </div>
+</div>
+
+<script src="/js/addFormValidation.js"></script>
+<script src="/js/login.js"></script>

@@ -1,0 +1,69 @@
+<div class="container d-flex flex-wrap justify-content-between">
+  <h2 class="d-inline"> Welcome back, {{user.username}}</h2>
+  <button 
+    type="button" class="btn btn-primary" 
+    data-bs-toggle="modal" data-bs-target="#createEventModal">
+    New Event
+  </button>
+</div>
+
+<div id="event-tables">
+  {{!-- running table --}}
+  <div class="py-4">
+    <h3 class="mt-4">Your Running Events</h3>
+    {{#> eventTable status=true}}
+      {{#each runningEvents as | event |}}
+        {{> eventTableRow  canDelete=true }}
+      {{/each }}
+    {{/eventTable}}
+  </div>
+
+
+  {{!-- future table --}}
+  <div class="py-4">
+    <h3 class="mt-4">Your Future Events</h3>
+    {{#> eventTable status=true}}
+      {{#each futureEvents as | event |}}
+        {{> eventTableRow  canDelete=true }}
+      {{/each }}
+    {{/eventTable}}
+  </div>
+
+  {{!-- past table --}}
+  <div class="py-4">
+    <h3 class="mt-4">Your Past Events</h3>
+    {{#> eventTable status=true}}
+      {{#each pastEvents as | event |}}
+        {{> eventTableRow  canDelete=false}}
+      {{/each }}
+    {{/eventTable}}
+  </div>
+</div>
+
+{{!-- modal --}}
+
+{{#> modal title="Create Event" idName="createEventModal"}}
+  <form id="event-description-form" class="px-3" novalidate>
+    <div class="row mb-3">
+
+      {{> input idName="eventNameInput" label="Event Name" type="text" 
+        placeholder="Your Event Name" name="name" }}
+    
+      {{> input idName="eventLocationInput" label="Location" type="text" 
+        placeholder="Bouldering Gym" name="location" }}
+
+    </div>
+    <div class="d-flex justify-content-center">
+      <button type="button" class="btn btn-secondary mx-3" 
+        data-bs-dismiss="modal">
+        Close
+      </button>
+      {{#>button idName="createEventBtn" class="mx-3" type="button"}}
+        Save
+      {{/button}}
+    </div>
+  </form>
+{{/modal}}
+
+<script src="/js/goToEditEvent.js"></script>
+<script src="/js/createEvent.js"></script>
