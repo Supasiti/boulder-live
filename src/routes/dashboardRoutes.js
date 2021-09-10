@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const withAuth = require('../../utils/auth');
 const withPurpose = require('../../utils/withPurpose');
-const getEvents = require('../queries/getEvents');
+const query = require('../queries');
 const sanitize = require('../services/sanitize');
 
 // routes: /dashboard/
@@ -25,7 +25,9 @@ const getPastEvents = (events) => {
 // organiser dashboard
 const renderOrganiserDashboard = async (req, res) => {
   const userId = req.session.user.id;
-  const rawEventData = await getEvents.organisedByUser(userId);
+  const rawEventData = await query.getAllEvents({
+    organised_by: userId,
+  });
   const cleanedEventData = sanitize(rawEventData);
 
   // get events into separate categories
@@ -45,7 +47,9 @@ const renderOrganiserDashboard = async (req, res) => {
 //  render competitor dashboard
 const renderCompetitorDashboard = async (req, res) => {
   const userId = req.session.user.id;
-  const rawEventData = await getEvents.competedByUser(userId);
+  const rawEventData = await query.getAllEvents({
+    competed_by: userId,
+  });
   const cleanedEventData = sanitize(rawEventData);
 
   // get events into separate categories

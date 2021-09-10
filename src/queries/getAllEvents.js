@@ -4,7 +4,7 @@ const { filterObjectByKeys } = require('../../utils/objectUtils');
 const acceptedKeys = ['id'];
 const assocModels = {
   organised_by: { model: models.Organiser, field: 'userId' },
-  competed_in: { model: models.Competitor, field: 'userId' },
+  competed_by: { model: models.Competitor, field: 'userId' },
 };
 
 const getEventFilter = (rawFilter) => {

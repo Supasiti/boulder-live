@@ -2,7 +2,7 @@ const router = require('express').Router();
 const withAuth = require('../../utils/auth');
 const withPurpose = require('../../utils/withPurpose');
 const query = require('../queries');
-const services = require('../services');
+
 const sanitize = require('../services/sanitize');
 
 // routes: /events/
@@ -28,7 +28,7 @@ const renderSearchEvent = async (req, res) => {
 const renderOrganiserEventPage = async (req, res) => {
   // TODO - need to check that userId matches event id in organiser list
   const { eventId } = req.params;
-  const eventData = await services.event.getOne(eventId);
+  const eventData = await query.getEvent(eventId);
 
   res.render('eventpage', {
     loggedIn: req.session.logged_in,
