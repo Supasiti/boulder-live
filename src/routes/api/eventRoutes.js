@@ -21,7 +21,7 @@ const getAllEvents = async (req, res) => {
 
 const getFullEvent = async (req, res) => {
   try {
-    const eventData = await services.event.getOne(req.params.id);
+    const eventData = await query.getEvent(req.params.id);
     res.status(200).json(eventData);
   } catch (err) {
     res.status(500).json(err);
