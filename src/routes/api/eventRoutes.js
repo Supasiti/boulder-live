@@ -10,7 +10,7 @@ const router = express.Router();
 
 const getAllEvents = async (req, res) => {
   try {
-    const rawEvents = await query.getEvents.allxxx(req.query);
+    const rawEvents = await query.getAllEvents(req.query);
     const events = sanitize(rawEvents);
     res.status(200).json(events);
   } catch (err) {
