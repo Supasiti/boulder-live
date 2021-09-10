@@ -7,14 +7,13 @@ const getScores = require('./getScores');
 const getTotalScores = require('./getTotalScores');
 const getUsers = require('./getUsers');
 
-
 module.exports = {
   getCompetitors,
-  getCategories, 
+  getCategories,
   getEvents,
   getProblems,
   getProblemAssignments,
   getScores,
   getTotalScores,
-  getUsers 
-}
+  getUsers,
+};
