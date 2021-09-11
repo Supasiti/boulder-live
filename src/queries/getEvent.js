@@ -39,7 +39,7 @@ const getEvent = async (eventId) => {
   const { problems, assignments } =
     extractAssignments(cleanedProblems);
   return {
-    ...event,
+    event,
     categories,
     problems,
     assignments,

@@ -44,14 +44,18 @@ const createNewEvent = async (req, res) => {
 // update an event
 const updateEvent = async (req, res) => {
   try {
-    await services.event.update(req.body, req.params.id);
-    res.status(200).json({ message: 'success' });
+    const updated = await services.event.update(
+      req.body,
+      req.params.id,
+    );
+    const cleaned = sanitize(updated);
+    res.status(200).json({ event: cleaned, message: 'success' });
   } catch (err) {
     res.status(400).json(err);
   }
 };
 
-//----------------------------------------------------------------------------------------
+//--------------------------------------------------------------------
 // let user join an event
 //
 // either create a new competitor or use existing one

@@ -41,8 +41,8 @@ const update = async (eventData, eventId) => {
     where: { id: eventId },
   });
   if (!eventsUpdated[0]) return null;
-  const updatedEvent = await query.getEvent(eventId);
-  return updatedEvent;
+  const updatedEvents = await query.getAllEvents({ id: eventId });
+  return updatedEvents[0];
 };
 
 module.exports = {

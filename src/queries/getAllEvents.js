@@ -1,5 +1,5 @@
 const models = require('../models');
-const { filterObjectByKeys } = require('../../utils/objectUtils');
+const idFilterFactory = require('./idFilter');
 
 const acceptedKeys = ['id'];
 const assocModels = {
@@ -7,44 +7,17 @@ const assocModels = {
   competed_by: { model: models.Competitor, field: 'userId' },
 };
 
-const getEventFilter = (rawFilter) => {
-  const result = filterObjectByKeys(acceptedKeys, rawFilter);
-  return result;
-};
-
-const getQueryObject = (key, rawFilter) => {
-  if (key in rawFilter) {
-    const filterObj = { [assocModels[key].field]: rawFilter[key] };
-    const result = {
-      model: assocModels[key].model,
-      where: filterObj,
-    };
-    return result;
-  }
-  return null;
-};
-
-const getAssocFilters = (rawFilter) => {
-  const assocKeys = Object.keys(assocModels);
-  const result = assocKeys.reduce((acc, key) => {
-    const toInclude = getQueryObject(key, rawFilter);
-    return toInclude ? [...acc, toInclude] : [...acc];
-  }, []);
-  return result;
-};
-
-// filter the courses according to some filters and return ids
-// return Array<int>
-const getFilteredIds = async (rawFilter) => {
-  const eventFilter = getEventFilter(rawFilter);
-  const assocFilters = getAssocFilters(rawFilter);
-
-  const events = await models.Event.findAll({
-    attributes: ['id'],
-    where: eventFilter,
-    include: assocFilters,
+const getAllEventsWithFilter = async (rawFilter) => {
+  const idFilter = idFilterFactory(
+    models.Event,
+    acceptedKeys,
+    assocModels,
+  );
+  const ids = await idFilter.getIds(rawFilter);
+  const result = await models.Event.findAll({
+    where: { id: ids },
   });
-  return events.map(({ id }) => id);
+  return result;
 };
 
 //-------------------------------------
@@ -52,10 +25,11 @@ const getFilteredIds = async (rawFilter) => {
 // return
 //  - Array<Event>
 const getAllEvents = async (rawFilter) => {
-  const ids = await getFilteredIds(rawFilter);
-  const result = await models.Event.findAll({
-    where: { id: ids },
-  });
+  if (rawFilter) {
+    const result = await getAllEventsWithFilter(rawFilter);
+    return result;
+  }
+  const result = await models.Event.findAll();
   return result;
 };
 
