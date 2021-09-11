@@ -48,35 +48,7 @@ const idsByProblemId = async (problemId) => {
   return result;
 };
 
-// filter the courses according to some filters and return ids
-// return Array<int>
-const getFilteredIds = async (rawFilter) => {
-  const totalScoreFilter = rawFilter.competitor_id
-    ? { competitorId: rawFilter.competitor_id }
-    : {};
-  const categories = await models.Category.findAll({
-    attributes: ['id'],
-    include: [
-      {
-        model: models.TotalScore,
-        where: totalScoreFilter,
-      },
-    ],
-  });
-  return categories.map(({ id }) => id);
-};
-
-// get all courses filtered by filter
-const all = async (rawFilter) => {
-  const ids = await getFilteredIds(rawFilter);
-  const result = await models.Category.findAll({
-    where: { id: ids },
-  });
-  return result;
-};
-
 module.exports = {
-  all,
   withTotalScores,
   idsByProblemId,
 };

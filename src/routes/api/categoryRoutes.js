@@ -50,10 +50,20 @@ const joinCategory = async (req, res) => {
   }
 };
 
+// remove a category from event
+const removeCategory = async (req, res) => {
+  try {
+    await services.category.remove(req.params.id);
+    res.status(200).json({ message: 'A category is removed' });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
 // router
 
 router.post('/', createCategory);
 router.get('/', getAllCategories);
+router.delete('/:id', removeCategory);
 router.post('/:id/join', joinCategory);
 
 module.exports = router;
