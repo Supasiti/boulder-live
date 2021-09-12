@@ -3,13 +3,16 @@ const query = require('../queries');
 
 //----------------------------------------------------------------------------------------
 
-// check if assignment is in an array 
+// check if assignment is in an array
 const isIn = (assignment, assignmentArray) => {
   const entry = assignmentArray.find((a) => {
-    return a.problemId === assignment.problemId && a.categoryId === assignment.categoryId;
-  })
-  return entry? true : false;
-}
+    return (
+      a.problemId === assignment.problemId &&
+      a.categoryId === assignment.categoryId
+    );
+  });
+  return entry ? true : false;
+};
 
 const getIdsToRemove = (oldAssignments, newAssignments) => {
   const assignmentToRemove = oldAssignments.filter((o) => {
@@ -18,15 +21,18 @@ const getIdsToRemove = (oldAssignments, newAssignments) => {
   });
   const result = assignmentToRemove.map(({ id }) => id);
   return result;
-}
+};
 
 // remove old assignments that are not part of new assignments
-const removeOldAssignments = async (oldAssignments, newAssignments) => {
+const removeOldAssignments = async (
+  oldAssignments,
+  newAssignments,
+) => {
   const idsToRemove = getIdsToRemove(oldAssignments, newAssignments);
   await models.ProblemAssignment.destroy({
-    where: { id: idsToRemove }
-  })
-}
+    where: { id: idsToRemove },
+  });
+};
 
 const getDataToCreate = (oldAssignments, newAssignments) => {
   const result = newAssignments.filter((n) => {
@@ -34,29 +40,39 @@ const getDataToCreate = (oldAssignments, newAssignments) => {
     return !isIn(n, oldAssignments);
   });
   return result;
-}
+};
 
 // create new assignments that are not part of old assignments
-const createNewAssignments = async (oldAssignments, newAssignments) => {
+const createNewAssignments = async (
+  oldAssignments,
+  newAssignments,
+) => {
   const toCreate = getDataToCreate(oldAssignments, newAssignments);
   if (toCreate.length) {
     await models.ProblemAssignment.bulkCreate(toCreate);
   }
-}
+};
 
 // update or create or remove problemAssignment based on input
-// arguments { 
-//    eventId, 
-//    problemAssignments: Array<{ problemId, categoryId}> } 
+// arguments {
+//    eventId,
+//    problemAssignments: Array<{ problemId, categoryId}> }
 // return int
 const update = async (newData) => {
   const { eventId, problemAssignments } = newData;
-  
-  const oldAssignments = await query.getProblemAssignments.byEventId(eventId);
-  await removeOldAssignments(oldAssignments, problemAssignments);
-  await createNewAssignments(oldAssignments, problemAssignments);  
-} 
 
-module.exports = { 
-  update
-}
+  const oldAssignments = await query.getAllAssignments({ eventId });
+  const removePromise = removeOldAssignments(
+    oldAssignments,
+    problemAssignments,
+  );
+  const createPromise = createNewAssignments(
+    oldAssignments,
+    problemAssignments,
+  );
+  await Promise.all([removePromise, createPromise]);
+};
+
+module.exports = {
+  update,
+};
