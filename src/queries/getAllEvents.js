@@ -1,7 +1,7 @@
 const models = require('../models');
 const idFilterFactory = require('./idFilter');
 
-const acceptedKeys = ['id'];
+const acceptedKeys = ['id', 'status'];
 const assocModels = {
   organised_by: { model: models.Organiser, field: 'userId' },
   competed_by: { model: models.Competitor, field: 'userId' },

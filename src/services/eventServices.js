@@ -1,10 +1,9 @@
 const { Event, Organiser } = require('../models');
 const query = require('../queries');
-const utils = require('../../utils/arrayUtils');
 const sanitize = require('./sanitize');
 
 // create a new event
-// arguments : name, location, userId
+// arguments : {} name, location, userId }
 // return
 //  - Event
 const create = async (newEventData) => {

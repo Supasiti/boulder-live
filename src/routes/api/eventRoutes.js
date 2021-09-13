@@ -1,9 +1,18 @@
-const express = require('express');
+const router = require('express').Router();
 const query = require('../../queries');
 const services = require('../../services');
 const sanitize = require('../../services/sanitize');
 
-const router = express.Router();
+// route: /api/events
+
+const getUserId = (req) => {
+  if ('session' in req) {
+    if ('user' in req.session) {
+      return req.session.user.id;
+    }
+  }
+  return req.body.userId;
+};
 
 // --------------------------------------
 // GET - will return a list of all events
@@ -29,14 +38,20 @@ const getFullEvent = async (req, res) => {
 };
 
 // create an event
+// expect : {
+//   userId : int,  required
+//   name: String, required
+//   location: String, required
+// }
 const createNewEvent = async (req, res) => {
   try {
-    const userId = req.session.user.id;
+    const userId = getUserId(req);
     const newEventData = { ...req.body, userId };
-    const rawEventData = await services.event.create(newEventData);
-    const cleanedEventData = sanitize(rawEventData);
-    res.status(200).json(cleanedEventData);
+    const raw = await services.event.create(newEventData);
+    const cleaned = sanitize(raw);
+    res.status(200).json(cleaned);
   } catch (err) {
+    console.error(err);
     res.status(400).json(err);
   }
 };
@@ -73,7 +88,7 @@ const saveCompetitor = (req, res, rawCompetitor) => {
 
 const joinEvent = async (req, res) => {
   try {
-    const userId = req.session.user.id || req.body.userId;
+    const userId = getUserId(req);
     const competitorData = { userId, eventId: req.params.id };
 
     // find the saved one
@@ -97,7 +112,7 @@ const joinEvent = async (req, res) => {
 
 // requests
 router.get('/', getAllEvents);
-router.post('/create', createNewEvent);
+router.post('/', createNewEvent);
 router.post('/:id/join', joinEvent);
 router.get('/:id', getFullEvent);
 router.put('/:id', updateEvent);
