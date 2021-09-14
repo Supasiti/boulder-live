@@ -24,7 +24,7 @@ const saveLogin = (req, res, rawUser) => {
 // creating an account
 const createNewUser = async (req, res) => {
   try {
-    const rawUser = await userServices.create(req.body);
+    const rawUser = await services.user.create(req.body);
     saveLogin(req, res, rawUser);
   } catch (err) {
     res.status(400).json(err);
@@ -34,7 +34,7 @@ const createNewUser = async (req, res) => {
 // checking when they log in
 const checkLogin = async (req, res) => {
   try {
-    const rawUser = await userServices.authenticate(req.body);
+    const rawUser = await services.user.authenticate(req.body);
     if (!rawUser) {
       res.status(400).json({
         message: 'Incorrect email or password, please try again',
