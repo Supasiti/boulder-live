@@ -37,6 +37,17 @@ const getFullEvent = async (req, res) => {
   }
 };
 
+const getAllRunningEvents = async (req, res) => {
+  try {
+    const eventData = await query.getAllEvents({
+      status: ['open', 'running'],
+    });
+    res.status(200).json(eventData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 // create an event
 // expect : {
 //   userId : int,  required
@@ -72,38 +83,20 @@ const updateEvent = async (req, res) => {
 
 //--------------------------------------------------------------------
 // let user join an event
-//
-// either create a new competitor or use existing one
-const saveCompetitor = (req, res, rawCompetitor) => {
-  const cleaned = sanitize(rawCompetitor);
 
-  req.session.save(() => {
-    req.session.competitor = cleaned;
-    res.json({
-      competitor: cleaned,
-      message: 'You are successfully join the event!',
-    });
-  });
-};
-
+// let competitor join event
+// argument : { userId } and params id
+// return {
+//   competitor: Number,
+//   scores: Array<Score>
+//   categoryIds: Array<int>
+// }
 const joinEvent = async (req, res) => {
   try {
     const userId = getUserId(req);
     const competitorData = { userId, eventId: req.params.id };
-
-    // find the saved one
-    const savedCompetitor = await query.getCompetitors.one(
-      competitorData,
-    );
-    if (savedCompetitor) {
-      saveCompetitor(req, res, savedCompetitor);
-      return;
-    }
-    // or create a new one
-    const rawCompetitor = await services.competitor.create(
-      competitorData,
-    );
-    saveCompetitor(req, res, rawCompetitor);
+    const result = await services.event.join(competitorData);
+    res.status(200).json(result);
   } catch (err) {
     console.error(err);
     res.status(400).json(err);
@@ -112,6 +105,7 @@ const joinEvent = async (req, res) => {
 
 // requests
 router.get('/', getAllEvents);
+router.get('/running', getAllRunningEvents);
 router.post('/', createNewEvent);
 router.post('/:id/join', joinEvent);
 router.get('/:id', getFullEvent);
