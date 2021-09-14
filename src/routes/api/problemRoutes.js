@@ -18,21 +18,11 @@ const createProblems = async (req, res) => {
 // get all
 const getAllProblems = async (req, res) => {
   try {
-    const rawProblems = await query.getProblems.all();
+    const rawProblems = await query.getAllProblems(req.query);
     const problems = sanitize(rawProblems);
     res.status(200).json(problems);
   } catch (err) {
     res.status(500).json(err);
-  }
-};
-
-// update problem assignments
-const updateAssignments = async (req, res) => {
-  try {
-    await services.problemAssignment.update(req.body);
-    res.status(200).json({ message: 'success' });
-  } catch (err) {
-    res.status(400).json(err);
   }
 };
 
@@ -51,6 +41,5 @@ const removeProblem = async (req, res) => {
 router.get('/', getAllProblems);
 router.post('/', createProblems);
 router.delete('/:id', removeProblem);
-router.post('/assign', updateAssignments);
 
 module.exports = router;

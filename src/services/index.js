@@ -15,5 +15,5 @@ module.exports = {
   problemAssignment,
   score,
   totalScore,
-  user
-}
+  user,
+};

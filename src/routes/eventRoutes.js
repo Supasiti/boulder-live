@@ -57,8 +57,8 @@ const renderCompetitorEventPage = async (req, res) => {
   const { eventId } = req.params;
 
   const rawEventData = await query.getEvents.byId(eventId);
-  const rawCompeteIn = await query.getCategories.all({
-    competitor_id: competitorId,
+  const rawCompeteIn = await query.getAllCategories({
+    competed_by: competitorId,
   });
   const rawScores = await query.getScores.byCompetitor(competitorId);
 

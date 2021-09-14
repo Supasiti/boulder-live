@@ -45,7 +45,7 @@ const update = async (eventData, eventId) => {
 };
 
 //---------------------------------
-// return competitorId
+// return competitor
 const createCompetitorIfNotExist = async (competitor) => {
   if (!competitor) {
     await services.competitor.create(data);
@@ -56,14 +56,12 @@ const createCompetitorIfNotExist = async (competitor) => {
 };
 
 const rearrangeData = (competitorData) => {
-  console.log(competitorData);
   const { scores, total_scores, ...competitor } = competitorData;
   const result = {
     competitor,
     scores,
     categoryIds: total_scores.map(({ categoryId }) => categoryId),
   };
-  console.log(result);
   return result;
 };
 
@@ -74,7 +72,6 @@ const rearrangeData = (competitorData) => {
 //   scores: Array<Score>
 //   categoryIds: Array<int>
 // }
-
 const join = async (data) => {
   const savedCompetitor = await query.getCompetitor(data);
   const rawCompetitor = await createCompetitorIfNotExist(

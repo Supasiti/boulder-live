@@ -1,5 +1,5 @@
 const express = require('express');
-const userServices = require('../../services/userServices');
+const services = require('../../services');
 const sanitize = require('../../services/sanitize');
 
 const router = express.Router();
@@ -61,7 +61,7 @@ const logUserOut = (req, res) => {
 // get all users
 const getAllUsers = async (req, res) => {
   try {
-    const rawUsers = await userServices.getAll();
+    const rawUsers = await services.user.getAll();
     const users = sanitize(rawUsers);
     res.status(200).json(users);
   } catch (err) {

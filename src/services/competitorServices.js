@@ -1,8 +1,8 @@
 const models = require('../models');
 const query = require('../queries');
 
-//----------------------------------------------------------------------------------------
-// CREATE
+//--------------------------------------------------------------------
+// CREATE - good
 
 // get next competitor number
 // return - int
@@ -34,8 +34,8 @@ const create = async (newCompetitor) => {
   return result;
 };
 
-//----------------------------------------------------------------------------------------
-// DELETE
+//--------------------------------------------------------------------
+// DELETE - good
 
 // remove a competitor from id
 // return
@@ -50,104 +50,106 @@ const remove = async (competitorId) => {
 //----------------------------------------------------------------------------------------
 // UPDATE
 
+// TODO NEED TO REFACTOR THIS!!!!!!
+
 // get category ids to creat by checking if it is in the event or not
 // return - Array<int>
-const filterCategoryIdsByEvent = async (eventId, newCategoryIds) => {
-  const events = await query.getAllEvents({ id: eventId });
-  if (!events.length) return [];
-  if (!events[0].categories.length) return [];
-  const categoryIdsInEvent = events[0].categories.map(({ id }) => id);
-  const result = newCategoryIds.filter((id) =>
-    categoryIdsInEvent.includes(id),
-  );
-  return result;
-};
+// const filterCategoryIdsByEvent = async (eventId, newCategoryIds) => {
+//   const events = await query.getAllEvents({ id: eventId });
+//   if (!events.length) return [];
+//   if (!events[0].categories.length) return [];
+//   const categoryIdsInEvent = events[0].categories.map(({ id }) => id);
+//   const result = newCategoryIds.filter((id) =>
+//     categoryIdsInEvent.includes(id),
+//   );
+//   return result;
+// };
 
 // return an array of data object to create category pool
 // return Array<Object>
-const getTotalScoresToCreate = (categoryIds, competitorId) => {
-  const result = categoryIds.map((categoryId) => {
-    return { competitorId, categoryId };
-  });
-  return result;
-};
+// const getTotalScoresToCreate = (categoryIds, competitorId) => {
+//   const result = categoryIds.map((categoryId) => {
+//     return { competitorId, categoryId };
+//   });
+//   return result;
+// };
 
-const getTotalScoreIdsToRemove = (oldTotalScores, newCategoryIds) => {
-  const result = oldTotalScores
-    .filter(({ categoryId }) => !newCategoryIds.includes(categoryId))
-    .map(({ id }) => id);
-  return result;
-};
+// const getTotalScoreIdsToRemove = (oldTotalScores, newCategoryIds) => {
+//   const result = oldTotalScores
+//     .filter(({ categoryId }) => !newCategoryIds.includes(categoryId))
+//     .map(({ id }) => id);
+//   return result;
+// };
 
 // update all associated TotalScore
 // return - Array<TotalScore>
-const updateTotalScores = async (
-  updatedCompetitor,
-  newCategoryIds,
-) => {
-  const { id, eventId } = updatedCompetitor;
-  const filteredCategoryIds = await filterCategoryIdsByEvent(
-    eventId,
-    newCategoryIds,
-  );
-  if (!filteredCategoryIds.length) return;
+// const updateTotalScores = async (
+//   updatedCompetitor,
+//   newCategoryIds,
+// ) => {
+//   const { id, eventId } = updatedCompetitor;
+//   const filteredCategoryIds = await filterCategoryIdsByEvent(
+//     eventId,
+//     newCategoryIds,
+//   );
+//   if (!filteredCategoryIds.length) return;
 
-  const oldTotalScores = await models.TotalScore.findAll({
-    where: { competitorId: id },
-  });
-  const oldCategoryIds = oldTotalScores.map(
-    ({ categoryId }) => categoryId,
-  );
-  const totalScoreIdsToRemove = getTotalScoreIdsToRemove(
-    oldTotalScores,
-    filteredCategoryIds,
-  );
+//   const oldTotalScores = await models.TotalScore.findAll({
+//     where: { competitorId: id },
+//   });
+//   const oldCategoryIds = oldTotalScores.map(
+//     ({ categoryId }) => categoryId,
+//   );
+//   const totalScoreIdsToRemove = getTotalScoreIdsToRemove(
+//     oldTotalScores,
+//     filteredCategoryIds,
+//   );
 
-  const categoryIdsToCreate = filteredCategoryIds.filter(
-    (id) => !oldCategoryIds.includes(id),
-  );
-  const totalScoresToCreate = getTotalScoresToCreate(
-    categoryIdsToCreate,
-    id,
-  );
+//   const categoryIdsToCreate = filteredCategoryIds.filter(
+//     (id) => !oldCategoryIds.includes(id),
+//   );
+//   const totalScoresToCreate = getTotalScoresToCreate(
+//     categoryIdsToCreate,
+//     id,
+//   );
 
-  const totalScoresRemoved = await models.TotalScore.destroy({
-    where: { id: totalScoreIdsToRemove },
-  });
-  const newTotalScores = await models.TotalScore.bulkCreate(
-    totalScoresToCreate,
-  );
+//   const totalScoresRemoved = await models.TotalScore.destroy({
+//     where: { id: totalScoreIdsToRemove },
+//   });
+//   const newTotalScores = await models.TotalScore.bulkCreate(
+//     totalScoresToCreate,
+//   );
 
-  return newTotalScores;
-};
+//   return newTotalScores;
+// };
 
 // update a competitor from id
 // expect  : { competitorId, new data }
 // return
 //  - Competitor
-const update = async (newCompetitor) => {
-  const { competitorId } = newCompetitor;
-  const competitorsUpdated = await models.Competitor.update(
-    newCompetitor,
-    {
-      where: { id: competitorId },
-    },
-  );
-  const updatedCompetitor = await models.Competitor.findByPk(
-    competitorId,
-  );
+// const update = async (newCompetitor) => {
+//   const { competitorId } = newCompetitor;
+//   const competitorsUpdated = await models.Competitor.update(
+//     newCompetitor,
+//     {
+//       where: { id: competitorId },
+//     },
+//   );
+//   const updatedCompetitor = await models.Competitor.findByPk(
+//     competitorId,
+//   );
 
-  if ('categoryIds' in newCompetitor) {
-    const { categoryIds } = newCompetitor;
-    if (categoryIds.length) {
-      await updateTotalScores(updatedCompetitor, categoryIds);
-    }
-  }
-  return updatedCompetitor;
-};
+//   if ('categoryIds' in newCompetitor) {
+//     const { categoryIds } = newCompetitor;
+//     if (categoryIds.length) {
+//       await updateTotalScores(updatedCompetitor, categoryIds);
+//     }
+//   }
+//   return updatedCompetitor;
+// };
 
 module.exports = {
   create,
   remove,
-  update,
+  // update,
 };

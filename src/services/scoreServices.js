@@ -1,17 +1,8 @@
+const query = require('../queries');
 const models = require('../models');
 const totalScore = require('../services/totalScoreServices');
 
 //----------------------------------------------------------------------------------------
-
-const getOldScores = async (problemIds, competitorId) => {
-  const result = await models.Score.findAll({
-    where: {
-      problemId: problemIds,
-      competitorId: competitorId,
-    },
-  });
-  return result;
-};
 
 const getNewProblemIds = (problemIds, oldScores) => {
   const oldProblemIds = oldScores.map(({ problemId }) => problemId);
@@ -30,7 +21,10 @@ const createNewScores = (problemIds, competitorId) => {
 
 // return [newScores, oldScores]
 const sortScores = async (problemIds, competitorId) => {
-  const oldScores = await getOldScores(problemIds, competitorId);
+  const oldScores = await query.getAllScores({
+    problem_id: problemIds,
+    competitor_id: competitorId,
+  });
   const newProblemIds = getNewProblemIds(problemIds, oldScores);
   const newScores = createNewScores(newProblemIds, competitorId);
   return [newScores, oldScores];
@@ -98,7 +92,7 @@ const update = async (newScore) => {
 //   - toAdd - function of Score to call
 const addToScore = async (scoreId, toAdd) => {
   const oldScore = await models.Score.findByPk(scoreId);
-  const newScore = oldScore[toAdd].apply(oldScore); // eval ot oldScore.'toAdd'();
+  const newScore = oldScore[toAdd].apply(oldScore); // equiv to oldScore.'toAdd'();
   const result = await updateWithNew(oldScore, newScore);
   return result;
 };

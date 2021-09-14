@@ -27,7 +27,6 @@ const getAllAssignments = async (req, res) => {
 
 const updateAssignments = async (req, res) => {
   try {
-    console.log(req.body);
     await services.problemAssignment.update(req.body);
     res
       .status(200)

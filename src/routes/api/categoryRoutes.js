@@ -27,11 +27,18 @@ const getAllCategories = async (req, res) => {
   }
 };
 
+const getCompetitorId = (req) => {
+  if ('session' in req && 'competitor' in req.session) {
+    return req.session.competitor.id;
+  }
+  return req.body.competitorId;
+};
+
 // let a competitor join a category
+// argument: body : { competitorId: int }
 const joinCategory = async (req, res) => {
   try {
-    const competitorId =
-      req.session.competitor.id || req.body.competitorId;
+    const competitorId = getCompetitorId(req);
     const categoryId = req.params.id;
     const result = await services.category.join({
       competitorId,

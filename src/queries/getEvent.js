@@ -32,6 +32,12 @@ const getAllData = async (eventId) => {
 };
 
 // get an event with nice clean data
+// return {
+//   event: Event,
+//   categories: Array<Category>,
+//   problems: Array<Problem>,
+//   assignments: Array<ProblemAssignment>
+// }
 const getEvent = async (eventId) => {
   const [rawEventData, rawProblemData] = await getAllData(eventId);
   const { categories, ...event } = sanitize(rawEventData);

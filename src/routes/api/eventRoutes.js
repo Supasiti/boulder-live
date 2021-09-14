@@ -103,6 +103,16 @@ const joinEvent = async (req, res) => {
   }
 };
 
+// get the score board for the event
+const getScoreboard = async (req, res) => {
+  try {
+    const result = await query.getTotalScores.byEvent(req.params.id);
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
 // requests
 router.get('/', getAllEvents);
 router.get('/running', getAllRunningEvents);
@@ -110,5 +120,6 @@ router.post('/', createNewEvent);
 router.post('/:id/join', joinEvent);
 router.get('/:id', getFullEvent);
 router.put('/:id', updateEvent);
+router.get('/:id/scoreboard', getScoreboard);
 
 module.exports = router;
