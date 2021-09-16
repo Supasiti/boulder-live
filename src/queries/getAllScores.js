@@ -11,7 +11,7 @@ const getAllScoresWithFilter = async (rawFilter) => {
     assocModels,
   );
   const ids = await idFilter.getIds(rawFilter);
-  const result = await models.Problem.findAll({
+  const result = await models.Score.findAll({
     where: { id: ids },
   });
   return result;

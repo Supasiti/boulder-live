@@ -12,6 +12,7 @@ const getCompetitor = async (data) => {
       },
       {
         model: models.Score,
+        include: [models.Problem],
       },
     ],
   });
