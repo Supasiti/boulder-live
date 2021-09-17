@@ -93,6 +93,8 @@ const updateEvent = async (req, res) => {
 // }
 const joinEvent = async (req, res) => {
   try {
+    console.log(req.body);
+
     const userId = getUserId(req);
     const competitorData = { userId, eventId: req.params.id };
     const result = await services.event.join(competitorData);

@@ -1,5 +1,6 @@
 const models = require('../models');
 const query = require('../queries');
+const competitorServices = require('./competitorServices');
 const sanitize = require('./sanitize');
 
 // create a new event
@@ -46,9 +47,9 @@ const update = async (eventData, eventId) => {
 
 //---------------------------------
 // return competitor
-const createCompetitorIfNotExist = async (competitor) => {
+const createCompetitorIfNotExist = async (competitor, data) => {
   if (!competitor) {
-    await services.competitor.create(data);
+    await competitorServices.create(data);
     const result = await query.getCompetitor(data);
     return result;
   }
@@ -76,6 +77,7 @@ const join = async (data) => {
   const savedCompetitor = await query.getCompetitor(data);
   const rawCompetitor = await createCompetitorIfNotExist(
     savedCompetitor,
+    data,
   );
   const cleaned = sanitize(rawCompetitor);
   const result = rearrangeData(cleaned);

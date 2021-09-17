@@ -13,6 +13,7 @@ const getAllScoresWithFilter = async (rawFilter) => {
   const ids = await idFilter.getIds(rawFilter);
   const result = await models.Score.findAll({
     where: { id: ids },
+    include: [{ model: models.Problem }],
   });
   return result;
 };
