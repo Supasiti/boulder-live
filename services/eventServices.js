@@ -30,14 +30,16 @@ const create = async (newEventData) => {
 // argument eventData, eventId
 // return
 //  - Event
-// const update = async (eventData, eventId) => {
-//   const eventsUpdated = await models.Event.update(eventData, {
-//     where: { id: eventId },
-//   });
-//   if (!eventsUpdated[0]) return null;
-//   const updatedEvents = await query.getAllEvents({ id: eventId });
-//   return updatedEvents[0];
-// };
+const update = async (eventData, eventId) => {
+  const eventsUpdated = await models.Event.findByIdAndUpdate(
+    eventId,
+    eventData,
+  );
+  console.log(eventsUpdated);
+  if (!eventsUpdated) return null;
+  const updatedEvents = await query.getAllEvents({ id: eventId });
+  return updatedEvents[0];
+};
 
 //---------------------------------
 // return competitor
@@ -80,7 +82,7 @@ const create = async (newEventData) => {
 
 module.exports = {
   create,
-  // update,
+  update,
   // remove,
   // join,
 };

@@ -25,25 +25,31 @@ const getAllEvents = async (req, res) => {
   }
 };
 
-// const getFullEvent = async (req, res) => {
-//   try {
-//     const eventData = await query.getEvent(req.params.id);
-//     res.status(200).json(eventData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// };
+const getFullEvent = async (req, res) => {
+  try {
+    const eventData = await query.getEvent(req.params.id);
+    res.status(200).json(eventData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
 
-// const getAllRunningEvents = async (req, res) => {
-//   try {
-//     const eventData = await query.getAllEvents({
-//       status: ['open', 'running'],
-//     });
-//     res.status(200).json(eventData);
-//   } catch (err) {
-//     res.status(500).json(err);
-//   }
-// };
+const getAllRunningEvents = async (req, res) => {
+  try {
+    const openEventPromise = query.getAllEvents({ status: 'open' });
+    const runningEventsPromise = query.getAllEvents({
+      status: 'running',
+    });
+    const [openEvents, runningEvents] = await Promise.all([
+      openEventPromise,
+      runningEventsPromise,
+    ]);
+    const result = openEvents.concat(runningEvents);
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+};
 
 // create an event
 // expect : {
@@ -60,19 +66,18 @@ const createNewEvent = async (req, res) => {
   }
 };
 
-// // update an event
-// const updateEvent = async (req, res) => {
-//   try {
-//     const updated = await services.event.update(
-//       req.body,
-//       req.params.id,
-//     );
-//     const cleaned = sanitize(updated);
-//     res.status(200).json({ event: cleaned, message: 'success' });
-//   } catch (err) {
-//     res.status(400).json(err);
-//   }
-// };
+// update an event
+const updateEvent = async (req, res) => {
+  try {
+    const updated = await services.event.update(
+      req.body,
+      req.params.id,
+    );
+    res.status(200).json({ event: updated, message: 'success' });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
 
 //--------------------------------------------------------------------
 // let user join an event
@@ -110,11 +115,11 @@ const getScoreboard = async (req, res) => {
 
 // requests
 router.get('/', getAllEvents);
-// router.get('/running', getAllRunningEvents);
+router.get('/running', getAllRunningEvents);
 router.post('/', createNewEvent);
 // router.post('/:id/join', joinEvent);
-// router.get('/:id', getFullEvent);
-// router.put('/:id', updateEvent);
+router.get('/:id', getFullEvent);
+router.put('/:id', updateEvent);
 // router.get('/:id/scoreboard', getScoreboard);
 
 module.exports = router;
