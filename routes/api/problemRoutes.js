@@ -1,15 +1,13 @@
 const router = require('express').Router();
 const services = require('../../services');
 const query = require('../../queries');
-const sanitize = require('../../services/sanitize');
 
 // route /api/problems/
 
 const createProblems = async (req, res) => {
   try {
-    const rawProblems = await services.problem.create(req.body);
-    const cleanedProblems = sanitize(rawProblems);
-    res.status(200).json(cleanedProblems);
+    const newProblem = await services.problem.create(req.body);
+    res.status(200).json(newProblem);
   } catch (err) {
     res.status(400).json(err);
   }
@@ -38,8 +36,8 @@ const removeProblem = async (req, res) => {
   }
 };
 
-router.get('/', getAllProblems);
+// router.get('/', getAllProblems);
 router.post('/', createProblems);
-router.delete('/:id', removeProblem);
+// router.delete('/:id', removeProblem);
 
 module.exports = router;
