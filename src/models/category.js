@@ -9,21 +9,21 @@ Category.init(
       type: DataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
-      allowNull: false
+      allowNull: false,
     },
-    event_id: {
+    eventId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'event', 
-        key: 'id'
-      }
+        model: 'event',
+        key: 'id',
+      },
     },
     name: {
       type: DataTypes.STRING(60),
       allowNull: false,
       validate: {
         is: /^[a-zA-z0-9][a-zA-z0-9\s]*[a-zA-z0-9]/g,
-      }
+      },
     },
     start: {
       type: DataTypes.DATE,
@@ -31,17 +31,19 @@ Category.init(
     end: {
       type: DataTypes.DATE,
       validate: {
-        doesStartExists (){
+        doesStartExists() {
           if (!this.start) {
             throw new Error('A start time must be supplied.');
           }
         },
         isAfterStartDateTime(value) {
           if (value <= this.start) {
-            throw new Error('End time must be greater than start time.');
+            throw new Error(
+              'End time must be greater than start time.',
+            );
           }
-        } 
-      }
+        },
+      },
     },
   },
   {
@@ -49,8 +51,8 @@ Category.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'category'
-  }
+    modelName: 'category',
+  },
 );
 
 module.exports = Category;

@@ -63,14 +63,19 @@ const update = async (newCategory, categoryId) => {
 // let a competitor join in a category
 
 // check if the competitor is in the same event as category
+// and check if a competitor already joined
 const validateCompetitor = async ({ competitorId, categoryId }) => {
+  const totalScorePromise = models.TotalScore.findOne({
+    where: { competitorId, categoryId },
+  });
   const competitorPromise = models.Competitor.findByPk(competitorId);
   const categoryPromise = models.Category.findByPk(categoryId);
-  const [competitor, category] = await Promise.all([
+  const [competitor, category, totalScore] = await Promise.all([
     competitorPromise,
     categoryPromise,
+    totalScorePromise,
   ]);
-  return category.eventId === competitor.eventId;
+  return category.eventId === competitor.eventId || totalScore;
 };
 
 // argument: { competitorId, categoryId }

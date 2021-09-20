@@ -1,5 +1,5 @@
 const express = require('express');
-const userServices = require('../../services/userServices');
+const services = require('../../services');
 const sanitize = require('../../services/sanitize');
 
 const router = express.Router();
@@ -13,27 +13,33 @@ const saveLogin = (req, res, rawUser) => {
   req.session.save(() => {
     req.session.user = userWithoutPassword;
     req.session.logged_in = true;
-    
-    res.json({ user: userWithoutPassword, message: 'You are now logged in!' });
+
+    res.json({
+      user: userWithoutPassword,
+      message: 'You are now logged in!',
+    });
   });
-}
+};
 
 // creating an account
 const createNewUser = async (req, res) => {
   try {
-    const rawUser = await userServices.create(req.body);
+    const rawUser = await services.user.create(req.body);
     saveLogin(req, res, rawUser);
-  } catch (err){
-    res.status(400).json(err)
+  } catch (err) {
+    res.status(400).json(err);
   }
 };
 
 // checking when they log in
-const checkLogin =  async (req, res) => {
+const checkLogin = async (req, res) => {
   try {
-    const rawUser = await userServices.authenticate(req.body);
+    const rawUser = await services.user.authenticate(req.body);
     if (!rawUser) {
-      res.status(400).json({ message: 'Incorrect email or password, please try again'})
+      res.status(400).json({
+        message: 'Incorrect email or password, please try again',
+      });
+      return;
     }
     saveLogin(req, res, rawUser);
   } catch (err) {
@@ -52,18 +58,16 @@ const logUserOut = (req, res) => {
   }
 };
 
-
 // get all users
 const getAllUsers = async (req, res) => {
   try {
-    const rawUsers = await userServices.getAll();
+    const rawUsers = await services.user.getAll();
     const users = sanitize(rawUsers);
-    res.status(200).json(users)
+    res.status(200).json(users);
   } catch (err) {
     res.status(500).json(err);
   }
 };
-
 
 const savePurpose = async (req, res) => {
   try {
@@ -74,14 +78,13 @@ const savePurpose = async (req, res) => {
   } catch (err) {
     res.status(400).json(err);
   }
-}
-
+};
 
 // requests
-router.post('/purpose', savePurpose)
-router.post('/signup', createNewUser); 
+router.post('/purpose', savePurpose);
+router.post('/signup', createNewUser);
 router.post('/login', checkLogin);
-router.post('/logout', logUserOut)
-router.get('/', getAllUsers)
+router.post('/logout', logUserOut);
+router.get('/', getAllUsers);
 
 module.exports = router;

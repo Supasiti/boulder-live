@@ -9,15 +9,27 @@ const properties = {
   attempts: 'attempts',
 };
 
+const sumScores = (scores, key) => {
+  const result = scores.reduce(
+    (acc, score) => acc + score[properties[key]],
+    0,
+  );
+  return result;
+};
+
+const adjustTotal = (total, key, currentTotal, change) => {
+  if (!(properties[key] in change)) return { ...total };
+  const changeInProperty =
+    currentTotal[key] + change[properties[key]];
+  const result = { ...total, [key]: changeInProperty };
+  return result;
+};
+
 class TotalScore extends Model {
   async fromScores(scores) {
     const keys = Object.keys(properties);
     const newTotalScore = keys.reduce((total, key) => {
-      const value = scores.reduce(
-        (acc, score) => acc + score[properties[key]],
-        0,
-      );
-      return { ...total, [key]: value };
+      return { ...total, [key]: sumScores(scores, key) };
     }, {});
     const result = await this.update(newTotalScore);
     return result;
@@ -26,13 +38,10 @@ class TotalScore extends Model {
   // adjust the total score by the change
   async adjustBy(change) {
     const keys = Object.keys(properties);
-    const newTotalScore = keys.reduce((total, key) => {
-      if (!(properties[key] in change)) return { ...total };
-      const changeInProperty = this[key] + change[properties[key]];
-      const result = { ...total, [key]: changeInProperty };
-      return result;
-    }, {});
-
+    const newTotalScore = keys.reduce(
+      (total, key) => adjustTotal(total, key, currentTotal, change),
+      {},
+    );
     const result = await this.update(newTotalScore);
     return result;
   }

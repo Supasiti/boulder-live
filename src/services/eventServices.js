@@ -1,77 +1,92 @@
-const { Event, Organiser } = require('../models');
+const models = require('../models');
 const query = require('../queries');
-const utils = require('../../utils/arrayUtils');
+const competitorServices = require('./competitorServices');
 const sanitize = require('./sanitize');
 
 // create a new event
-// arguments : name, location, userId
-// return 
+// arguments : {} name, location, userId }
+// return
 //  - Event
 const create = async (newEventData) => {
-  const {name, location, userId} = newEventData;
-  const eventData = await Event.create(
+  const { name, location, userId } = newEventData;
+  const eventData = await models.Event.create(
     {
       name,
       location,
-      organisers : [{ userId }]
+      organisers: [{ userId }],
     },
     {
-      include: [ Organiser ]
-    });
+      include: [models.Organiser],
+    },
+  );
   return eventData;
-}
+};
 
 // remove an event from id
-// return 
+// return
 //  - int
 const remove = async (eventId) => {
-  const eventsRemoved = await Event.destroy({
-    where : {id : eventId }
-  })
+  const eventsRemoved = await models.Event.destroy({
+    where: { id: eventId },
+  });
   return eventsRemoved;
-}
+};
 
-// update an event 
+// update an event
 // argument eventData, eventId
-// return 
+// return
 //  - Event
 const update = async (eventData, eventId) => {
-  const eventsUpdated = await Event.update(eventData, {
-    where: { id: eventId }
-  })
+  const eventsUpdated = await models.Event.update(eventData, {
+    where: { id: eventId },
+  });
   if (!eventsUpdated[0]) return null;
-  const updatedEvent = await query.getEvents.byIds(eventId);
-  return updatedEvent[0];
-}
+  const updatedEvents = await query.getAllEvents({ id: eventId });
+  return updatedEvents[0];
+};
 
-//----------------------------------
-// get an event witn nice clean data
+//---------------------------------
+// return competitor
+const createCompetitorIfNotExist = async (competitor, data) => {
+  if (!competitor) {
+    await competitorServices.create(data);
+    const result = await query.getCompetitor(data);
+    return result;
+  }
+  return competitor;
+};
 
-//get unique problem assignments from problems
-const getAssignmentData = (problems) => {
-  const assignmentArrays = problems.map((problem) => problem.problem_assignments);
-  const result = [].concat(...assignmentArrays);
-  return result;
-}
-
-const getOne = async (eventId) => {
-  const rawEventData = await query.getEvents.byId(eventId);
-  const rawProblemData = await query.getProblems.byEventId(eventId);
-  const eventData = sanitize(rawEventData);
-  const problemData = sanitize(rawProblemData);
-  const assignmentData = getAssignmentData(problemData);
+const rearrangeData = (competitorData) => {
+  const { scores, total_scores, ...competitor } = competitorData;
   const result = {
-    ...eventData, 
-    problems: problemData,
-    problemAssignments: assignmentData
+    competitor,
+    scores,
+    categoryIds: total_scores.map(({ categoryId }) => categoryId),
   };
   return result;
-}
+};
 
+// let competitor join event
+// argument : { userId , eventId}
+// return {
+//   competitor: Number,
+//   scores: Array<Score>
+//   categoryIds: Array<int>
+// }
+const join = async (data) => {
+  const savedCompetitor = await query.getCompetitor(data);
+  const rawCompetitor = await createCompetitorIfNotExist(
+    savedCompetitor,
+    data,
+  );
+  const cleaned = sanitize(rawCompetitor);
+  const result = rearrangeData(cleaned);
+  return result;
+};
 
 module.exports = {
   create,
   update,
   remove,
-  getOne
-}
+  join,
+};
