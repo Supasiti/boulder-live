@@ -1,17 +1,19 @@
-const sequelize = require('./src/configs/sequelizeConnection');
-
-// need to init all the tables to use sync (forced : true)
-require('./src/models'); 
-
-const app = require('./app');
-const http = require('http');
-const server = http.createServer(app);
+//  Entry point for the app
+const path = require('path');
+const express = require('express');
+const connectDB = require('./db/connection');
+const routes = require('./src/routes');
 
 const PORT = process.env.PORT || 3001;
+const app = express();
 
-sequelize.sync({ force: false }) // connect all the table to db
-  .then(() => {
-    server.listen(PORT, () => {
-      console.log(`listening on localhost:${PORT}`);
-    });
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(routes);
+
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`listening on localhost:${PORT}`);
   });
+});
