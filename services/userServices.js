@@ -2,6 +2,9 @@ const models = require('../models');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+// creat new user
+// return
+//   User
 const create = async (user) => {
   const plaintextPassword = user.password;
   const encryptedPassword = await bcrypt.hash(

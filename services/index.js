@@ -1,6 +1,6 @@
 // const category = require('./categoryServices');
 // const competitor = require('./competitorServices');
-// const event = require('./eventServices');
+const event = require('./eventServices');
 // const problem = require('./problemServices');
 // const problemAssignment = require('./problemAssignmentServices');
 // const score = require('./scoreServices');
@@ -10,7 +10,7 @@ const user = require('./userServices');
 module.exports = {
   // category,
   // competitor,
-  // event,
+  event,
   // problem,
   // problemAssignment,
   // score,

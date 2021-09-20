@@ -29,7 +29,9 @@ const getAllEvents = async (rawFilter) => {
     const result = await getAllEventsWithFilter(rawFilter);
     return result;
   }
-  const result = await models.Event.findAll();
+  const result = await models.Event.find({})
+    .lean()
+    .catch((err) => console.error(err));
   return result;
 };
 

@@ -1,15 +1,32 @@
+const models = require('../models');
 // const getAllCategories = require('./getAllCategories');
 // const getAllAssignments = require('./getAllAssignments');
-// const getAllEvents = require('./getAllEvents');
 // const getAllProblems = require('./getAllProblems');
 // const getEvent = require('./getEvent');
 // const getCompetitor = require('./getCompetitor');
 // const getAllScores = require('./getAllScores');
 // const getTotalScores = require('./getTotalScores');
-const getUsers = require('./getUsers');
+
+//-------------------------------------
+// get all events with basic details
+// return
+//  - Array<Event>
+const getAllEvents = async (rawFilter) => {
+  const filter = rawFilter || {};
+
+  const result = await models.Event.find(filter)
+    .populate('organisedBy')
+    .select(['name', 'location', 'status', 'organisedBy'])
+    .lean()
+    .catch((err) => console.error(err));
+  return result;
+};
+
+// get all users
+const getUsers = () => models.User.find({});
 
 module.exports = {
-  // getAllEvents,
+  getAllEvents,
   // getAllCategories,
   // getAllProblems,
   // getAllAssignments,
