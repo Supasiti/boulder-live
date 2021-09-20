@@ -8,11 +8,6 @@ const CategorySchema = new Schema({
     required: 'Name is Required',
   },
 
-  event: {
-    type: Schema.Types.ObjectId,
-    ref: 'Event',
-  },
-
   problems: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Problem' }],
   },

@@ -27,18 +27,16 @@ const create = async (newEventData) => {
 // };
 
 // update an event
-// argument eventData, eventId
+// argument  eventId, eventData
 // return
 //  - Event
-const update = async (eventData, eventId) => {
-  const eventsUpdated = await models.Event.findByIdAndUpdate(
+const update = async (eventId, eventData) => {
+  const updatedEvent = await models.Event.findByIdAndUpdate(
     eventId,
     eventData,
+    { returnOriginal: false },
   );
-  console.log(eventsUpdated);
-  if (!eventsUpdated) return null;
-  const updatedEvents = await query.getAllEvents({ id: eventId });
-  return updatedEvents[0];
+  return updatedEvent;
 };
 
 //---------------------------------

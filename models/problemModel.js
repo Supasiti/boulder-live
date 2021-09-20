@@ -6,11 +6,6 @@ const ProblemSchema = new Schema({
     type: String,
     trim: true,
   },
-
-  event: {
-    type: Schema.Types.ObjectId,
-    ref: 'Event',
-  },
 });
 
 const Problem = mongoose.model('Problem', ProblemSchema);

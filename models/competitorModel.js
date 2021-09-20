@@ -26,6 +26,10 @@ const CompetitorSchema = new Schema({
   scores: {
     type: [{ type: Schema.Types.ObjectId, ref: 'Score' }],
   },
+
+  categories: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'Category' }],
+  },
 });
 
 const Competitor = mongoose.model('Competitor', CompetitorSchema);

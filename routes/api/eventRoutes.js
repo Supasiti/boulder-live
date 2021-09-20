@@ -70,8 +70,8 @@ const createNewEvent = async (req, res) => {
 const updateEvent = async (req, res) => {
   try {
     const updated = await services.event.update(
-      req.body,
       req.params.id,
+      req.body,
     );
     res.status(200).json({ event: updated, message: 'success' });
   } catch (err) {
@@ -89,29 +89,26 @@ const updateEvent = async (req, res) => {
 //   scores: Array<Score>
 //   categoryIds: Array<int>
 // }
-const joinEvent = async (req, res) => {
-  try {
-    console.log(req.body);
-
-    const userId = getUserId(req);
-    const competitorData = { userId, eventId: req.params.id };
-    const result = await services.event.join(competitorData);
-    res.status(200).json(result);
-  } catch (err) {
-    console.error(err);
-    res.status(400).json(err);
-  }
-};
+// const joinEvent = async (req, res) => {
+//   try {
+//     const competitorData = { ...req.body, eventId: req.params.id };
+//     const result = await services.event.join(competitorData);
+//     res.status(200).json(result);
+//   } catch (err) {
+//     console.error(err);
+//     res.status(400).json(err);
+//   }
+// };
 
 // get the score board for the event
-const getScoreboard = async (req, res) => {
-  try {
-    const result = await query.getTotalScores.byEvent(req.params.id);
-    res.status(200).json(result);
-  } catch (err) {
-    res.status(400).json(err);
-  }
-};
+// const getScoreboard = async (req, res) => {
+//   try {
+//     const result = await query.getTotalScores.byEvent(req.params.id);
+//     res.status(200).json(result);
+//   } catch (err) {
+//     res.status(400).json(err);
+//   }
+// };
 
 // requests
 router.get('/', getAllEvents);
