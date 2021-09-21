@@ -96,7 +96,6 @@ const join = async (data) => {
   if (!isValid) return false;
 
   competitor.categories = [...competitor.categories, categoryId];
-  console.log(competitor);
   const scorePromise = scoreServices.generate(competitor, categoryId);
   const totalPromise = totalScoreServices.create(
     competitor,
