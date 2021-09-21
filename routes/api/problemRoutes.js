@@ -16,8 +16,7 @@ const createProblems = async (req, res) => {
 // get all
 const getAllProblems = async (req, res) => {
   try {
-    const rawProblems = await query.getAllProblems(req.query);
-    const problems = sanitize(rawProblems);
+    const problems = await query.getAll('Problem', req.query);
     res.status(200).json(problems);
   } catch (err) {
     res.status(500).json(err);
@@ -36,8 +35,8 @@ const removeProblem = async (req, res) => {
   }
 };
 
-// router.get('/', getAllProblems);
+router.get('/', getAllProblems);
 router.post('/', createProblems);
-// router.delete('/:id', removeProblem);
+router.delete('/:id', removeProblem);
 
 module.exports = router;

@@ -42,7 +42,7 @@ const checkLogin = async (req, res) => {
 // get all users
 const getAllUsers = async (req, res) => {
   try {
-    const users = await query.getUsers();
+    const users = await query.getAll('User');
     res.status(200).json(users);
   } catch (err) {
     res.status(500).json(err);

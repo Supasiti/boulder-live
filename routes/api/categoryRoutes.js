@@ -17,7 +17,7 @@ const createCategory = async (req, res) => {
 // get all
 const getAllCategories = async (req, res) => {
   try {
-    const categories = await query.getAllCategories(req.query);
+    const categories = await query.getAll('Category', req.query);
     res.status(200).json(categories);
   } catch (err) {
     res.status(500).json(err);
@@ -64,11 +64,27 @@ const removeCategory = async (req, res) => {
   }
 };
 
+// assign problems to each category in an event
+// expect: {assignments: Array<{problemId, categoryId}>, eventId}
+const assignProblems = async (req, res) => {
+  try {
+    await services.category.assign(req.body);
+    res
+      .status(200)
+      .json({
+        message: 'Problems have been assigned to each category',
+      });
+  } catch (err) {
+    res.status(400).json(err);
+  }
+};
+
 // router
 
 router.post('/', createCategory);
 router.get('/', getAllCategories);
 router.delete('/:id', removeCategory);
 // router.post('/:id/join', joinCategory);
+router.post('/assign', assignProblems);
 
 module.exports = router;

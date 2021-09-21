@@ -37,6 +37,28 @@ const remove = async (categoryId) => {
 //   return updatedCategory;
 // };
 
+// assign problems to each category in an event
+// expect: {assignments: Array<{problemId, categoryId}>, eventId}
+// assume that this will be all the assignments
+const assign = async (data) => {
+  const { eventId, assignments } = data;
+  const { categories } = await models.Event.findById(eventId)
+    .select('categories')
+    .populate('categories')
+    .catch(console.error);
+  const promises = categories.map((category) => {
+    const categoryId = category._id.toString();
+    console.log(categoryId);
+    const newProblems = assignments.filter(
+      (a) => a.categoryId === categoryId,
+    );
+    category.problems = newProblems.map(({ problemId }) => problemId);
+    return category.save();
+  });
+  const result = await Promise.all(promises);
+  return result;
+};
+
 //-----------------------------------------------------------
 // let a competitor join in a category
 
@@ -71,4 +93,5 @@ module.exports = {
   // update,
   remove,
   // join,
+  assign,
 };

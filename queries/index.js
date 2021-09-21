@@ -22,28 +22,22 @@ const getAllEvents = async (rawFilter) => {
   return result;
 };
 
-//-------------------------------------
-// get all categogies with basic details
-// return
-//  - Array<Categories>
-const getAllCategories = async (rawFilter) => {
-  const filter = rawFilter || {};
-
-  const result = await models.Category.find(filter);
-  return result;
+// get all entities with basic details
+const getAll = async (entity, rawFilter) => {
+  if (entity in models) {
+    const filter = rawFilter || {};
+    const result = await models[entity].find(filter);
+    return result;
+  }
+  return null;
 };
 
-// get all users
-const getUsers = () => models.User.find();
-
 module.exports = {
+  getAll,
   getAllEvents,
-  getAllCategories,
-  // getAllProblems,
   // getAllAssignments,
   // getAllScores,
   getEvent,
   // getCompetitor,
   // getTotalScores,
-  getUsers,
 };
