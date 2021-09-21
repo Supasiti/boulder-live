@@ -30,8 +30,9 @@ const getNewProblemIds = async (categoryId) => {
 };
 
 const filterOutScores = (competitor, problemIds) => {
+  const problemIdStrings = problemIds.map((id) => id.toString());
   const result = competitor.scores.filter((score) =>
-    problemIds.includes(score.problemId),
+    problemIdStrings.includes(score.problem.toString()),
   );
   return result;
 };
@@ -55,21 +56,17 @@ const create = async (competitor, categoryId) => {
   const exists = await findDuplicate(data);
   if (exists) return;
 
-  const newTotalScore = await models.TotalScore.create(data).catch(
-    console.error,
-  );
   const scoresForCalculation = await getScoresToCalculate(
     competitor,
     categoryId,
   );
-  const updatedTotal = getTotalFromScores(scoresForCalculation);
-  const updated = await models.TotalScore.findByIdAndUpdate(
-    newTotalScore._id,
-    updatedTotal,
-    { returnOriginal: false },
+  const total = getTotalFromScores(scoresForCalculation);
+  const totalScoreData = { ...total, ...data };
+  const result = await models.TotalScore.create(totalScoreData).catch(
+    console.error,
   );
-  console.log(updated);
-  return updated;
+
+  return result;
 };
 
 module.exports = { create };

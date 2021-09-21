@@ -41,6 +41,7 @@ const joinCategory = async (req, res) => {
       message: 'competitorId is incompatible with this categoryId',
     });
   } catch (err) {
+    console.error(err);
     res.status(400).json(err);
   }
 };

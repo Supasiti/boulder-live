@@ -94,22 +94,15 @@ const join = async (data) => {
   const competitor = await getCompetitor(competitorId);
   const isValid = validateCompetitor(competitor, categoryId);
   if (!isValid) return false;
-  console.log(competitor);
-  // competitor.categories.push(newCategoryId)
 
-  const scorePromise = await scoreServices.generate(
+  competitor.categories = [...competitor.categories, categoryId];
+  console.log(competitor);
+  const scorePromise = scoreServices.generate(competitor, categoryId);
+  const totalPromise = totalScoreServices.create(
     competitor,
     categoryId,
   );
-  const totalPromise = await totalScoreServices.create(
-    competitor,
-    categoryId,
-  );
-  // const newTotalScore = await models.TotalScore.create({
-  //   competitor: data.competitorId,
-  //   category: data.categoryId,
-  // }); // create total score
-  // // await scoreServices.generate(newTotalScore);
+  await Promise.all([scorePromise, totalPromise]);
   return true;
 };
 
