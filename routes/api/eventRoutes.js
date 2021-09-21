@@ -4,15 +4,6 @@ const services = require('../../services');
 
 // route: /api/events
 
-// const getUserId = (req) => {
-//   if ('session' in req) {
-//     if ('user' in req.session) {
-//       return req.session.user.id;
-//     }
-//   }
-//   return req.body.userId;
-// };
-
 // --------------------------------------
 // GET - will return a list of all events
 

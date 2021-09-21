@@ -1,8 +1,5 @@
 const models = require('../models');
-// const getAllCategories = require('./getAllCategories');
-// const getAllProblems = require('./getAllProblems');
 const getEvent = require('./getEvent');
-// const getCompetitor = require('./getCompetitor');
 // const getAllScores = require('./getAllScores');
 // const getTotalScores = require('./getTotalScores');
 
