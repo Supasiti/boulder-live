@@ -1,6 +1,5 @@
 const models = require('../models');
 // const getAllCategories = require('./getAllCategories');
-// const getAllAssignments = require('./getAllAssignments');
 // const getAllProblems = require('./getAllProblems');
 const getEvent = require('./getEvent');
 // const getCompetitor = require('./getCompetitor');
@@ -32,12 +31,26 @@ const getAll = async (entity, rawFilter) => {
   return null;
 };
 
+// get Competitor data
+// argument: {userId, eventId}
+const getCompetitor = async ({ userId, eventId }) => {
+  const result = await models.Competitor.findOne({
+    user: userId,
+    event: eventId,
+  })
+    .populate('scores')
+    .populate({ path: 'event', select: 'name location' })
+    .populate('categories')
+    .lean()
+    .catch((err) => console.error(err));
+  return result;
+};
+
 module.exports = {
   getAll,
   getAllEvents,
-  // getAllAssignments,
   // getAllScores,
   getEvent,
-  // getCompetitor,
+  getCompetitor,
   // getTotalScores,
 };

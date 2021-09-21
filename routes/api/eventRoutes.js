@@ -89,16 +89,16 @@ const updateEvent = async (req, res) => {
 //   scores: Array<Score>
 //   categoryIds: Array<int>
 // }
-// const joinEvent = async (req, res) => {
-//   try {
-//     const competitorData = { ...req.body, eventId: req.params.id };
-//     const result = await services.event.join(competitorData);
-//     res.status(200).json(result);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(400).json(err);
-//   }
-// };
+const joinEvent = async (req, res) => {
+  try {
+    const competitorData = { ...req.body, eventId: req.params.id };
+    const result = await services.event.join(competitorData);
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(400).json(err);
+  }
+};
 
 // get the score board for the event
 // const getScoreboard = async (req, res) => {
@@ -114,7 +114,7 @@ const updateEvent = async (req, res) => {
 router.get('/', getAllEvents);
 router.get('/running', getAllRunningEvents);
 router.post('/', createNewEvent);
-// router.post('/:id/join', joinEvent);
+router.post('/:id/join', joinEvent);
 router.get('/:id', getFullEvent);
 router.put('/:id', updateEvent);
 // router.get('/:id/scoreboard', getScoreboard);

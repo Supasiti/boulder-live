@@ -48,7 +48,6 @@ const assign = async (data) => {
     .catch(console.error);
   const promises = categories.map((category) => {
     const categoryId = category._id.toString();
-    console.log(categoryId);
     const newProblems = assignments.filter(
       (a) => a.categoryId === categoryId,
     );
