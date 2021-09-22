@@ -1,5 +1,5 @@
 const models = require('../models');
-const query = require('../queries');
+const _ = require('../utils/arrayUtils');
 
 //--------------------------------------------------------------------
 // CREATE - good
@@ -11,7 +11,7 @@ const getNextCompetitorNumber = async (eventId) => {
     event: eventId,
   });
   if (!competitors.length) return 1;
-  const numbers = competitors.map(({ number }) => number);
+  const numbers = _.mapToKey(competitors, 'number');
   const nextAvailableNumber = Math.max(...numbers) + 1;
   return nextAvailableNumber;
 };

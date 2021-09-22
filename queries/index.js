@@ -27,12 +27,9 @@ const getAll = async (entity, rawFilter) => {
 };
 
 // get Competitor data
-// argument: {userId, eventId}
-const getCompetitor = async ({ userId, eventId }) => {
-  const result = await models.Competitor.findOne({
-    user: userId,
-    event: eventId,
-  })
+// argument: competitorId
+const getCompetitor = async (id) => {
+  const result = await models.Competitor.findById(id)
     .populate('scores')
     .populate({ path: 'event', select: 'name location' })
     .populate('categories')

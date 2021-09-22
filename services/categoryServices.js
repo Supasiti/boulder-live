@@ -37,12 +37,15 @@ const remove = async (categoryId) => {
 // };
 
 // assign a category Model with problem id
+// return Promise
 const assignProblems = (category, assignments) => {
   const categoryId = category._id.toString();
-  const newProblems = assignments.filter(
-    (a) => a.categoryId === categoryId,
+  const problems = _.filterByKey(
+    assignments,
+    'categoryId',
+    categoryId,
   );
-  category.problems = _.mapKey(newProblems, 'problemId');
+  category.problems = _.mapToKey(problems, 'problemId');
   return category.save();
 };
 

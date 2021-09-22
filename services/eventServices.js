@@ -40,46 +40,46 @@ const update = async (eventId, eventData) => {
 };
 
 //---------------------------------
-// return competitor
-// const createCompetitorIfNotExist = async (competitor, data) => {
-//   if (!competitor) {
-//     const newComp = await competitorServices.create(data);
-//     const result = await query.getCompetitor(data);
-//     return result;
-//   }
-//   return competitor;
-// };
 
-// const rearrange = (competitorData) => {
-//   const { scores, categories, ...competitor } = competitorData;
-//   const result = {
-//     competitor,
-//     scores,
-//     categories,
-//   };
-//   return result;
-// };
+const findOrCreateCompetitor = async (data) => {
+  const filter = { user: data.userId, event: data.eventId };
+  const saved = await models.Competitor.findOne(filter).catch(
+    console.error,
+  );
+  if (!saved) {
+    const result = await competitorServices.create(data);
+    return result;
+  }
+  return saved;
+};
+
+const rearrange = (competitorData) => {
+  const { scores, categories, ...competitor } = competitorData;
+  const result = {
+    competitor,
+    scores,
+    categories,
+  };
+  return result;
+};
 
 // let competitor join event
-// argument : { userId , eventId}
+// argument : { userId , eventId }
 // return {
 //   competitor: Number,
 //   scores: Array<Score>
 //   categoryIds: Array<int>
 // }
-// const join = async (data) => {
-//   const savedCompetitor = await query.getCompetitor(data);
-//   const competitor = await createCompetitorIfNotExist(
-//     savedCompetitor,
-//     data,
-//   );
-//   const result = rearrange(competitor);
-//   return result;
-// };
+const join = async (data) => {
+  const competitor = await findOrCreateCompetitor(data);
+  const fullData = await query.getCompetitor(competitor._id);
+  const result = rearrange(fullData);
+  return result;
+};
 
 module.exports = {
   create,
   update,
   // remove,
-  // join,
+  join,
 };

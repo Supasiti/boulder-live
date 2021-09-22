@@ -28,12 +28,12 @@ const getScoresToCreate = (problemIdsToUse) => {
 // return
 //  - boolean
 const generate = async (competitor, categoryId) => {
-  const oldProblemIds = _.mapKey(competitor.scores, 'problem');
+  const oldProblemIds = _.mapToKey(competitor.scores, 'problem');
   const newProblemIds = await getNewProblemIds(categoryId);
   const problemIdsToUse = filterOut(newProblemIds, oldProblemIds);
   const scoresToCreate = getScoresToCreate(problemIdsToUse);
   const newScores = await models.Score.create(scoresToCreate);
-  const newScoreIds = _.mapKey(newScores, '_id');
+  const newScoreIds = _.mapToKey(newScores, '_id');
   competitor.scores = competitor.scores.concat(newScoreIds);
   await competitor.save();
   return newScores;
