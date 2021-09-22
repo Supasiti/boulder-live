@@ -1,7 +1,5 @@
 const models = require('../models');
 const getEvent = require('./getEvent');
-// const getAllScores = require('./getAllScores');
-// const getTotalScores = require('./getTotalScores');
 
 //-------------------------------------
 // get all events with basic details
@@ -46,8 +44,7 @@ const getCompetitor = async ({ userId, eventId }) => {
 module.exports = {
   getAll,
   getAllEvents,
-  // getAllScores,
+
   getEvent,
   getCompetitor,
-  // getTotalScores,
 };

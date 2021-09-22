@@ -1,5 +1,4 @@
 const models = require('../models');
-const query = require('../queries');
 const scoreServices = require('./scoreServices');
 const totalScoreServices = require('./totalScoreServices');
 
@@ -7,11 +6,9 @@ const totalScoreServices = require('./totalScoreServices');
 // arguments : { name, eventId }
 // return
 //  - Category
-const create = async (newCategory) => {
-  const result = await models.Category.create(newCategory);
-  await models.Event.findByIdAndUpdate(newCategory.eventId, {
-    $push: { categories: result._id },
-  });
+const create = async ({ name, eventId }) => {
+  const data = { name, event: eventId };
+  const result = await models.Category.create(data);
   return result;
 };
 

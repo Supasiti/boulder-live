@@ -41,25 +41,24 @@ const update = async (eventId, eventData) => {
 
 //---------------------------------
 // return competitor
-const createCompetitorIfNotExist = async (competitor, data) => {
-  if (!competitor) {
-    const newComp = await competitorServices.create(data);
-    console.log(newComp);
-    const result = await query.getCompetitor(data);
-    return result;
-  }
-  return competitor;
-};
+// const createCompetitorIfNotExist = async (competitor, data) => {
+//   if (!competitor) {
+//     const newComp = await competitorServices.create(data);
+//     const result = await query.getCompetitor(data);
+//     return result;
+//   }
+//   return competitor;
+// };
 
-const rearrange = (competitorData) => {
-  const { scores, categories, ...competitor } = competitorData;
-  const result = {
-    competitor,
-    scores,
-    categories,
-  };
-  return result;
-};
+// const rearrange = (competitorData) => {
+//   const { scores, categories, ...competitor } = competitorData;
+//   const result = {
+//     competitor,
+//     scores,
+//     categories,
+//   };
+//   return result;
+// };
 
 // let competitor join event
 // argument : { userId , eventId}
@@ -68,21 +67,19 @@ const rearrange = (competitorData) => {
 //   scores: Array<Score>
 //   categoryIds: Array<int>
 // }
-const join = async (data) => {
-  const savedCompetitor = await query.getCompetitor(data);
-  console.log(savedCompetitor);
-  const competitor = await createCompetitorIfNotExist(
-    savedCompetitor,
-    data,
-  );
-  console.log(competitor);
-  const result = rearrange(competitor);
-  return result;
-};
+// const join = async (data) => {
+//   const savedCompetitor = await query.getCompetitor(data);
+//   const competitor = await createCompetitorIfNotExist(
+//     savedCompetitor,
+//     data,
+//   );
+//   const result = rearrange(competitor);
+//   return result;
+// };
 
 module.exports = {
   create,
   update,
   // remove,
-  join,
+  // join,
 };

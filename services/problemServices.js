@@ -4,12 +4,9 @@ const models = require('../models');
 // arguments : { name, eventId }
 // return
 //  - Problem
-const create = async (newProblem) => {
-  const { eventId, ...problemData } = newProblem;
-  const result = await models.Problem.create(problemData);
-  await models.Event.findByIdAndUpdate(eventId, {
-    $push: { problems: result._id },
-  });
+const create = async ({ eventId, ...newData }) => {
+  const data = { ...newData, event: eventId };
+  const result = await models.Problem.create(data);
   return result;
 };
 

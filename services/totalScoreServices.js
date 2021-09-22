@@ -48,7 +48,7 @@ const findDuplicate = async (data) => {
   return !!result;
 };
 
-// create totalScore from a new categoryId  // // need to check if it exist before
+// create totalScore from a new categoryId
 //
 const create = async (competitor, categoryId) => {
   const competitorId = competitor._id;
@@ -65,7 +65,6 @@ const create = async (competitor, categoryId) => {
   const result = await models.TotalScore.create(totalScoreData).catch(
     console.error,
   );
-
   return result;
 };
 
