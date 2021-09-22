@@ -1,6 +1,7 @@
 const models = require('../models');
 const scoreServices = require('./scoreServices');
 const totalScoreServices = require('./totalScoreServices');
+const _ = require('../utils/arrayUtils');
 
 // create a new category / many
 // arguments : { name, eventId }
@@ -35,23 +36,26 @@ const remove = async (categoryId) => {
 //   return updatedCategory;
 // };
 
+// assign a category Model with problem id
+const assignProblems = (category, assignments) => {
+  const categoryId = category._id.toString();
+  const newProblems = assignments.filter(
+    (a) => a.categoryId === categoryId,
+  );
+  category.problems = _.mapKey(newProblems, 'problemId');
+  return category.save();
+};
+
 // assign problems to each category in an event
 // expect: {assignments: Array<{problemId, categoryId}>, eventId}
 // assume that this will be all the assignments
-const assign = async (data) => {
-  const { eventId, assignments } = data;
-  const { categories } = await models.Event.findById(eventId)
-    .select('categories')
-    .populate('categories')
-    .catch(console.error);
-  const promises = categories.map((category) => {
-    const categoryId = category._id.toString();
-    const newProblems = assignments.filter(
-      (a) => a.categoryId === categoryId,
-    );
-    category.problems = newProblems.map(({ problemId }) => problemId);
-    return category.save();
-  });
+const assign = async ({ eventId, assignments }) => {
+  const categories = await models.Category.find({
+    event: eventId,
+  }).catch(console.error);
+  const promises = categories.map((category) =>
+    assignProblems(category, assignments),
+  );
   const result = await Promise.all(promises);
   return result;
 };
