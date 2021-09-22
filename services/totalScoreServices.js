@@ -24,22 +24,11 @@ const getTotalFromScores = (scores) => {
   return result;
 };
 
-const getNewProblemIds = async (categoryId) => {
-  const category = await models.Category.findById(categoryId);
-  return category.problems;
-};
-
-const filterOutScores = (competitor, problemIds) => {
-  const problemIdStrings = problemIds.map((id) => id.toString());
+const getScoresForTotal = (competitor, category) => {
+  const problemIdStr = category.problems.map((id) => id.toString());
   const result = competitor.scores.filter((score) =>
-    problemIdStrings.includes(score.problem.toString()),
+    problemIdStr.includes(score.problem.toString()),
   );
-  return result;
-};
-
-const getScoresToCalculate = async (competitor, categoryId) => {
-  const newProblemIds = await getNewProblemIds(categoryId);
-  const result = filterOutScores(competitor, newProblemIds);
   return result;
 };
 
@@ -50,17 +39,13 @@ const findDuplicate = async (data) => {
 
 // create totalScore from a new categoryId
 //
-const create = async (competitor, categoryId) => {
-  const competitorId = competitor._id;
-  const data = { competitor: competitorId, category: categoryId };
+const create = async (competitor, category) => {
+  const data = { competitor: competitor._id, category: category._id };
   const exists = await findDuplicate(data);
   if (exists) return;
 
-  const scoresForCalculation = await getScoresToCalculate(
-    competitor,
-    categoryId,
-  );
-  const total = getTotalFromScores(scoresForCalculation);
+  const scoresForTotal = getScoresForTotal(competitor, category);
+  const total = getTotalFromScores(scoresForTotal);
   const totalScoreData = { ...total, ...data };
   const result = await models.TotalScore.create(totalScoreData).catch(
     console.error,

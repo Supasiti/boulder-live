@@ -66,46 +66,70 @@ const assign = async ({ eventId, assignments }) => {
 //-----------------------------------------------------------
 // let a competitor join in a category
 
-const isEventCategory = (event, categoryId) => {
-  const categoryIds = event.categories.map((c) => c.toString());
-  return categoryIds.includes(categoryId);
+const inSameEvent = (competitor, category) => {
+  const result =
+    competitor.event.toString() === category.event.toString();
+  return result;
+};
+
+const alreadyJoined = (competitor, category) => {
+  const categoryIdStr = competitor.categories.map((c) =>
+    c.toString(),
+  );
+  const result = categoryIdStr.includes(category._id.toString());
+  return result;
 };
 
 // check if the competitor is in the same event as category
 // and check if a competitor already joined
-const validateCompetitor = (competitor, newCategoryId) => {
+const validateCompetitor = (competitor, category) => {
   return (
-    isEventCategory(competitor.event, newCategoryId) &&
-    !competitor.categories.includes(newCategoryId)
+    inSameEvent(competitor, category) &&
+    !alreadyJoined(competitor, category)
   );
 };
 
-const getCompetitor = async (competitorId) => {
-  const result = await models.Competitor.findById(competitorId)
-    .populate({
-      path: 'event',
-      select: 'categories',
-    })
+const getData = async ({ competitorId, categoryId }) => {
+  const competitorPromise = models.Competitor.findById(competitorId)
     .populate('scores')
-    .catch((err) => console.error(err));
-  return result;
+    .catch(console.error);
+  const categoryPromise = models.Category.findById(categoryId).catch(
+    console.error,
+  );
+  const [competitor, category] = await Promise.all([
+    competitorPromise,
+    categoryPromise,
+  ]);
+  return { competitor, category };
+};
+
+const createScores = async (competitor, category) => {
+  competitor.categories = [...competitor.categories, category._id];
+
+  const promises = [];
+  promises.push(totalScoreServices.create(competitor, category));
+  promises.push(scoreServices.generate(competitor, category));
+  promises.push(competitor.save());
+  const [totalScore, ...other] = await Promise.all(promises);
+  console.log(competitor);
+  return totalScore;
 };
 
 // argument: { competitorId, categoryId }
 // return true if it is successful
 const join = async (data) => {
-  const { competitorId, categoryId } = data;
-  const competitor = await getCompetitor(competitorId);
-  const isValid = validateCompetitor(competitor, categoryId);
+  const { competitor, category } = await getData(data);
+  const isValid = validateCompetitor(competitor, category);
   if (!isValid) return false;
 
-  competitor.categories = [...competitor.categories, categoryId];
-  const scorePromise = scoreServices.generate(competitor, categoryId);
-  const totalPromise = totalScoreServices.create(
-    competitor,
-    categoryId,
-  );
-  await Promise.all([scorePromise, totalPromise]);
+  const totalScore = await createScores(competitor, category);
+  if (totalScore) {
+    await scoreServices.addRefToTotal(
+      competitor,
+      category,
+      totalScore,
+    );
+  }
   return true;
 };
 

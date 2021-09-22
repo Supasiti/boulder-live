@@ -4,11 +4,6 @@ const _ = require('../utils/arrayUtils');
 
 //----------------------------------------------------------------------------------------
 
-const getNewProblemIds = async (categoryId) => {
-  const category = await models.Category.findById(categoryId);
-  return category.problems;
-};
-
 // need to convert toString to compare
 const filterOut = (newIds, oldIds) => {
   const oldIdStrings = oldIds.map((o) => o.toString());
@@ -18,28 +13,49 @@ const filterOut = (newIds, oldIds) => {
   return result;
 };
 
-const getScoresToCreate = (problemIdsToUse) => {
-  const result = problemIdsToUse.map((id) => ({ problem: id }));
+const getScoresToCreate = (competitor, problemIds) => {
+  const result = problemIds.map((id) => ({
+    problem: id,
+    competitor: competitor._id,
+  }));
   return result;
 };
 
-// create new set of scores and update total score
-// arguments : competitor, categoryId
+// create new set of scores
+// arguments : competitor, category
 // return
 //  - boolean
-const generate = async (competitor, categoryId) => {
+const generate = async (competitor, category) => {
   const oldProblemIds = _.mapToKey(competitor.scores, 'problem');
-  const newProblemIds = await getNewProblemIds(categoryId);
-  const problemIdsToUse = filterOut(newProblemIds, oldProblemIds);
-  const scoresToCreate = getScoresToCreate(problemIdsToUse);
-  const newScores = await models.Score.create(scoresToCreate);
-  const newScoreIds = _.mapToKey(newScores, '_id');
-  competitor.scores = competitor.scores.concat(newScoreIds);
-  await competitor.save();
-  return newScores;
+  const problemIdsToUse = filterOut(category.problems, oldProblemIds);
+  const scoresToCreate = getScoresToCreate(
+    competitor,
+    problemIdsToUse,
+  );
+  const result = await models.Score.create(scoresToCreate);
+  return result;
 };
 
-//----------------------------------------------------------------------------------------
+//--------------------------------------------------------------------
+
+// will naively add reference to a total score to each score in category -- no check
+const addRefToTotal = async (competitor, category, totalScore) => {
+  const scores = await models.Score.find()
+    .where('competitor')
+    .equals(competitor._id)
+    .where('problem')
+    .in(category.problems)
+    .catch(console.error);
+  const promises = scores.map((score) => {
+    score.totalScores = [...score.totalScores, totalScore._id];
+    return score.save();
+  });
+
+  const result = await Promise.all(promises);
+  return result;
+};
+
+//--------------------------------------------------------------------
 // remove a score from id
 // return
 //  - int
@@ -88,4 +104,5 @@ module.exports = {
   remove,
   update,
   generate,
+  addRefToTotal,
 };

@@ -31,6 +31,15 @@ const ScoreSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Problem',
   },
+
+  competitor: {
+    type: Schema.Types.ObjectId,
+    ref: 'Competitor',
+  },
+
+  totalScores: {
+    type: [{ type: Schema.Types.ObjectId, ref: 'TotalScore' }],
+  },
 });
 
 const Score = mongoose.model('Score', ScoreSchema);
