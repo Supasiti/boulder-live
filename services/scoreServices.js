@@ -1,8 +1,8 @@
-const query = require('../queries');
 const models = require('../models');
+const totalScore = require('./totalScoreServices');
 const _ = require('../utils/arrayUtils');
 
-//----------------------------------------------------------------------------------------
+//--------------------------------------------------------------------
 
 // need to convert toString to compare
 const filterOut = (newIds, oldIds) => {
@@ -21,10 +21,10 @@ const getScoresToCreate = (competitor, problemIds) => {
   return result;
 };
 
-// create new set of scores
+// create new set of scores   --- could condense 3 loops into one
 // arguments : competitor, category
 // return
-//  - boolean
+//  - Array<Score>
 const generate = async (competitor, category) => {
   const oldProblemIds = _.mapToKey(competitor.scores, 'problem');
   const problemIdsToUse = filterOut(category.problems, oldProblemIds);
@@ -66,43 +66,85 @@ const remove = async (scoreId) => {
   return scoreRemoved;
 };
 
-//----------------------------------------------------------------------------------------
+//--------------------------------------------------------------------
 // UPDATE
 
-// update old score with new one
-const updateWithNew = async (oldScore, newScore) => {
-  const change = oldScore.difference(newScore);
-  const updatedScore = await oldScore.update(newScore);
-  totalScore.updateScores(updatedScore, change);
-  return updatedScore;
+// with side effect
+// according to the doc, the best way to update a document is throught save()
+const addAttempt = async (score) => {
+  if (score.top && score.bonus)
+    return { newScore: score, change: null };
+
+  score.attempts = score.attempts + 1;
+  const newScore = await score.save();
+  const change = { attempts: 1 };
+  return { newScore, change };
 };
 
-// update a score
-// arguments : { scoreId, new score}
-const update = async (newScore) => {
-  const { scoreId } = newScore;
-  const oldScore = await models.Score.findByPk(scoreId);
-  const result = await updateWithNew(oldScore, newScore);
-  return result;
+// add bonus
+const addBonus = async (score) => {
+  if (score.bonus) return { newScore: score, change: null };
+
+  const change = {
+    bonus: 1,
+    attemptBonus: score.attempts + 1,
+    attempts: 1,
+  };
+
+  score.bonus = true;
+  score.attemptBonus = score.attempts + 1;
+  score.attempts = score.attempts + 1;
+
+  const newScore = await score.save();
+  return { newScore, change };
 };
 
-// update a score with eiter top or bonus or attempt
-// arguments :
-//   - scoreId,
-//   - toAdd - function of Score to call
-const addToScore = async (scoreId, toAdd) => {
-  const oldScore = await models.Score.findByPk(scoreId);
-  const newScore = oldScore[toAdd].apply(oldScore); // equiv to oldScore.'toAdd'();
-  const result = await updateWithNew(oldScore, newScore);
-  return result;
+// add top
+const addTop = async (score) => {
+  if (score.top) return { newScore: score, change: null };
+
+  const change = {
+    top: 1,
+    bonus: score.bonus ? 0 : 1,
+    attemptTop: score.attempts + 1,
+    attemptBonus: score.bonus ? 0 : score.attempts + 1,
+    attempts: 1,
+  };
+
+  score.top = true;
+  score.bonus = true;
+  score.attemptTop = score.attempts + 1;
+  score.attemptBonus = score.bonus
+    ? score.attemptBonus
+    : score.attempts + 1;
+  score.attempts = score.attempts + 1;
+
+  const newScore = await score.save();
+  return { newScore, change };
+};
+
+const updateScore = {
+  top: addTop,
+  bonus: addBonus,
+  attempt: addAttempt,
+};
+
+// add to score
+// arguments : score id, key in ['top', 'bonus', 'attempt']
+
+const addToScore = async (scoreId, key) => {
+  const oldScore = await models.Score.findById(scoreId);
+  const { newScore, change } = await updateScore[key](oldScore);
+  if (change) {
+    await totalScore.update(newScore.totalScores, change);
+  }
+  return newScore;
 };
 
 module.exports = {
-  addTop: (scoreId) => addToScore(scoreId, 'addTop'),
-  addBonus: (scoreId) => addToScore(scoreId, 'addBonus'),
-  addAttempt: (scoreId) => addToScore(scoreId, 'addAttempt'),
   remove,
-  update,
+  // update,
   generate,
   addRefToTotal,
+  addToScore,
 };

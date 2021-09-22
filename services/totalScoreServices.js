@@ -53,4 +53,31 @@ const create = async (competitor, category) => {
   return result;
 };
 
-module.exports = { create };
+//--------------------------------------------------------------------
+
+// note there is side effect
+// return Promise
+const updateOne = (totalScore, change) => {
+  const entries = Object.entries(properties);
+  entries.forEach(([key, value]) => {
+    if (value in change) {
+      totalScore[key] = totalScore[key] + change[value];
+    }
+  });
+  return totalScore.save();
+};
+
+// update all total scores with change
+const update = async (totalScoreIds, change) => {
+  const totalScores = await models.TotalScore.find()
+    .where('_id')
+    .in(totalScoreIds)
+    .catch(console.error);
+  const promises = totalScores.map((total) =>
+    updateOne(total, change),
+  );
+  const result = await Promise.all(promises);
+  return result;
+};
+
+module.exports = { create, update };

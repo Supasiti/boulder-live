@@ -1,18 +1,13 @@
 const category = require('./categoryServices');
-// const competitor = require('./competitorServices');
 const event = require('./eventServices');
 const problem = require('./problemServices');
-// const score = require('./scoreServices');
-// const totalScore = require('./totalScoreServices');
+const score = require('./scoreServices');
 const user = require('./userServices');
 
 module.exports = {
   category,
-  // competitor,
   event,
   problem,
-  // problemAssignment,
-  // score,
-  // totalScore,
+  score,
   user,
 };
