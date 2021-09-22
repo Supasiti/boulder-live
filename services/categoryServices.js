@@ -82,24 +82,21 @@ const alreadyJoined = (competitor, category) => {
 
 // check if the competitor is in the same event as category
 // and check if a competitor already joined
-const validateCompetitor = (competitor, category) => {
-  return (
-    inSameEvent(competitor, category) &&
-    !alreadyJoined(competitor, category)
-  );
-};
+const validateCompetitor = (competitor, category) =>
+  inSameEvent(competitor, category) &&
+  !alreadyJoined(competitor, category);
 
 const getData = async ({ competitorId, categoryId }) => {
-  const competitorPromise = models.Competitor.findById(competitorId)
-    .populate('scores')
-    .catch(console.error);
-  const categoryPromise = models.Category.findById(categoryId).catch(
-    console.error,
+  const promises = [];
+  promises.push(
+    models.Competitor.findById(competitorId)
+      .populate('scores')
+      .catch(console.error),
   );
-  const [competitor, category] = await Promise.all([
-    competitorPromise,
-    categoryPromise,
-  ]);
+  promises.push(
+    models.Category.findById(categoryId).catch(console.error),
+  );
+  const [competitor, category] = await Promise.all(promises);
   return { competitor, category };
 };
 
@@ -111,7 +108,6 @@ const createScores = async (competitor, category) => {
   promises.push(scoreServices.generate(competitor, category));
   promises.push(competitor.save());
   const [totalScore, ...other] = await Promise.all(promises);
-  console.log(competitor);
   return totalScore;
 };
 
