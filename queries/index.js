@@ -38,10 +38,36 @@ const getCompetitor = async (id) => {
   return result;
 };
 
+// get all total scores from an event organised by categories
+// arguments : eventId
+// return -  Array<Category>
+const getScoreboard = async (eventId) => {
+  const result = await models.Category.find({
+    event: eventId,
+  })
+    .select('name totalScores')
+    .populate({
+      path: 'totalScores',
+      sort: {
+        tops: 'desc',
+        bonuses: 'desc',
+        attemptTop: 'asc',
+        attemptBonus: 'asc',
+      },
+      populate: {
+        path: 'competitor',
+        select: 'user number -_id',
+        populate: { path: 'user', select: 'username -_id' },
+      },
+    });
+
+  return result;
+};
+
 module.exports = {
   getAll,
   getAllEvents,
-
   getEvent,
   getCompetitor,
+  getScoreboard,
 };
