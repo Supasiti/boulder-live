@@ -48,6 +48,8 @@ CompetitorSchema.virtual('totalScores', {
   justOne: false,
 });
 
+CompetitorSchema.virtual('id').get(() => this._id);
+
 const Competitor = mongoose.model('Competitor', CompetitorSchema);
 
 module.exports = Competitor;

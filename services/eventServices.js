@@ -54,7 +54,8 @@ const findOrCreateCompetitor = async (data) => {
 };
 
 const rearrange = (competitorData) => {
-  const { scores, categories, ...competitor } = competitorData;
+  const { scores, categories, ...competitor } =
+    competitorData.toJSON();
   const result = {
     competitor,
     scores,
@@ -72,7 +73,7 @@ const rearrange = (competitorData) => {
 // }
 const join = async (data) => {
   const competitor = await findOrCreateCompetitor(data);
-  const fullData = await query.getCompetitor(competitor._id);
+  const fullData = await query.getCompetitor(competitor.id);
   const result = rearrange(fullData);
   return result;
 };

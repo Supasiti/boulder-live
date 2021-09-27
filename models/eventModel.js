@@ -46,6 +46,9 @@ EventSchema.virtual('problems', {
   justOne: false,
 });
 
+// Duplicate the ID field.
+EventSchema.virtual('id').get(() => this._id);
+
 const Event = mongoose.model('Event', EventSchema);
 
 module.exports = Event;

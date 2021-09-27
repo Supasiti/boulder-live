@@ -1,7 +1,7 @@
 const models = require('../models');
 
 const rearrange = (data) => {
-  const { categories, problems, ...event } = data;
+  const { categories, problems, ...event } = data.toJSON();
   return {
     problems,
     categories,
@@ -21,7 +21,6 @@ const getEvent = async (eventId) => {
     .populate('categories')
     .populate('problems')
     .populate('organisedBy', 'username')
-    .lean()
     .catch((err) => console.error(err));
 
   const result = rearrange(rawEventData);

@@ -11,7 +11,6 @@ const getAllEvents = async (rawFilter) => {
   const result = await models.Event.find(filter)
     .populate({ path: 'organisedBy', select: 'username' })
     .select(['name', 'location', 'status', 'organisedBy'])
-    .lean()
     .catch((err) => console.error(err));
   return result;
 };
@@ -33,7 +32,6 @@ const getCompetitor = async (id) => {
     .populate('scores')
     .populate({ path: 'event', select: 'name location' })
     .populate('categories')
-    .lean()
     .catch((err) => console.error(err));
   return result;
 };

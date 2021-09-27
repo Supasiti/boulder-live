@@ -31,6 +31,9 @@ CategorySchema.virtual('totalScores', {
   justOne: false,
 });
 
+// Duplicate the ID field.
+CategorySchema.virtual('id').get(() => this._id);
+
 const Category = mongoose.model('Category', CategorySchema);
 
 module.exports = Category;
