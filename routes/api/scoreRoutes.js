@@ -48,7 +48,7 @@ const addAttempt = async (req, res) => {
 
 const getAllScores = async (req, res) => {
   try {
-    const scores = await query.getAll('Score');
+    const scores = await query.getAllScores(req.query);
     res.status(200).json(scores);
   } catch (err) {
     console.error(err);

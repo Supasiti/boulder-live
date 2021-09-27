@@ -1,5 +1,6 @@
 const models = require('../models');
 const getEvent = require('./getEvent');
+const _ = require('../utils/arrayUtils');
 
 //-------------------------------------
 // get all events with basic details
@@ -8,7 +9,24 @@ const getEvent = require('./getEvent');
 const getAllEvents = async (rawFilter) => {
   const filter = rawFilter || {};
 
+  if ('competedBy' in filter) {
+    const user = filter.competedBy;
+    const result = await getAllEventCompetedBy(user);
+    return result;
+  }
+
   const result = await models.Event.find(filter)
+    .populate({ path: 'organisedBy', select: 'username' })
+    .select(['name', 'location', 'status', 'organisedBy'])
+    .catch((err) => console.error(err));
+  return result;
+};
+
+const getAllEventCompetedBy = async (userId) => {
+  const competitors = await models.Competitor.find({ user: userId });
+  const eventIds = _.mapToKey(competitors, 'event');
+
+  const result = await models.Event.find({ _id: eventIds })
     .populate({ path: 'organisedBy', select: 'username' })
     .select(['name', 'location', 'status', 'organisedBy'])
     .catch((err) => console.error(err));
@@ -29,7 +47,7 @@ const getAll = async (entity, rawFilter) => {
 // argument: competitorId
 const getCompetitor = async (id) => {
   const result = await models.Competitor.findById(id)
-    .populate('scores')
+    .populate({ path: 'scores', populate: { path: 'problem' } })
     .populate({ path: 'event', select: 'name location' })
     .populate('categories')
     .catch((err) => console.error(err));
@@ -62,10 +80,20 @@ const getScoreboard = async (eventId) => {
   return result;
 };
 
+// get score data
+// argument: filter - Object
+const getAllScores = async (filter) => {
+  const result = await models.Score.find(filter)
+    .populate('problem')
+    .catch((err) => console.error(err));
+  return result;
+};
+
 module.exports = {
   getAll,
   getAllEvents,
   getEvent,
   getCompetitor,
   getScoreboard,
+  getAllScores,
 };
